@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "167838128706",
+    "project_id": "swit-2e779",
+    "storage_bucket": "swit-2e779.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:167838128706:android:a6f06d7bbacc2cf7a6abdb",
+        "android_client_info": {
+          "package_name": "com.example.swit"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAaaX7tCqH-5HCWoVN4qjwS_olibUboa7U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
