@@ -78,7 +78,7 @@ class _SelectedIcon extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        SvgPicture.asset(width: 26, height: 26, tab.onIcon),
+        SvgPicture.asset(width: 22, height: 22, tab.onIcon),
         Text(tab.label,
             style: Theme.of(context)
                 .textTheme
@@ -97,8 +97,8 @@ class _UnselectedIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SvgPicture.asset(
-      width: 26,
-      height: 26,
+      width: 22,
+      height: 22,
       tab.offIcon,
       fit: BoxFit.fitHeight,
     );

@@ -5,6 +5,6 @@ class MateScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return const Text('친구 관련');
   }
 }

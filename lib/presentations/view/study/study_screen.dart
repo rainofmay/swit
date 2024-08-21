@@ -21,15 +21,19 @@ class StudyScreen extends StatelessWidget {
         contentColor: ColorBox.black,
         actions: [
           ActionIconButton(
-              svgAsset: 'assets/icons/music.svg',
+              svgAsset: 'assets/icons/headset.svg',
               onTap: () {
                 SoundBinding().dependencies();
                 Get.dialog(const AudioWindow());
               }),
-          const CustomGap(8),
-          const Icon(Icons.notifications_none_rounded),
-          const CustomGap(8),
-          const Icon(Icons.settings)
+          // const CustomGap(8),
+          // const Icon(Icons.notifications_none_rounded),
+          const CustomGap(16),
+          ActionIconButton(
+              svgAsset: 'assets/icons/setting.svg',
+              onTap: () {
+              }),
+          const CustomGap(16),
         ],
       ),
     );

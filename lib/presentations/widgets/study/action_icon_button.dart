@@ -12,8 +12,8 @@ class ActionIconButton extends StatelessWidget {
       onTap : onTap,
       child: SvgPicture.asset(
         svgAsset,
-        width: 24,
-        height: 24,
+        width: 20,
+        height: 20,
       ),
     );
   }

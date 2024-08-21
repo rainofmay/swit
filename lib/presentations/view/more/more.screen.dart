@@ -14,11 +14,6 @@ class MoreScreen extends StatelessWidget {
           padding: const EdgeInsets.only(left: 16, top: 20, bottom: 20),
           child: Row(
             children: [
-              // Image.asset(
-              //   // Assets.images.anoymous.path,
-              //   width: 40,
-              //   height: 40,
-              // ),
               const CustomGap(12),
               Text(
                 "Anomymous",
