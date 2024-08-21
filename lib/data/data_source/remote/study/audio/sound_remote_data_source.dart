@@ -1,4 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+
+
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SoundRemoteDataSource {
   SoundRemoteDataSource._internal();
@@ -8,19 +10,15 @@ class SoundRemoteDataSource {
     return _instance;
   }
 
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final supabase = Supabase.instance.client;
 
-  Future<List<DocumentSnapshot>> getSounds() async {
+  Future<List<Map<String, dynamic>>> getSounds(String theme) async {
     try {
-      QuerySnapshot querySnapshot = await _firestore
-          .collection('sound')
-          .orderBy('id')
-          .get();
-
-      return querySnapshot.docs;
+       final response = await supabase.from('sound').select().eq('theme', theme);
+      return List<Map<String, dynamic>>.from(response);
     }
     catch (e) {
-      throw Exception('Error fetching getThemeMusic: $e');
+      throw Exception('Error DataSource getSound: $e');
     }
   }
 }

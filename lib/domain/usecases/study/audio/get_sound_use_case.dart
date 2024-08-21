@@ -6,7 +6,8 @@ class GetSoundUseCase {
   final SoundRepository repository;
   GetSoundUseCase(this.repository);
 
-  Future<List<Audio>> execute() async {
-    return await repository.getSounds();
+  Future<List<Audio>> execute(String theme) async {
+    return await repository.getSounds(theme);
   }
 }
+

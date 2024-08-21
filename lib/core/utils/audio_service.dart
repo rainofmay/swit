@@ -12,7 +12,7 @@ class AudioService {
   Future<void> play(Audio sound) async {
     if (!_players.containsKey(sound.id)) {
       final player = AudioPlayer();
-      await player.setUrl(sound.audioURL);
+      await player.setUrl(sound.audioUrl);
       _players[sound.id] = player;
 
       player.playerStateStream.listen((playerState) {
@@ -34,6 +34,14 @@ class AudioService {
         soundId: soundId,
         playerState: PlayerState(false, ProcessingState.idle)
     ));
+  }
+
+  Future<void> setVolume(int soundId, double volume) async {
+    await _players[soundId]?.setVolume(volume);
+  }
+
+  double getVolume(int soundId) {
+    return _players[soundId]?.volume ?? 1.0;
   }
 
   bool isPlaying(int soundId) {

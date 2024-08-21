@@ -9,7 +9,7 @@ class AudioDTO with _$AudioDTO {
     required int id,
     required String name,
     required String theme,
-    required String audioURL,
+    @JsonKey(name: 'audio_url') required String audioUrl,
   }) = _AudioDTO;
 
   factory AudioDTO.fromJson(Map<String, dynamic> json) => _$AudioDTOFromJson(json);
