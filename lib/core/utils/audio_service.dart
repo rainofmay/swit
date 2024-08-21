@@ -1,58 +1,78 @@
 import 'package:just_audio/just_audio.dart';
-import 'dart:async';
-import 'package:swit/domain/entities/study/audio/audio.dart';
-import 'package:swit/domain/entities/study/audio/audio_player_state.dart';
 
 class AudioService {
-  final Map<int, AudioPlayer> _players = {};
-  final StreamController<AudioPlayerState> _stateController = StreamController<AudioPlayerState>.broadcast();
-
-  Stream<AudioPlayerState> get playerStateStream => _stateController.stream;
-
-  Future<void> play(Audio sound) async {
-    if (!_players.containsKey(sound.id)) {
+  Future<AudioPlayer> createPlayer(String url) async {
+    try {
       final player = AudioPlayer();
-      await player.setUrl(sound.audioUrl);
-      _players[sound.id] = player;
-
-      player.playerStateStream.listen((playerState) {
-        _stateController.add(AudioPlayerState(soundId: sound.id, playerState: playerState));
-      });
+      await player.setUrl(url);
+      // await player.setAsset(url);
+      return player;
+    } catch (e) {
+      print('Error creating audio player: $e');
+      rethrow;
     }
-    await _players[sound.id]!.play();
   }
 
-  Future<void> pause(int soundId) async {
-    await _players[soundId]?.pause();
-  }
-
-  Future<void> stop(int soundId) async {
-    await _players[soundId]?.stop();
-    await _players[soundId]?.dispose();
-    _players.remove(soundId);
-    _stateController.add(AudioPlayerState(
-        soundId: soundId,
-        playerState: PlayerState(false, ProcessingState.idle)
-    ));
-  }
-
-  Future<void> setVolume(int soundId, double volume) async {
-    await _players[soundId]?.setVolume(volume);
-  }
-
-  double getVolume(int soundId) {
-    return _players[soundId]?.volume ?? 1.0;
-  }
-
-  bool isPlaying(int soundId) {
-    return _players[soundId]?.playing ?? false;
-  }
-
-  void dispose() {
-    for (var player in _players.values) {
-      player.dispose();
+  Future<void> play(AudioPlayer player) async {
+    try {
+      await player.play();
+    } catch (e) {
+      print('Error playing audio: $e');
+      rethrow;
     }
-    _players.clear();
-    _stateController.close();
+  }
+
+  Future<void> pause(AudioPlayer player) async {
+    try {
+      await player.pause();
+    } catch (e) {
+      print('Error pausing audio: $e');
+      rethrow;
+    }
+  }
+
+  Future<void> stop(AudioPlayer player) async {
+    try {
+      await player.stop();
+    } catch (e) {
+      print('Error stopping audio: $e');
+      rethrow;
+    }
+  }
+
+  Future<void> setVolume(AudioPlayer player, double volume) async {
+    try {
+      await player.setVolume(volume);
+    } catch (e) {
+      print('Error setting volume: $e');
+      rethrow;
+    }
+  }
+
+  Future<void> seekTo(AudioPlayer player, Duration position) async {
+    try {
+      await player.seek(position);
+    } catch (e) {
+      print('Error seeking audio: $e');
+      rethrow;
+    }
+  }
+
+  Future<void> setLoopMode(AudioPlayer player, LoopMode mode) async {
+    try {
+      await player.setLoopMode(mode);
+    } catch (e) {
+      print('Error setting loop mode: $e');
+      rethrow;
+    }
+  }
+
+  Future<void> dispose(AudioPlayer player) async {
+    try {
+      await player.dispose();
+    } catch (e) {
+      print('Error disposing audio player: $e');
+      rethrow;
+    }
   }
 }

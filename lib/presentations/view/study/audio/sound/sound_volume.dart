@@ -34,19 +34,19 @@ class SoundVolume extends GetView<SoundViewModel> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  IconButton(
-                        splashColor: ColorBox.transparent,
-                        highlightColor: ColorBox.transparent,
-                        hoverColor: ColorBox.transparent,
-                        icon: Icon(
-                          controller.isPlaying(audio.id) ? CupertinoIcons.speaker_2 : CupertinoIcons.speaker_slash,
-                          color: ColorBox.black,
-                        ),
-                        iconSize: 16.0,
-                        onPressed: () {
-                          controller.togglePlay(audio);
-                        }
-                  ),
+                  Obx(() => IconButton(
+                      splashColor: ColorBox.transparent,
+                      highlightColor: ColorBox.transparent,
+                      hoverColor: ColorBox.transparent,
+                      icon: Icon(
+                        controller.isPlaying(audio.id) ? CupertinoIcons.speaker_2 : CupertinoIcons.speaker_slash,
+                        color: ColorBox.black,
+                      ),
+                      iconSize: 16.0,
+                      onPressed: () {
+                        controller.togglePlay(audio.id);
+                      }
+                  )),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.25,
                     child: Slider(

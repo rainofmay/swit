@@ -24,7 +24,7 @@ class SoundBinding extends Bindings {
 
     // ViewModel
     Get.lazyPut(() => SoundViewModel(
-      usecase: Get.find<GetSoundUseCase>(),
+      useCase: Get.find<GetSoundUseCase>(),
       audioService: Get.find<AudioService>(),
     ));
   }

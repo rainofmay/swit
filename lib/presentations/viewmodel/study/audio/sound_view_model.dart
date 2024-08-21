@@ -1,78 +1,89 @@
 import 'package:get/get.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:swit/core/utils/audio_service.dart';
 import 'package:swit/domain/entities/study/audio/audio.dart';
-import 'package:swit/domain/entities/study/audio/audio_player_state.dart';
 import 'package:swit/domain/usecases/study/audio/get_sound_use_case.dart';
 
 class SoundViewModel extends GetxController {
-  final GetSoundUseCase _usecase;
+  final GetSoundUseCase _useCase;
   final AudioService _audioService;
 
-  SoundViewModel(
-      {required GetSoundUseCase usecase, required AudioService audioService})
-      : _usecase = usecase,
+  SoundViewModel({
+    required GetSoundUseCase useCase,
+    required AudioService audioService,
+  })  : _useCase = useCase,
         _audioService = audioService;
 
-
   final RxList<Audio> _sounds = <Audio>[].obs;
+
   List<Audio> get sounds => _sounds;
-  final Rx<AudioPlayerState?> _currentAudioState = Rx<AudioPlayerState?>(null);
 
-
-  bool isPlaying(int audioId) => _audioService.isPlaying(audioId);
-  double getVolume(int audioId) => _audioService.getVolume(audioId);
+  final RxMap<int, AudioPlayer> _players = <int, AudioPlayer>{}.obs;
+  final RxMap<int, RxBool> _isPlaying = <int, RxBool>{}.obs;
+  final RxMap<int, double> _volumes = <int, double>{}.obs;
 
   @override
   void onInit() {
-    print('음원 $_sounds');
-    loadSounds('sound');
-    _audioService.playerStateStream.listen((state) {
-      _currentAudioState.value = state;
-    });
     super.onInit();
+    loadSoundsAndInitializePlayers();
+  }
+
+  Future<void> loadSoundsAndInitializePlayers() async {
+    try {
+      final loadedSounds = await _useCase.execute('sound');
+      _sounds.assignAll(loadedSounds);
+
+      for (var sound in loadedSounds) {
+        final player = await _audioService.createPlayer(sound.audioUrl);
+        _players[sound.id] = player;
+        _isPlaying[sound.id] = false.obs;
+        _volumes[sound.id] = 1.0;
+
+        player.playerStateStream.listen((state) {
+          _isPlaying[sound.id]?.value = state.playing;
+        });
+      }
+    } catch (e) {
+      print('Error loading sounds and initializing players: $e');
+    }
   }
 
   @override
   void onClose() {
-    _audioService.dispose();
+    for (var player in _players.values) {
+      _audioService.dispose(player);
+    }
+    _players.clear();
     super.onClose();
   }
 
-  /* 음원 Init */
-  Future<void> loadSounds(String theme) async {
-    try {
-      final loadedSounds = await _usecase.execute(theme);
-      sounds.assignAll(loadedSounds);
-    } catch (e) {
-      print('Error loading sounds: $e');
+  Future<void> togglePlay(int audioId) async {
+    if (_players.containsKey(audioId)) {
+      final player = _players[audioId]!;
+      if (_isPlaying[audioId]?.value == true) {
+        await _audioService.pause(player);
+      } else {
+        await _audioService.play(player);
+      }
+      _isPlaying[audioId]?.toggle();
     }
   }
 
-  /* 오디오 제어 메서드 */
-  Future<void> togglePlay(Audio audio) async {
-    if (isPlaying(audio.id)) {
-      await pauseAudio(audio.id);
-    } else {
-      await playAudio(audio);
+  Future<void> stopAudio(int audioId) async {
+    if (_players.containsKey(audioId)) {
+      await _audioService.stop(_players[audioId]!);
+      _isPlaying[audioId]?.value = false;
     }
-  }
-
-  Future<void> playAudio(Audio audio) async {
-    await _audioService.play(audio);
-  }
-
-  Future<void> pauseAudio(int soundId) async {
-    await _audioService.pause(soundId);
-  }
-
-  Future<void> stopAudio(int soundId) async {
-    await _audioService.stop(soundId);
   }
 
   Future<void> setVolume(int audioId, double volume) async {
-    await _audioService.setVolume(audioId, volume);
+    if (_players.containsKey(audioId)) {
+      await _audioService.setVolume(_players[audioId]!, volume);
+      _volumes[audioId] = volume;
+    }
   }
 
+  bool isPlaying(int audioId) => _isPlaying[audioId]?.value ?? false;
+
+  double getVolume(int audioId) => _volumes[audioId] ?? 1.0;
 }
-
-
