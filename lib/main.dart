@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:swit/presentations/view/home/home_screen.dart';
-import 'package:swit/presentations/viewmodel/bottombar_viewmodel.dart';
-import 'constant/themes.dart' as main_themes;
+import 'package:swit/features/home/presentations/view/home_screen.dart';
+import 'package:swit/features/home/presentations/viewmodel/bottombar_viewmodel.dart';
+import 'shared/constant/themes.dart' as main_themes;
 import 'package:firebase_core/firebase_core.dart';
-import 'core/di/sound_binding.dart';
-import 'firebase_options.dart';
 
 void main() async {
   // await dotenv.load();
