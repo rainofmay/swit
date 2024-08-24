@@ -30,7 +30,7 @@ class CustomBackAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       titleSpacing: -5,
       scrolledUnderElevation: 0,
-      backgroundColor: backgroundColor,
+      backgroundColor: backgroundColor ?? ColorBox.white,
       centerTitle: isCenterTitle,
       shape: Border(
         bottom: BorderSide(

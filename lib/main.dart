@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:swit/core/router/app_pages.dart';
 import 'package:swit/features/home/presentations/view/home_screen.dart';
 import 'package:swit/features/home/presentations/viewmodel/bottombar_viewmodel.dart';
 import 'shared/constant/themes.dart' as main_themes;
-import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
   // await dotenv.load();
@@ -34,9 +34,10 @@ class MyApp extends StatelessWidget {
       // supportedLocales: const [
       //   Locale('ko', 'KR'),
       // ],
+      initialRoute: AppPages.INITIAL,
+      getPages: AppPages.routes,
       theme: main_themes.theme,
-      // initialRoute: initialRoute,  initialRoute를 쓰거나 home을 쓰거나
-      home: HomeScreen(),
+      home: const HomeScreen(),
     );
   }
 }

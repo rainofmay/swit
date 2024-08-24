@@ -30,8 +30,8 @@ class CustomAlertDialog extends StatelessWidget {
       actions: [
         actionWidget,
       ],
-      actionsPadding: EdgeInsets.only(top: 4, bottom: 4, left: 4, right: 4),
-      contentPadding: EdgeInsets.only(left: 16, top: 16, right: 16, bottom: 8),
+      actionsPadding: const EdgeInsets.only(top: 4, bottom: 4, left: 4, right: 4),
+      contentPadding: const EdgeInsets.only(left: 16, top: 16, right: 16, bottom: 8),
     );
   }
 }

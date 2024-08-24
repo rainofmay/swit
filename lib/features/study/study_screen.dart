@@ -1,9 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:swit/core/router/app_pages.dart';
+import 'package:swit/features/study/schedule/presentation/view/schedule_screen.dart';
+import 'package:swit/features/study/schedule/presentation/widgets/calendar.dart';
 import 'package:swit/shared/constant/color_box.dart';
-import 'package:swit/core/di/sound_binding.dart';
-import 'package:swit/features/study/audio/audio_window.dart';
 import 'package:swit/shared/widgets/custom_appbar.dart';
 import 'package:swit/shared/widgets/custom_gap.dart';
 import 'package:swit/shared/widgets/action_icon_button.dart';
@@ -23,8 +23,7 @@ class StudyScreen extends StatelessWidget {
           ActionIconButton(
               svgAsset: 'assets/icons/headset.svg',
               onTap: () {
-                SoundBinding().dependencies();
-                Get.dialog(const AudioWindow());
+                Get.toNamed(Routes.STUDY + Routes.AUDIO);
               }),
           // const CustomGap(8),
           // const Icon(Icons.notifications_none_rounded),
@@ -35,6 +34,20 @@ class StudyScreen extends StatelessWidget {
               }),
           const CustomGap(16),
         ],
+      ),
+      body: Stack(
+        children: [Positioned(
+            top: 50,
+            right: 30,
+            child: GestureDetector(
+              onTap: () {
+                Get.to(() => ScheduleScreen());
+              },
+              child: Container(
+                  width: 100,
+                  height: 80,
+                  child: Image.asset('assets/images/calendar.png')),
+            ))],
       ),
     );
   }

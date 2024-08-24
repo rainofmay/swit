@@ -21,6 +21,7 @@ class SoundViewModel extends GetxController {
   final RxMap<int, AudioPlayer> _players = <int, AudioPlayer>{}.obs;
   final RxMap<int, RxBool> _isPlaying = <int, RxBool>{}.obs;
   final RxMap<int, double> _volumes = <int, double>{}.obs;
+  Map<int, double> get volumes => _volumes.value;
 
   @override
   void onInit() {
@@ -28,6 +29,7 @@ class SoundViewModel extends GetxController {
     loadSoundsAndInitializePlayers();
   }
 
+  /* init */
   Future<void> loadSoundsAndInitializePlayers() async {
     try {
       final loadedSounds = await _useCase.execute('sound');
@@ -84,6 +86,5 @@ class SoundViewModel extends GetxController {
   }
 
   bool isPlaying(int audioId) => _isPlaying[audioId]?.value ?? false;
-
   double getVolume(int audioId) => _volumes[audioId] ?? 1.0;
 }

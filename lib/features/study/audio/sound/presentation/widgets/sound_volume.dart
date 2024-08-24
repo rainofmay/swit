@@ -47,13 +47,13 @@ class SoundVolume extends GetView<SoundViewModel> {
                         controller.togglePlay(audio.id);
                       }
                   )),
-                  SizedBox(
+                  Obx(() => SizedBox(
                     width: MediaQuery.of(context).size.width * 0.25,
                     child: Slider(
                       value: controller.getVolume(audio.id),
                       onChanged: (volume) => controller.setVolume(audio.id, volume),
                     ),
-                  ),
+                  )),
                 ],
               ),
             ),
