@@ -67,6 +67,10 @@ class AudioService {
     }
   }
 
+  Future<void> setShuffleModeEnabled(AudioPlayer player, bool enabled) async {
+    await player.setShuffleModeEnabled(enabled);
+  }
+
   Future<void> dispose(AudioPlayer player) async {
     try {
       await player.dispose();

@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:swit/core/utils/audio_service.dart';
-import 'package:swit/features/study/audio/sound/domain/entities/audio.dart';
-import 'package:swit/features/study/audio/sound/domain/usecases/get_sound_use_case.dart';
+import 'package:swit/features/study/audio/domain/entities/audio.dart';
+import 'package:swit/features/study/audio/domain/usecases/get_sound_use_case.dart';
 
 class SoundViewModel extends GetxController {
   final GetSoundUseCase _useCase;

@@ -1,8 +1,8 @@
 
-import 'package:swit/features/study/audio/sound/data/datasources/sound_remote_data_source.dart';
-import 'package:swit/features/study/audio/sound/data/models/audio_dto.dart';
-import 'package:swit/features/study/audio/sound/domain/repositories/sound_repository.dart';
-import 'package:swit/features/study/audio/sound/domain/entities/audio.dart';
+import 'package:swit/features/study/audio/data/datasources/sound_remote_data_source.dart';
+import 'package:swit/features/study/audio/data/models/audio_dto.dart';
+import 'package:swit/features/study/audio/domain/repositories/sound_repository.dart';
+import 'package:swit/features/study/audio/domain/entities/audio.dart';
 
 class SoundRepositoryImpl implements SoundRepository {
   final SoundRemoteDataSource remoteDataSource;

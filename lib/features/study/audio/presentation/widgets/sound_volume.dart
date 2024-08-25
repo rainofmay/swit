@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:swit/shared/constant/color_box.dart';
 import 'package:swit/shared/constant/font_box.dart';
-import 'package:swit/features/study/audio/sound/domain/entities/audio.dart';
-import 'package:swit/features/study/audio/sound/presentation/viewmodel/sound_view_model.dart';
+import 'package:swit/features/study/audio/domain/entities/audio.dart';
+import 'package:swit/features/study/audio/presentation/viewmodel/sound_view_model.dart';
 import 'package:swit/shared/widgets/custom_gap.dart';
 
 class SoundVolume extends GetView<SoundViewModel> {

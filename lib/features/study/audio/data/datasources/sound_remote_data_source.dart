@@ -15,10 +15,10 @@ class SoundRemoteDataSource {
   Future<List<Map<String, dynamic>>> getSounds(String theme) async {
     try {
        final response = await supabase.from('sound').select().eq('theme', theme);
-      return List<Map<String, dynamic>>.from(response);
+      return response;
     }
     catch (e) {
-      throw Exception('Error DataSource getSound: $e');
+      throw Exception('Error DataSource getSounds: $e');
     }
   }
 }
