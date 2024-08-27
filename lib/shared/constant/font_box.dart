@@ -15,7 +15,6 @@ abstract class FontBox {
 
   static const TextStyle MIDDLETITLE = TextStyle(
     fontSize: 16,
-
     fontWeight: FontWeight.normal,
     fontFamily: 'cafe24OhsquareAir',
     color: Colors.black,
@@ -41,7 +40,6 @@ abstract class FontBox {
     fontFamily: 'cafe24OhsquareAir',
     color: Colors.black,
   );
-
 
   static const TextStyle KR44B = TextStyle(
     fontSize: 44,

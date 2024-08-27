@@ -11,7 +11,7 @@ abstract class ColorBox {
   static Color black = const Color(0xFF000000);
 
   /// Primary Color
-  static Color primaryColor = const Color(0xFF393CFF);
+  static Color primaryColor = const Color(0xFF6A88BE);
 
   /// BottomBar Color
   static Color bottomColor = const Color(0xFFEFEDEA);

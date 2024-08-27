@@ -10,6 +10,7 @@ class CustomBackAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Color? backgroundColor;
   final Color? contentColor;
   final List<Widget>? actions;
+  final PreferredSizeWidget? bottom;
 
   const CustomBackAppBar(
       {super.key,
@@ -19,7 +20,7 @@ class CustomBackAppBar extends StatelessWidget implements PreferredSizeWidget {
         required this.isCenterTitle,
       this.backgroundColor,
       this.contentColor,
-      this.actions,
+      this.actions, this.bottom,
       });
 
   @override
@@ -54,6 +55,7 @@ class CustomBackAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       // centerTitle: true,
       actions: actions,
+      bottom: bottom,
     );
   }
 }

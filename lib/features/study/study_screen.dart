@@ -17,7 +17,6 @@ class StudyScreen extends StatelessWidget {
       appBar: CustomAppBar(
         isCenterTitle: false,
         appbarTitle: '스터디',
-        backgroundColor: ColorBox.transparent,
         contentColor: ColorBox.black,
         actions: [
           ActionIconButton(
@@ -31,6 +30,7 @@ class StudyScreen extends StatelessWidget {
           ActionIconButton(
               svgAsset: 'assets/icons/setting.svg',
               onTap: () {
+                Get.toNamed(Routes.STUDY + Routes.SETTING);
               }),
           const CustomGap(16),
         ],
