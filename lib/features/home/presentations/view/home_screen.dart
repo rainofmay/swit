@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:swit/features/home/presentations/viewmodel/bottombar_viewmodel.dart';
-import 'package:swit/features/home/domain/entities/home_tab_type.dart';
+import 'package:swit/core/enums/home_tab_type.dart';
 import 'package:swit/features/mate/presentation/view/mate_screen.dart';
 import 'package:swit/features/more/presentation/view/more.screen.dart';
 import 'package:swit/features/record/presentation/view/record_screen.dart';

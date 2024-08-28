@@ -23,6 +23,8 @@ dependencies:
   syncfusion_flutter_calendar: ^26.2.10
   sleek_circular_slider: ^2.0.1
   cached_network_image: ^3.4.0
+  shared_preferences: ^2.3.2
+  image_picker: ^1.1.2
 
 dev_dependencies:
   flutter_test:

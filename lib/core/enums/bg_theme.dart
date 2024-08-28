@@ -1,0 +1,1 @@
+enum BgTheme { day, night, custom }

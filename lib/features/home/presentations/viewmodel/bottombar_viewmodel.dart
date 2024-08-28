@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:swit/features/home/domain/entities/home_tab_type.dart';
+import 'package:swit/core/enums/home_tab_type.dart';
 
 class BottomBarViewModel extends GetxController {
   final Rx<HomeTab> _currentTab = HomeTab.home.obs;
