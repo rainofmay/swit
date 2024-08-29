@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:swit/features/more/presentation/widgets/profile_row.dart';
 import 'package:swit/shared/constant/color_box.dart';
+import 'package:swit/shared/constant/icon_size.dart';
 import 'package:swit/shared/widgets/custom_appbar.dart';
 import 'package:swit/shared/widgets/custom_gap.dart';
 import 'package:swit/shared/widgets/custom_scaffold.dart';
@@ -12,11 +14,7 @@ class MoreScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      appBar: CustomAppBar(
-        isCenterTitle: false,
-        appbarTitle: '더보기',
-        contentColor: ColorBox.black,
-      ),
+      appBar: CustomAppBar(appbarTitle: '더보기'),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -31,15 +29,31 @@ class MoreScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TapRow(title: '내 정보 관리', onTap: () {}),
-                const CustomGap(16),
-                TapRow(title: '업데이트 공지', onTap: () {}),
-                const CustomGap(16),
-                TapRow(title: '구매 내역', onTap: () {}),
-                const CustomGap(16),
-                TapRow(title: 'Swit에 제안하기', onTap: () {}),
-                const CustomGap(16),
-                TapRow(title: '로그인', onTap: () {}),
+                TapRow(
+                    widget:
+                        Icon(CupertinoIcons.person_circle, size: IconSize.md),
+                    title: '내 정보 관리',
+                    onTap: () {}),
+                const CustomGap(32),
+                TapRow(
+                    widget: Icon(Icons.update, size: IconSize.md),
+                    title: '업데이트 공지',
+                    onTap: () {}),
+                const CustomGap(32),
+                TapRow(
+                    widget: Icon(Icons.payment_rounded, size: IconSize.md),
+                    title: '구매 내역',
+                    onTap: () {}),
+                const CustomGap(32),
+                TapRow(
+                    widget: Icon(CupertinoIcons.pencil, size: IconSize.md),
+                    title: 'Swit에 제안하기',
+                    onTap: () {}),
+                const CustomGap(32),
+                TapRow(
+                    widget: Icon(Icons.login_rounded, size: IconSize.md),
+                    title: '로그인',
+                    onTap: () {}),
               ],
             ),
           )

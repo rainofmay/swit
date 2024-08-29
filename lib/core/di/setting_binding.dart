@@ -4,6 +4,6 @@ import 'package:swit/features/study/setting/presentation/viewmodel/bg_setting_vi
 class SettingBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<BgSettingViewModel>(() => BgSettingViewModel());
+    Get.put(BgSettingViewModel(), permanent: true);
   }
 }

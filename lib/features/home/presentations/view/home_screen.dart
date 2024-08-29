@@ -31,7 +31,7 @@ Widget _buildTabScreen(HomeTab tab) {
   // switch 패턴 매칭
   switch (tab) {
     case HomeTab.home:
-      return const StudyScreen();
+      return StudyScreen();
     case HomeTab.record:
       return const RecordScreen();
     case HomeTab.mate:

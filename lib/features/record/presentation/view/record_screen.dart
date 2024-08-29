@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:swit/features/record/presentation/widgets/clock.dart';
+import 'package:swit/features/record/presentation/widgets/study_record.dart';
 import 'package:swit/features/record/presentation/widgets/stop_watch.dart';
 import 'package:swit/features/record/presentation/widgets/timer.dart';
 import 'package:swit/shared/constant/color_box.dart';
@@ -16,11 +16,7 @@ class RecordScreen extends StatelessWidget {
       length: 3,
       child: SafeArea(
         child: Scaffold(
-          appBar: CustomAppBar(
-            appbarTitle: '기 록',
-            isCenterTitle: false,
-            contentColor: ColorBox.black,
-          ),
+          appBar: CustomAppBar(appbarTitle: '기 록'),
           body: Column(
             children: [
               TabBar(
@@ -56,7 +52,7 @@ class RecordScreen extends StatelessWidget {
               Expanded(
                 child: TabBarView(
                   children: [
-                    const ClockScreen(),
+                    const StudyRecordScreen(),
                     const StopWatchScreen(),
                     TimerScreen(),
                   ],

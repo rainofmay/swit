@@ -5,6 +5,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:swit/core/router/app_pages.dart';
 import 'package:swit/features/home/presentations/view/home_screen.dart';
 import 'package:swit/features/home/presentations/viewmodel/bottombar_viewmodel.dart';
+import 'package:swit/features/study/setting/presentation/viewmodel/bg_setting_view_model.dart';
 import 'shared/constant/themes.dart' as main_themes;
 
 void main() async {
@@ -34,6 +35,10 @@ class MyApp extends StatelessWidget {
       // supportedLocales: const [
       //   Locale('ko', 'KR'),
       // ],
+      initialBinding: BindingsBuilder(() {
+        Get.put(BgSettingViewModel());
+        // Get.put(MainController());
+      }),
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
       theme: main_themes.theme,

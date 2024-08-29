@@ -29,7 +29,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       scrolledUnderElevation: 0,
       titleSpacing: titleSpacing,
-      centerTitle: isCenterTitle,
+      centerTitle: isCenterTitle ?? false,
       backgroundColor: backgroundColor ?? ColorBox.white,
       shape: Border(
         bottom: BorderSide(

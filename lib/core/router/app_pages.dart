@@ -22,7 +22,7 @@ class AppPages {
       children: [
         GetPage(
           name: Routes.STUDY,
-          page: () => const StudyScreen(),
+          page: () => StudyScreen(),
           children: [
             GetPage(
               name: Routes.AUDIO,
