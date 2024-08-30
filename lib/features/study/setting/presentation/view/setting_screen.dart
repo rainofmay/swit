@@ -19,17 +19,23 @@ class SettingScreen extends StatelessWidget {
           padding: EdgeInsets.only(left:16.0, right:16.0),
           child: Column(
             children: [
+              const CustomGap(40),
               TapRow(title: '배경화면', onTap: () {
                 Get.toNamed(Routes.STUDY + Routes.SETTING + Routes.BACKGROUNDSETTING);
               }),
-              const CustomGap(16),
-              Text('타이머'),
-              const CustomGap(16),
-              Text('D-day'),
-              const CustomGap(16),
-              Text('문구'),
-              const CustomGap(16),
-              Text('알림'),
+              const CustomGap(40),
+              TapRow(title: '타이머', onTap: () {
+              }),
+              const CustomGap(40),
+              TapRow(title: 'D-day', onTap: () {
+                Get.toNamed(Routes.STUDY + Routes.SETTING + Routes.BACKGROUNDSETTING);
+              }),
+              const CustomGap(40),
+              TapRow(title: '문구', onTap: () {
+              }),
+              const CustomGap(40),
+              TapRow(title: '알림', onTap: () {
+              }),
             ],
           ),
         ),

@@ -6,8 +6,9 @@ import 'package:swit/core/enums/bg_theme.dart';
 
 class BgSettingViewModel extends GetxController {
   late final Rx<BgTheme> _editingTheme = BgTheme.day.obs; // 수정 중인 값
-  BgTheme get editingTheme => _editingTheme.value;
   late final Rx<BgTheme> _storedTheme; // 최종 저장된 값
+  BgTheme get editingTheme => _editingTheme.value;
+
 
   final RxMap<BgTheme, String> _bgThemeMap = {
     BgTheme.day: 'assets/images/day_photo.jpg',
