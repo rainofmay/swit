@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:swit/features/more/presentation/view/update_sreen.dart';
+import 'package:swit/features/more/presentation/view/user_info_screen.dart';
 import 'package:swit/features/more/presentation/widgets/profile_row.dart';
 import 'package:swit/shared/constant/color_box.dart';
 import 'package:swit/shared/constant/icon_size.dart';
@@ -31,14 +34,18 @@ class MoreScreen extends StatelessWidget {
               children: [
                 TapRow(
                     widget:
-                        Icon(CupertinoIcons.person_circle, size: IconSize.md),
+                        Icon(CupertinoIcons.lock, size: IconSize.md),
                     title: '내 정보 관리',
-                    onTap: () {}),
+                    onTap: () {
+                      Get.to(() => UserInfoScreen());
+                    }),
                 const CustomGap(32),
                 TapRow(
                     widget: Icon(Icons.update, size: IconSize.md),
                     title: '업데이트 공지',
-                    onTap: () {}),
+                    onTap: () {
+                      Get.to(() => UpdateScreen());
+                    }),
                 const CustomGap(32),
                 TapRow(
                     widget: Icon(Icons.payment_rounded, size: IconSize.md),
