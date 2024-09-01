@@ -1,6 +1,6 @@
 
 enum HomeTab{
-  home(label : 'Home'),
+  home(label : 'Study'),
   record(label : 'Record'),
   mate(label : 'Mate'),
   more(label : 'More');

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:swit/features/home/presentations/viewmodel/bottombar_viewmodel.dart';
+import 'package:swit/features/home/presentations/viewmodel/home_viewmodel.dart';
 import 'package:swit/shared/constant/color_box.dart';
 import 'package:swit/core/enums/home_tab_type.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
   CustomBottomNavigationBar({super.key});
 
-  final BottomBarViewModel vm = Get.find<BottomBarViewModel>();
+  final HomeViewModel vm = Get.find<HomeViewModel>();
 
   @override
   Widget build(BuildContext context) {

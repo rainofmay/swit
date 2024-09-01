@@ -8,14 +8,14 @@ import 'package:swit/shared/widgets/custom_dialog.dart';
 import 'package:swit/shared/widgets/custom_gap.dart';
 import 'package:swit/shared/widgets/custom_scaffold.dart';
 import 'package:swit/shared/widgets/ok_cancel._buttons.dart';
-class WithdrawalSreen extends StatefulWidget {
-  const WithdrawalSreen({super.key});
+class DeleteAccountScreen extends StatefulWidget {
+  const DeleteAccountScreen({super.key});
 
   @override
-  State<WithdrawalSreen> createState() => _WithdrawalScreenState();
+  State<DeleteAccountScreen> createState() => _DeleteAccountScreenState();
 }
 
-class _WithdrawalScreenState extends State<WithdrawalSreen> {
+class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
   bool _isChecked = false;
 
   @override

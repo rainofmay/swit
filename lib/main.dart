@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:swit/core/router/app_pages.dart';
 import 'package:swit/features/home/presentations/view/home_screen.dart';
-import 'package:swit/features/home/presentations/viewmodel/bottombar_viewmodel.dart';
+import 'package:swit/features/home/presentations/viewmodel/home_viewmodel.dart';
 import 'package:swit/features/study/setting/presentation/viewmodel/bg_setting_view_model.dart';
 import 'shared/constant/themes.dart' as main_themes;
 
@@ -26,7 +26,7 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   MyApp({super.key});
-  final BottomBarViewModel vm = Get.put(BottomBarViewModel());
+  final HomeViewModel vm = Get.put(HomeViewModel());
 
   @override
   Widget build(BuildContext context) {

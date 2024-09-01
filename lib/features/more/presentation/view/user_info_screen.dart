@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:swit/features/more/presentation/view/withdrawal_sreen.dart';
+import 'package:swit/features/more/presentation/view/delete_account_screen.dart';
 import 'package:swit/shared/widgets/custom_back_appbar.dart';
 import 'package:swit/shared/widgets/custom_gap.dart';
 import 'package:swit/shared/widgets/custom_scaffold.dart';
@@ -23,7 +23,7 @@ class UserInfoScreen extends StatelessWidget {
             TapRow(widget: Icon(Icons.logout_rounded), title: '로그아웃', onTap: (){}),
             CustomGap(40),
             TapRow(widget: Icon(Icons.phonelink_erase_rounded), title: 'Swit 탈퇴', onTap: (){
-              Get.to(() => WithdrawalSreen());
+              Get.to(() => DeleteAccountScreen());
             }),
           ],
         ),

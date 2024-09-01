@@ -28,7 +28,6 @@ class SettingScreen extends StatelessWidget {
               }),
               const CustomGap(40),
               TapRow(title: 'D-day', onTap: () {
-                Get.toNamed(Routes.STUDY + Routes.SETTING + Routes.BACKGROUNDSETTING);
               }),
               const CustomGap(40),
               TapRow(title: '문구', onTap: () {
