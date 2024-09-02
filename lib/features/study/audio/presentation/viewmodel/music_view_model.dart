@@ -6,31 +6,30 @@ import 'package:swit/features/study/audio/domain/usecases/get_music_use_case.dar
 
 class MusicViewModel extends GetxController {
   final GetMusicUseCase _useCase;
-  final AudioService _audioService;
 
-  MusicViewModel({
-    required GetMusicUseCase useCase,
-    required AudioService audioService,
-  })
-      : _useCase = useCase,
-        _audioService = audioService;
+  MusicViewModel({required GetMusicUseCase useCase}) : _useCase = useCase;
 
   late final Rx<AudioPlayer> _musicPlayer = AudioPlayer().obs;
   late final RxList<Audio> _musicList = <Audio>[].obs;
 
   late final RxBool _isLoading = true.obs;
+
   bool get isLoading => _isLoading.value;
   late final RxBool _isMusicPlaying = false.obs;
+
   bool get isMusicPlaying => _isMusicPlaying.value;
 
   final RxBool isShuffled = false.obs;
   late final RxBool _isRepeated = false.obs;
+
   bool get isRepeated => _isRepeated.value;
   late final RxInt _currentIndex = 0.obs;
 
   late final Rx<Duration> _currentMusicDuration = Duration.zero.obs;
+
   Duration get currentMusicDuration => _currentMusicDuration.value;
   late final Rx<Duration> _currentMusicPosition = Duration.zero.obs;
+
   Duration get currentMusicPosition => _currentMusicPosition.value;
 
   Audio get currentMusic => _musicList[_currentIndex.value];
@@ -94,7 +93,6 @@ class MusicViewModel extends GetxController {
     // ever(_musicInfoList, (_) => _setupBackgroundPlayback());
   }
 
-
   /* --- Functions --- */
   Future<void> musicPlayPause() async {
     if (_musicPlayer.value.playing) {
@@ -141,11 +139,14 @@ class MusicViewModel extends GetxController {
 
   void toggleRepeat() {
     _isRepeated.value = !_isRepeated.value;
-    _musicPlayer.value.setLoopMode(_isRepeated.value ? LoopMode.one : LoopMode.off);
+    _musicPlayer.value
+        .setLoopMode(_isRepeated.value ? LoopMode.one : LoopMode.off);
   }
 
   Future<void> seekTo(double value) async {
-    final position = Duration(milliseconds: (value / 100 * _currentMusicDuration.value.inMilliseconds).round());
+    final position = Duration(
+        milliseconds:
+            (value / 100 * _currentMusicDuration.value.inMilliseconds).round());
     await _musicPlayer.value.seek(position);
   }
 }

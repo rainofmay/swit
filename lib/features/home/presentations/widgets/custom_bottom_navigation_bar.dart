@@ -22,7 +22,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: ColorBox.bottomColor
+        color: ColorBox.secondColor
       ),
       height: 72,
       child:  Row(

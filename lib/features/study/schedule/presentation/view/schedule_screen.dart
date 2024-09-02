@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:swit/features/study/schedule/presentation/view/edit_schedule_screen.dart';
 import 'package:swit/features/study/schedule/presentation/widgets/calendar.dart';
 import 'package:swit/shared/widgets/custom_back_appbar.dart';
 import 'package:swit/shared/widgets/custom_scaffold.dart';
@@ -9,7 +11,14 @@ class ScheduleScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      appBar: CustomBackAppBar(appbarTitle: '우리 일정 만들기', isLeading: true, isCenterTitle: true),
+      appBar: CustomBackAppBar(
+        appbarTitle: '우리 일정 만들기',
+        isLeading: true,
+        isCenterTitle: true,
+        actions: [IconButton(onPressed: () {
+          Get.to(() => EditScheduleScreen());
+        }, icon: Icon(Icons.add))],
+      ),
       body: Calendar(),
     );
   }

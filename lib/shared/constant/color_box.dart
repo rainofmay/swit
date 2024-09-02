@@ -14,7 +14,7 @@ abstract class ColorBox {
   static Color primaryColor = const Color(0xFF6A88BE);
 
   /// BottomBar Color
-  static Color bottomColor = const Color(0xFFEFEDEA);
+  static Color secondColor = const Color(0xFFEFEDEA);
   /// Health Primary Color
   static Color lightPink = const Color(0xFFFBE1EA);
 

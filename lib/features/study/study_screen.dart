@@ -44,7 +44,7 @@ class StudyScreen extends GetView<BgSettingViewModel> {
             right: 30,
             child: GestureDetector(
               onTap: () {
-                Get.to(() => ScheduleScreen());
+                Get.toNamed(Routes.STUDY + Routes.SCHEDULE);
               },
               child: SizedBox(
                   width: 100,

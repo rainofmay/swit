@@ -1,9 +1,11 @@
 import 'package:get/get.dart';
 import 'package:swit/core/di/home_binding.dart';
 import 'package:swit/core/di/audio_binding.dart';
+import 'package:swit/core/di/schedule_binding.dart';
 import 'package:swit/core/di/setting_binding.dart';
 import 'package:swit/features/home/presentations/view/home_screen.dart';
 import 'package:swit/features/study/audio/presentation/view/audio_screen.dart';
+import 'package:swit/features/study/schedule/presentation/view/schedule_screen.dart';
 import 'package:swit/features/study/setting/presentation/view/bg_setting_screen.dart';
 import 'package:swit/features/study/setting/presentation/view/setting_screen.dart';
 import 'package:swit/features/study/study_screen.dart';
@@ -38,8 +40,12 @@ class AppPages {
                       page: () => const BgSettingScreen(),
                       binding: SettingBinding(),
                   ),
-
                 ]),
+            GetPage(
+              name: Routes.SCHEDULE,
+              page: () => const ScheduleScreen(),
+              binding: ScheduleBinding(),
+            ),
           ],
         ),
       ],

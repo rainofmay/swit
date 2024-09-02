@@ -39,7 +39,6 @@ class AudioBinding extends Bindings {
     Get.put(
         MusicViewModel(
           useCase: Get.find<GetMusicUseCase>(),
-          audioService: Get.find<AudioService>(),
         ),
         permanent: true
     );
