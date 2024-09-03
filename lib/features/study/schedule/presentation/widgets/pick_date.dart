@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
+import 'package:swit/features/study/schedule/presentation/viewmodel/schedule_view_model.dart';
 import 'package:swit/features/study/schedule/presentation/widgets/omni_date_time_picker_theme.dart';
 
 Future<void> pickDate(
@@ -48,9 +49,9 @@ Future<void> pickDate(
     }
   } else {
     // 사용자가 선택을 취소한 경우, 기존 날짜를 유지
-    pickerDate = isStartTime
-        ? viewModel.nowHandlingScheduleModel.startDate
-        : viewModel.nowHandlingScheduleModel.endDate;
+    // pickerDate = isStartTime
+    //     ? viewModel.nowHandlingScheduleModel.startDate
+    //     : viewModel.nowHandlingScheduleModel.endDate;
   }
 
   viewModel.updateFormValidity();
