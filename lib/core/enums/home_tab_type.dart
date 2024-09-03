@@ -1,9 +1,9 @@
 
 enum HomeTab{
-  home(label : 'Study'),
-  record(label : 'Record'),
-  mate(label : 'Mate'),
-  more(label : 'More');
+  home(label : '홈'),
+  record(label : '기 록'),
+  mate(label : '메이트'),
+  more(label : '더보기');
 
   const HomeTab({required this.label});
   final String label;

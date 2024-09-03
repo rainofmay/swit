@@ -6,6 +6,6 @@ import 'package:swit/features/study/setting/presentation/viewmodel/bg_setting_vi
 class ScheduleBinding extends Bindings {
   @override
   void dependencies() {
-    Get.put(ScheduleViewModel(scheduleService: ScheduleService([])));
+    Get.put(ScheduleViewModel());
   }
 }

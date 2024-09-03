@@ -51,7 +51,7 @@ class CustomBackAppBar extends StatelessWidget implements PreferredSizeWidget {
       ) : Container(),
       title: Text(
         appbarTitle,
-        style: FontBox.TITLESTYLE.copyWith(color: contentColor ?? ColorBox.black),
+        style: FontBox.TITLESTYLE.copyWith(color: contentColor ?? ColorBox.black, letterSpacing: 1),
       ),
       // centerTitle: true,
       actions: actions,

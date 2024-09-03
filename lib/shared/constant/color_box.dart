@@ -15,6 +15,10 @@ abstract class ColorBox {
 
   /// BottomBar Color
   static Color secondColor = const Color(0xFFEFEDEA);
+
+  /// Red for Error
+  static Color darkRed = const Color(0xff790F07);
+
   /// Health Primary Color
   static Color lightPink = const Color(0xFFFBE1EA);
 

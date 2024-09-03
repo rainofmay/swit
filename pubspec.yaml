@@ -25,6 +25,7 @@ dependencies:
   cached_network_image: ^3.4.0
   shared_preferences: ^2.3.2
   image_picker: ^1.1.2
+  omni_datetime_picker: ^1.1.0
 
 dev_dependencies:
   flutter_test:

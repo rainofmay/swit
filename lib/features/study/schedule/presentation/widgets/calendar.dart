@@ -14,24 +14,41 @@ class Calendar extends GetView<ScheduleViewModel> {
     return SfCalendar(
         view: CalendarView.month,
         dataSource: controller.scheduleService,
-
         monthViewSettings: const MonthViewSettings(
-          appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
+          // 이전/다음 달의 날짜를 표시
+          showTrailingAndLeadingDates: true,
+
+          appointmentDisplayMode: MonthAppointmentDisplayMode.indicator, // appointment 텍스트로 표시
           showAgenda: true, // 하단에 이벤트 내용 표시
+
           agendaStyle: AgendaStyle(),
         ),
-        onSelectionChanged: null,
+      //   appointmentBuilder: (context, calendarAppointmentDetails) {
+      //   return SvgPicture.asset(
+      //     'assets/your_custom_indicator.svg',
+      //     width: calendarAppointmentDetails.bounds.width,
+      //     height: calendarAppointmentDetails.bounds.height,
+      //   );
+      // },
+
         // 년, 월 헤더 스타일
         headerStyle: CalendarHeaderStyle(backgroundColor: ColorBox.white, textStyle: FontBox.CONTENTSTYLE.copyWith(color: ColorBox.primaryColor)),
         // 요일 헤더 스타일
-        viewHeaderStyle: ViewHeaderStyle(backgroundColor: ColorBox.secondColor),
+        viewHeaderStyle: ViewHeaderStyle(backgroundColor: ColorBox.secondColor,),
+
+      selectionDecoration: BoxDecoration(
+        border: Border.all(color: ColorBox.transparent),
+      ),
+
         showDatePickerButton : true,
+
       onTap: controller.onTap,
       onLongPress: controller.onLongPress,
       monthCellBuilder: (context, details) {
         final currentDate = DateTime(details.date.year, details.date.month, details.date.day);
         final isSelected = controller.selectedDateRange.contains(currentDate);
-
+        // 무조건 현재인 달과 비교하여 현재 달의 날짜인지 확인, 다른 달이면 회색 처리
+        final isCurrentMonth = details.date.month == details.visibleDates[15].month;
         // 선택된 범위의 시작과 끝 날짜 확인
         final startDate = controller.selectedDateRange.isNotEmpty
             ? controller.selectedDateRange.reduce((a, b) => a.isBefore(b) ? a : b)
@@ -46,31 +63,31 @@ class Calendar extends GetView<ScheduleViewModel> {
           if (startDate == endDate) {
             // 단일 날짜 선택
             decoration = BoxDecoration(
-              color: Colors.blue.withOpacity(0.3),
+              color: ColorBox.primaryColor,
               shape: BoxShape.circle,
             );
           } else if (currentDate == startDate) {
             // 범위의 시작
             decoration = BoxDecoration(
-              color: Colors.blue.withOpacity(0.3),
+              color: ColorBox.primaryColor,
               borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20),
-                bottomLeft: Radius.circular(20),
+                topLeft: Radius.circular(8),
+                bottomLeft: Radius.circular(8),
               ),
             );
           } else if (currentDate == endDate) {
             // 범위의 끝
             decoration = BoxDecoration(
-              color: Colors.blue.withOpacity(0.3),
+              color: ColorBox.primaryColor,
               borderRadius: BorderRadius.only(
-                topRight: Radius.circular(20),
-                bottomRight: Radius.circular(20),
+                topRight: Radius.circular(8),
+                bottomRight: Radius.circular(8),
               ),
             );
           } else {
             // 범위 중간
             decoration = BoxDecoration(
-              color: Colors.blue.withOpacity(0.3),
+              color: ColorBox.primaryColor,
             );
           }
         }
@@ -82,7 +99,9 @@ class Calendar extends GetView<ScheduleViewModel> {
               details.date.day.toString(),
               style: TextStyle(
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                color: isSelected ? Colors.white : Colors.black,
+                color: isSelected
+                    ? ColorBox.white
+                    : (isCurrentMonth ? ColorBox.black : Colors.grey),
               ),
             ),
           ),
