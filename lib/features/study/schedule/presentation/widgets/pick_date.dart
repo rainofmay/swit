@@ -54,6 +54,6 @@ Future<void> pickDate(
     //     : viewModel.nowHandlingScheduleModel.endDate;
   }
 
-  viewModel.updateFormValidity();
+  // viewModel.updateFormValidity();
 
 }
