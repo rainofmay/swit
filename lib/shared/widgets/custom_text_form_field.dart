@@ -10,8 +10,8 @@ class CustomTextFormField extends StatelessWidget {
   final int? maxLines;
   final int? maxLength;
   final bool isReadOnly;
-  final TextInputType keyboardType;
-  final TextInputAction textInputAction;
+  final TextInputType? keyboardType;
+  final TextInputAction? textInputAction;
   final FormFieldValidator? validator;
   final TextEditingController? controller;
   final Widget? prefix;
@@ -28,16 +28,17 @@ class CustomTextFormField extends StatelessWidget {
   final bool autofocus;
   final GestureTapCallback? onTap;
   final Widget? titleIcon;
+  final TextStyle? hintStyle;
   const CustomTextFormField(
       {required this.fieldWidth,
         this.defaultText,
         this.hintText,
-        required this.isPasswordField,
+        this.isPasswordField = false,
         this.isEnabled,
         this.maxLines,
         required this.isReadOnly,
-        required this.keyboardType,
-        required this.textInputAction,
+        this.keyboardType,
+        this.textInputAction,
         this.controller,
         this.validator,
         this.prefix,
@@ -55,6 +56,7 @@ class CustomTextFormField extends StatelessWidget {
         this.autofocus = false,
         this.onTap,
         this.titleIcon,
+        this.hintStyle,
         super.key});
 
   @override
@@ -106,7 +108,7 @@ class CustomTextFormField extends StatelessWidget {
           suffixIcon: suffixIcon,
           labelText: labelText,
           hintText: hintText,
-          hintStyle: TextStyle(color: ColorBox.grey.withOpacity(0.5)),
+          hintStyle: hintStyle ?? TextStyle(color: ColorBox.grey.withOpacity(0.5)),
           counter: counter,
           labelStyle: TextStyle(color: ColorBox.grey.withOpacity(0.5)),
         ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
@@ -6,14 +7,15 @@ import 'package:swit/features/study/schedule/presentation/viewmodel/schedule_vie
 import 'package:swit/features/study/schedule/presentation/widgets/omni_date_time_picker_theme.dart';
 
 Future<void> pickDate(
-    {required BuildContext context, required bool isStartTime, required ScheduleViewModel viewModel}) async {
+    {required BuildContext context, required bool isStartTime}) async {
+  final vm = Get.find<ScheduleViewModel>();
   DateTime? pickerDate = await showOmniDateTimePicker(
     context: context,
     theme: OmniDateTimePickerTheme.theme,
-    initialDate: isStartTime ? viewModel.nowHandlingScheduleModel.startDate : viewModel.nowHandlingScheduleModel.endDate,
-    type: viewModel.nowHandlingScheduleModel.isTimeSet
-        ? OmniDateTimePickerType.dateAndTime
-        : OmniDateTimePickerType.date,
+    initialDate: isStartTime ? vm.editingSchedule.from : vm.editingSchedule.to,
+    type: vm.editingSchedule.isAllDay
+        ? OmniDateTimePickerType.date
+        : OmniDateTimePickerType.dateAndTime,
     firstDate: DateTime.now().subtract(const Duration(days: 365 * 3)),
     lastDate: DateTime.now().add(const Duration(days: 365 * 20)),
     is24HourMode: false,
@@ -43,9 +45,9 @@ Future<void> pickDate(
 
   if (pickerDate != null) {
     if (isStartTime) {
-      viewModel.setStartDate(pickerDate);
+      vm.updateScheduleFrom(pickerDate);
     } else {
-      viewModel.setEndDate(pickerDate);
+      vm.updateScheduleTo(pickerDate);
     }
   } else {
     // 사용자가 선택을 취소한 경우, 기존 날짜를 유지

@@ -12,7 +12,7 @@ Future<void> customDialog(BuildContext context, double height, String title,
       // 빌더로 AlertDialog 위젯을 생성
       return AlertDialog(
         backgroundColor: ColorBox.white,
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(6)),
         ),
         title: Text(title, style: FontBox.DIALOGSTYLE),

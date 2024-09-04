@@ -17,7 +17,7 @@ class CreateScheduleScreen extends GetView<ScheduleViewModel> {
         isLeading: true,
         isCenterTitle: true,
         actions: [
-          Obx(() => TextButton(
+          TextButton(
                 onPressed: () {
 
                   // viewModel.isFormValid ? _onSavePressed(context) : null;
@@ -28,7 +28,7 @@ class CreateScheduleScreen extends GetView<ScheduleViewModel> {
                       // color: viewModel.isFormValid ? ColorBox.primaryColor : ColorBox.grey
                   ),
                 ),
-              ))
+              )
         ],
       ),
       body: ScheduleForm()

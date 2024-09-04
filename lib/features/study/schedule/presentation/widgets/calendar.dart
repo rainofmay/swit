@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:swit/core/utils/schedule_service.dart';
+import 'package:swit/features/study/schedule/domain/entities/schedule.dart';
 import 'package:swit/features/study/schedule/presentation/viewmodel/schedule_view_model.dart';
 import 'package:swit/shared/constant/color_box.dart';
 import 'package:swit/shared/constant/font_box.dart';
@@ -30,7 +31,30 @@ class Calendar extends GetView<ScheduleViewModel> {
       //     height: calendarAppointmentDetails.bounds.height,
       //   );
       // },
-
+      // appointmentBuilder: (context, calendarAppointmentDetails) {
+      //   final Schedule schedule = calendarAppointmentDetails.appointments.first;
+      //   final bool hasDescription = schedule.description != null;
+      //   return Container(
+      //     color: schedule.sectionColor.withOpacity(0.8),
+      //     child: Column(
+      //       crossAxisAlignment: CrossAxisAlignment.start,
+      //       children: [
+      //         Text(
+      //           schedule.scheduleName,
+      //           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+      //           overflow: TextOverflow.ellipsis,
+      //         ),
+      //         schedule.description != null ?
+      //           Text(
+      //             schedule.description!,
+      //             style: TextStyle(color: Colors.white70),
+      //             overflow: TextOverflow.ellipsis,
+      //             maxLines: 1,
+      //           ) : SizedBox(),
+      //       ],
+      //     ),
+      //   );
+      // },
         // 년, 월 헤더 스타일
         headerStyle: CalendarHeaderStyle(backgroundColor: ColorBox.white, textStyle: FontBox.CONTENTSTYLE.copyWith(color: ColorBox.primaryColor)),
         // 요일 헤더 스타일
