@@ -8,7 +8,9 @@ import 'package:swit/features/study/schedule/presentation/widgets/color_section.
 import 'package:swit/features/study/schedule/presentation/widgets/pick_date.dart';
 import 'package:swit/shared/constant/color_box.dart';
 import 'package:swit/shared/constant/font_box.dart';
+import 'package:swit/shared/constant/icon_size.dart';
 import 'package:swit/shared/widgets/custom_dialog.dart';
+import 'package:swit/shared/widgets/custom_gap.dart';
 import 'package:swit/shared/widgets/custom_text_form_field.dart';
 
 class ScheduleForm extends GetView<ScheduleViewModel> {
@@ -25,6 +27,7 @@ class ScheduleForm extends GetView<ScheduleViewModel> {
           top: 16.0,
         ),
         child: Obx(() => Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CustomTextFormField(
               autofocus: true,
@@ -52,17 +55,23 @@ class ScheduleForm extends GetView<ScheduleViewModel> {
               hintText: '일정을 입력해 주세요.',
               maxLines: 1,
               maxLength: 60,
+              textStyle: FontBox.TITLESTYLE,
               onChanged: (_) => controller.isFormValidity(),
               fieldWidth:  MediaQuery.of(context).size.width * 0.7,
               keyboardType: TextInputType.multiline,
               textInputAction: TextInputAction.done,
+              inputBorder: InputBorder.none,
             ),
 
+            const CustomGap(16),
+            Divider(height: 1, color: ColorBox.grey[300]),
+            const CustomGap(16),
 
-            // 시작 일시
+            /* -- 시작 일시 -- */
             Row(
               children: [
                 Expanded(
+                  flex: 5,
                   child: CustomTextFormField(
                     autofocus: false,
                     isReadOnly: true,
@@ -77,31 +86,38 @@ class ScheduleForm extends GetView<ScheduleViewModel> {
                         ),
                         onPressed: null),
                     hintText: DateFormat.yMd().format(controller.editingSchedule.from),
-                    fieldWidth: 300,
+                    hintStyle: controller.editingSchedule.to.isBefore(controller.editingSchedule.from)
+                        ? TextStyle(color: ColorBox.darkRed)
+                        : const TextStyle(),
+                    inputBorder: InputBorder.none,
                   ),
                 ),
-                controller.editingSchedule.isAllDay
-                    ? const SizedBox() : Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 18.0),
-                      child: CustomTextFormField(
-                        onTap: () {
-                          pickDate(
-                              context: context, isStartTime: true);
-                        },
-                        autofocus: false,
-                        isReadOnly: true,
-                        hintText: DateFormat('hh:mm a').format(controller.editingSchedule.from),
-                        fieldWidth: 200,
-                      ),
-                    )),
+                controller.editingSchedule.isTimeSet
+                    ? Expanded(
+                  flex: 2,
+                    child: CustomTextFormField(
+                      onTap: () {
+                        pickDate(
+                            context: context, isStartTime: true);
+                      },
+                      autofocus: false,
+                      isReadOnly: true,
+                      hintText: DateFormat('hh:mm a').format(controller.editingSchedule.from),
+                      hintStyle: controller.editingSchedule.to.isBefore(controller.editingSchedule.from)
+                          ? TextStyle(color: ColorBox.darkRed)
+                          : const TextStyle(),
+                      inputBorder: InputBorder.none,
+                    )) : const SizedBox(),
               ],
             ),
+            const CustomGap(8),
 
-            // 종료 일시
+            /* -- 종료 일시 -- */
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
+                  flex: 5,
                   child: CustomTextFormField(
                     autofocus: false,
                     isReadOnly: true,
@@ -112,20 +128,19 @@ class ScheduleForm extends GetView<ScheduleViewModel> {
                     titleIcon: IconButton(
                         icon: Icon(
                           Icons.edit_calendar_outlined,
-                          color: ColorBox.blue,
+                          color: ColorBox.transparent,
                         ),
                         onPressed: null),
                     hintText: DateFormat.yMd().format(controller.editingSchedule.to),
                     hintStyle: controller.editingSchedule.to.isBefore(controller.editingSchedule.from)
                         ? TextStyle(color: ColorBox.darkRed)
                         : const TextStyle(),
-                    fieldWidth: 300,
+                    inputBorder: InputBorder.none,
                   ),
                 ),
-                controller.editingSchedule.isAllDay
-                    ? const SizedBox() : Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 18.0),
+                controller.editingSchedule.isTimeSet
+                    ? Expanded(
+                  flex: 2,
                       child: CustomTextFormField(
                         onTap: () {
                           pickDate(
@@ -136,24 +151,26 @@ class ScheduleForm extends GetView<ScheduleViewModel> {
                         hintText: DateFormat('hh:mm a').format(controller.editingSchedule.to),
                         hintStyle: controller.editingSchedule.to.isBefore(controller.editingSchedule.from)
                             ? TextStyle(color:  ColorBox.darkRed)
-                            : const TextStyle(), fieldWidth: 200,
+                            : const TextStyle(),
+                        inputBorder: InputBorder.none,
                       ),
-                    )),
+                    ) : const SizedBox(),
               ],
             ),
+            CustomGap(8),
 
-
+            /* -- 시간 설정 -- */
             Padding(
-              padding: const EdgeInsets.only(right: 13.0, bottom: 20.0),
+              padding: const EdgeInsets.only(right: 13.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  const Text('Time'),
+                  Text('Time', style: FontBox.CONTENTSTYLE),
                   const SizedBox(width: 3),
                   Transform.scale(
                     scale: 0.8,
                     child: CupertinoSwitch(
-                      value: controller.editingSchedule.isAllDay,
+                      value: controller.editingSchedule.isTimeSet,
                       activeColor: Color(0xff8FB8EE),
                       //Color(0xffC8D8FA)
                       onChanged: (bool value) {
@@ -163,6 +180,41 @@ class ScheduleForm extends GetView<ScheduleViewModel> {
                   ),
                 ],
               ),
+            ),
+
+            const CustomGap(16),
+            Divider(height: 1, color: ColorBox.grey[300]),
+            const CustomGap(16),
+
+            /* -- description -- */
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 8, left: 16, bottom: 8, right: 16),
+                  child: Icon(Icons.sticky_note_2_outlined, size: IconSize.md),
+                ),
+                // IconButton(onPressed: (){}, icon: Icon(Icons.sticky_note_2_outlined,  size: IconSize.md,)),
+                CustomTextFormField(
+                  autofocus: false,
+                  textInputAction: TextInputAction.done,
+                  isReadOnly: false,
+                  controller: controller.descriptionController,
+                  hintText: '메모를 입력해 보세요.',
+                  inputBorder: InputBorder.none,
+                  maxLines: 10,
+                  maxLength: 900,
+                  validator: (value) {
+                    if (value != null && value.length > 900) {
+                      return '메모는 900자를 초과할 수 없습니다.';
+                    }
+                    return null;
+                  },
+                  onChanged: (_) => controller.isFormValidity(),
+                  fieldWidth: MediaQuery.of(context).size.width * 0.7,
+                ),
+              ],
             ),
 
             // 완료 여부

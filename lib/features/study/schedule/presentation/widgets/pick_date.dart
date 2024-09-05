@@ -13,9 +13,9 @@ Future<void> pickDate(
     context: context,
     theme: OmniDateTimePickerTheme.theme,
     initialDate: isStartTime ? vm.editingSchedule.from : vm.editingSchedule.to,
-    type: vm.editingSchedule.isAllDay
-        ? OmniDateTimePickerType.date
-        : OmniDateTimePickerType.dateAndTime,
+    type: vm.editingSchedule.isTimeSet
+        ? OmniDateTimePickerType.dateAndTime
+        : OmniDateTimePickerType.date,
     firstDate: DateTime.now().subtract(const Duration(days: 365 * 3)),
     lastDate: DateTime.now().add(const Duration(days: 365 * 20)),
     is24HourMode: false,

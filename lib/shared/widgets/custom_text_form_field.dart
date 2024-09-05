@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:swit/shared/constant/color_box.dart';
 
 class CustomTextFormField extends StatelessWidget {
-  final double fieldWidth;
+  final double? fieldWidth;
   final String? defaultText;
   final String? hintText;
   final bool isPasswordField;
@@ -21,7 +21,6 @@ class CustomTextFormField extends StatelessWidget {
   final Widget? counter;
   final String? labelText;
   final Color? prefixIconColor;
-  final Color? textColor;
   final void Function(String)? onChanged;
   final String? errorText;
   final bool hasError;
@@ -29,8 +28,10 @@ class CustomTextFormField extends StatelessWidget {
   final GestureTapCallback? onTap;
   final Widget? titleIcon;
   final TextStyle? hintStyle;
+  final TextStyle? textStyle;
+  final InputBorder? inputBorder;
   const CustomTextFormField(
-      {required this.fieldWidth,
+      {this.fieldWidth,
         this.defaultText,
         this.hintText,
         this.isPasswordField = false,
@@ -48,7 +49,6 @@ class CustomTextFormField extends StatelessWidget {
         this.counter,
         this.suffixIcon,
         this.prefixIconColor,
-        this.textColor,
         this.onChanged,
         this.errorText,
         this.hasError = false,
@@ -57,7 +57,9 @@ class CustomTextFormField extends StatelessWidget {
         this.onTap,
         this.titleIcon,
         this.hintStyle,
-        super.key});
+        this.inputBorder,
+        this.textStyle,
+        super.key, });
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +67,7 @@ class CustomTextFormField extends StatelessWidget {
       width: fieldWidth,
       child: TextFormField(
         onTap: onTap,
-        style: TextStyle(color: textColor),
+        style: textStyle,
         initialValue: defaultText,
         maxLength: maxLength,
         validator: validator != null ? (value) => validator!(value) : null,
@@ -81,26 +83,27 @@ class CustomTextFormField extends StatelessWidget {
         decoration: InputDecoration(
           icon: titleIcon,
           counterText: "",
-          focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: ColorBox.primaryColor),
-          ),
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: ColorBox.grey.withOpacity(0.5)),
-          ),
+          border: inputBorder,
+          // focusedBorder: UnderlineInputBorder(
+          //   borderSide: BorderSide(color: ColorBox.primaryColor),
+          // ),
+          // enabledBorder: UnderlineInputBorder(
+          //   borderSide: BorderSide(color: ColorBox.grey.withOpacity(0.5)),
+          // ),
+          // errorBorder: hasError
+          //     ? UnderlineInputBorder(
+          //   borderSide: BorderSide(color: ColorBox.darkRed),
+          // )
+          //     : null,
+          // focusedErrorBorder: hasError
+          //     ? UnderlineInputBorder(
+          //   borderSide: BorderSide(color: ColorBox.darkRed, width: 1),
+          // )
+          //     : null,
           errorText: hasError ? errorText : null,
           errorStyle: TextStyle(color: ColorBox.pink[600]),
-          errorBorder: hasError
-              ? UnderlineInputBorder(
-            borderSide: BorderSide(color: ColorBox.darkRed),
-          )
-              : null,
-          focusedErrorBorder: hasError
-              ? UnderlineInputBorder(
-            borderSide: BorderSide(color: ColorBox.darkRed, width: 1),
-          )
-              : null,
           isDense: true,
-          contentPadding: const EdgeInsets.all(10),
+          contentPadding: const EdgeInsets.all(8),
           prefixIconColor: prefixIconColor,
           prefix: prefix,
           prefixIcon: prefixIcon,

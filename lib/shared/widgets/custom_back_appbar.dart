@@ -45,7 +45,7 @@ class CustomBackAppBar extends StatelessWidget implements PreferredSizeWidget {
         onPressed: backFunction ?? () => Navigator.of(context).pop(),
         icon: Icon(
           Icons.arrow_back,
-          size: 24,
+          size: 22,
           color: contentColor,
         ),
       ) : Container(),

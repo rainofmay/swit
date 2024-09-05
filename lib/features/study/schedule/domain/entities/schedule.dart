@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 
 class Schedule {
-
    String scheduleName;
    String? description;
    DateTime from;
    DateTime to;
    Color sectionColor;
-   bool isAllDay;
+   bool isTimeSet;
 
    Schedule({
     required this.scheduleName,
@@ -15,6 +14,6 @@ class Schedule {
     required this.from,
     required this.to,
     required this.sectionColor,
-    required this.isAllDay,
+    required this.isTimeSet,
   });
 }

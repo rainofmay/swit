@@ -8,38 +8,30 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 class ScheduleViewModel extends GetxController {
   /* -- Calendar -- */
   late final Rx<CalendarController> _controller = CalendarController().obs;
-
   CalendarController get controller => _controller.value;
 
   final RxList<Schedule> _schedules = <Schedule>[].obs;
-
   List<Schedule> get schedules => _schedules;
 
   ScheduleService get scheduleService => ScheduleService(schedules);
 
   final RxList<DateTime> _selectedDates = <DateTime>[].obs;
-
   List<DateTime> get selectedDates => _selectedDates;
-
   late final Rx<DateTime?> _selectedDate = Rx<DateTime?>(null);
-
   DateTime? get selectedDate => _selectedDate.value;
   final RxList<DateTime> _selectedDateRange = <DateTime>[].obs;
-
   List<DateTime> get selectedDateRange => _selectedDateRange;
 
   /* -- Schedule -- */
   late final Rx<Schedule> _editingSchedule = createInitSchedule().obs;
-
   Schedule get editingSchedule => _editingSchedule.value;
 
-  late final Rx<TextEditingController> _titleController =
-      TextEditingController().obs;
-
+  late final Rx<TextEditingController> _titleController = TextEditingController().obs;
   TextEditingController get titleController => _titleController.value;
+  late final Rx<TextEditingController> _descriptionController = TextEditingController().obs;
+  TextEditingController get descriptionController => _descriptionController.value;
 
   late final Rx<Color> _editingColor = ScheduleColor.colorList[0].obs;
-
   Color get editingColor => _editingColor.value;
 
   @override
@@ -52,13 +44,13 @@ class ScheduleViewModel extends GetxController {
           description: 'memo',
           to: DateTime.now().add(Duration(hours: 9)),
           sectionColor: Colors.green,
-          isAllDay: false),
+          isTimeSet: false),
       Schedule(
           scheduleName: 'Test',
           from: DateTime.now(),
           to: DateTime.now().add(Duration(days: 1)),
           sectionColor: Colors.blue,
-          isAllDay: false),
+          isTimeSet: false),
     ]);
     super.onInit();
   }
@@ -67,6 +59,7 @@ class ScheduleViewModel extends GetxController {
   void onClose() {
     _controller.value.dispose();
     _titleController.value.dispose();
+    _descriptionController.value.dispose();
     super.onClose();
   }
 
@@ -96,7 +89,7 @@ class ScheduleViewModel extends GetxController {
       scheduleName: '',
       from: initialStartDate,
       to: initialEndDate,
-      isAllDay: false,
+      isTimeSet: false,
       description: '',
       sectionColor: ScheduleColor.colorList[0],
     );
@@ -121,9 +114,9 @@ class ScheduleViewModel extends GetxController {
     });
   }
 
-  void updateScheduleIsAllDay(bool isAllDay) {
+  void updateScheduleIsAllDay(bool isTimeSet) {
     _editingSchedule.update((val) {
-      val?.isAllDay = isAllDay;
+      val?.isTimeSet = isTimeSet;
     });
   }
 
