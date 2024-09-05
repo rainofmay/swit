@@ -2,7 +2,7 @@
 // import 'package:flutter/material.dart';
 // import 'package:get/get.dart';
 // import 'package:mobile/common/const/colors.dart';
-// import 'package:mobile/model/schedule_model.dart';
+// import 'package:mobile/model/schedule_dto.dart';
 // import 'package:mobile/provider/schedule/schedule_provider.dart';
 // import 'package:mobile/repository/schedule/schedule_repository.dart';
 // import 'package:mobile/view/schedule/widget/schedule/schedule_form.dart';

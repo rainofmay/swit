@@ -1,11 +1,28 @@
 import 'package:get/get.dart';
-import 'package:swit/core/utils/schedule_service.dart';
+import 'package:swit/features/study/schedule/data/datasources/schedule_remote_data_source.dart';
+import 'package:swit/features/study/schedule/data/repsoitories/schedule_repository_impl.dart';
+import 'package:swit/features/study/schedule/domain/repositories/schedule_repository.dart';
+import 'package:swit/features/study/schedule/domain/usecases/create_schedule_use_case.dart';
+import 'package:swit/features/study/schedule/domain/usecases/get_schedule_use_case.dart';
 import 'package:swit/features/study/schedule/presentation/viewmodel/schedule_view_model.dart';
-import 'package:swit/features/study/setting/presentation/viewmodel/bg_setting_view_model.dart';
 
 class ScheduleBinding extends Bindings {
   @override
   void dependencies() {
-    Get.put(ScheduleViewModel());
+
+    /* -- DataSource -- */
+    Get.put<ScheduleRemoteDataSource>(ScheduleRemoteDataSource());
+
+    /* -- Repository -- */
+    Get.put<ScheduleRepository>(
+        ScheduleRepositoryImpl(Get.find<ScheduleRemoteDataSource>()),
+    );
+
+    /* -- UseCase -- */
+    Get.put(GetScheduleUseCase(Get.find<ScheduleRepository>()));
+    Get.put(CreateScheduleUseCase(Get.find<ScheduleRepository>()));
+
+    /* -- ViewModel -- */
+    Get.put(ScheduleViewModel(getScheduleUseCase: Get.find<GetScheduleUseCase>(),createScheduleUseCase: Get.find<CreateScheduleUseCase>()));
   }
 }

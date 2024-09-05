@@ -18,15 +18,16 @@ class CreateScheduleScreen extends GetView<ScheduleViewModel> {
           contentColor: ColorBox.white,
           isLeading: true,
           isCenterTitle: true,
-          backgroundColor: controller.editingColor,
+          backgroundColor: controller.editingSchedule.sectionColor,
           actions: [
-            TextButton(
+            Obx(() => TextButton(
               onPressed: () {
-                // viewModel.isFormValid ? _onSavePressed(context) : null;
+                controller.isFormValid ? controller.onSavePressed() : null;
+                Get.back();
               },
               child: Text('저장',
-                  style: FontBox.CONTENTSTYLE.copyWith(color: ColorBox.white)),
-            )
+                  style: FontBox.CONTENTSTYLE.copyWith(color: controller.isFormValid ? ColorBox.white : ColorBox.grey[300])),
+            ))
           ],
         ),
         body: ScheduleForm());

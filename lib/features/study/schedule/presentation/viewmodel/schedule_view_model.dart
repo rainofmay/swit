@@ -2,10 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:swit/core/utils/schedule_service.dart';
 import 'package:swit/features/study/schedule/domain/entities/schedule.dart';
+import 'package:swit/features/study/schedule/domain/usecases/create_schedule_use_case.dart';
+import 'package:swit/features/study/schedule/domain/usecases/get_schedule_use_case.dart';
 import 'package:swit/shared/constant/schedule_color.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class ScheduleViewModel extends GetxController {
+  final GetScheduleUseCase _getScheduleUseCase;
+  final CreateScheduleUseCase _createScheduleUseCase;
+
+  ScheduleViewModel({
+    required GetScheduleUseCase getScheduleUseCase,
+    required CreateScheduleUseCase createScheduleUseCase,
+  })  : _getScheduleUseCase = getScheduleUseCase,
+        _createScheduleUseCase = createScheduleUseCase;
+
   /* -- Calendar -- */
   late final Rx<CalendarController> _controller = CalendarController().obs;
   CalendarController get controller => _controller.value;
@@ -25,33 +36,36 @@ class ScheduleViewModel extends GetxController {
   /* -- Schedule -- */
   late final Rx<Schedule> _editingSchedule = createInitSchedule().obs;
   Schedule get editingSchedule => _editingSchedule.value;
+  late final Schedule storedSchedule;
 
   late final Rx<TextEditingController> _titleController = TextEditingController().obs;
   TextEditingController get titleController => _titleController.value;
   late final Rx<TextEditingController> _descriptionController = TextEditingController().obs;
   TextEditingController get descriptionController => _descriptionController.value;
 
-  late final Rx<Color> _editingColor = ScheduleColor.colorList[0].obs;
-  Color get editingColor => _editingColor.value;
+  late final RxBool _isFormValid = false.obs;
+  bool get isFormValid => _isFormValid.value;
 
   @override
   void onInit() {
     // 테스트 코드
-    schedules.addAll([
-      Schedule(
-          scheduleName: 'Meeting',
-          from: DateTime.now(),
-          description: 'memo',
-          to: DateTime.now().add(Duration(hours: 9)),
-          sectionColor: Colors.green,
-          isTimeSet: false),
-      Schedule(
-          scheduleName: 'Test',
-          from: DateTime.now(),
-          to: DateTime.now().add(Duration(days: 1)),
-          sectionColor: Colors.blue,
-          isTimeSet: false),
-    ]);
+    getSchedules();
+    // schedules.addAll([
+    //   Schedule(
+    //       scheduleName: 'Meeting',
+    //       from: DateTime.now(),
+    //       description: 'memo',
+    //       to: DateTime.now().add(Duration(hours: 9)),
+    //       sectionColor: Colors.green,
+    //       isTimeSet: false),
+    //   Schedule(
+    //       scheduleName: 'Test',
+    //       from: DateTime.now(),
+    //       to: DateTime.now().add(Duration(days: 1)),
+    //       sectionColor: Colors.blue,
+    //       isTimeSet: false),
+    // ]);
+
     super.onInit();
   }
 
@@ -95,6 +109,21 @@ class ScheduleViewModel extends GetxController {
     );
   }
 
+  /* -- Create -- */
+  void onSavePressed() async {
+    if (isFormValid) {
+      storedSchedule = _editingSchedule.value;
+      await _createScheduleUseCase.createSchedule(storedSchedule);
+      // 저장 로직 구현
+    }
+  }
+
+  /* -- Get -- */
+  void getSchedules() async {
+    _schedules.value = await _getScheduleUseCase.getSchedules();
+  }
+
+
   /* -- Update -- */
   void updateScheduleName(String name) {
     _editingSchedule.update((val) {
@@ -114,7 +143,7 @@ class ScheduleViewModel extends GetxController {
     });
   }
 
-  void updateScheduleIsAllDay(bool isTimeSet) {
+  void updateScheduleIsTimeSet(bool isTimeSet) {
     _editingSchedule.update((val) {
       val?.isTimeSet = isTimeSet;
     });
@@ -130,7 +159,6 @@ class ScheduleViewModel extends GetxController {
     _editingSchedule.update((val) {
       val?.sectionColor = color;
     });
-    _editingColor.value = color;
   }
 
   /* -- Client Functions -- */
@@ -191,9 +219,9 @@ class ScheduleViewModel extends GetxController {
   }
 
   /* -- TextForm Validity -- */
-  bool isFormValidity() {
-    bool isTitleValid = _titleController().text.isNotEmpty &&
+  void checkFormValidity() {
+    bool validity = _titleController().text.isNotEmpty &&
         _titleController().text.length <= 60;
-    return isTitleValid;
+    _isFormValid.value = validity;
   }
 }

@@ -32,11 +32,11 @@ class ColorSelection extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           return Obx(() => GestureDetector(
             onTap: () {
-              // scheduleViewModel.setSectionColorIndex(index);
+              vm.updateScheduleColor(ScheduleColor.colorList[index]);
             },
             child: CircleAvatar(
                 backgroundColor: ScheduleColor.colorList[index],
-                child: vm.editingColor == ScheduleColor.colorList[index]
+                child: vm.editingSchedule.sectionColor == ScheduleColor.colorList[index]
                     ? Icon(
                   Icons.check_rounded,
                   color: ColorBox.white,

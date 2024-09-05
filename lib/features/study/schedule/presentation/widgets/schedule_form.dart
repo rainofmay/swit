@@ -35,7 +35,7 @@ class ScheduleForm extends GetView<ScheduleViewModel> {
               controller: controller.titleController,
               titleIcon: IconButton(
                   icon: Icon(CupertinoIcons.circle_filled,
-                      color: controller.editingColor),
+                      color: controller.editingSchedule.sectionColor),
                   onPressed: () => customDialog(
                     context,
                     240,
@@ -56,7 +56,7 @@ class ScheduleForm extends GetView<ScheduleViewModel> {
               maxLines: 1,
               maxLength: 60,
               textStyle: FontBox.TITLESTYLE,
-              onChanged: (_) => controller.isFormValidity(),
+              onChanged: (value) => controller.checkFormValidity(),
               fieldWidth:  MediaQuery.of(context).size.width * 0.7,
               keyboardType: TextInputType.multiline,
               textInputAction: TextInputAction.done,
@@ -174,7 +174,7 @@ class ScheduleForm extends GetView<ScheduleViewModel> {
                       activeColor: Color(0xff8FB8EE),
                       //Color(0xffC8D8FA)
                       onChanged: (bool value) {
-                        controller.updateScheduleIsAllDay(value);
+                        controller.updateScheduleIsTimeSet(value);
                       },
                     ),
                   ),
@@ -211,7 +211,7 @@ class ScheduleForm extends GetView<ScheduleViewModel> {
                     }
                     return null;
                   },
-                  onChanged: (_) => controller.isFormValidity(),
+                  onChanged: (value) => controller.checkFormValidity(),
                   fieldWidth: MediaQuery.of(context).size.width * 0.7,
                 ),
               ],
