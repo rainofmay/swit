@@ -1,22 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:swit/core/router/app_pages.dart';
 import 'package:swit/core/utils/schedule/schedule_service.dart';
 import 'package:swit/features/study/schedule/domain/entities/schedule.dart';
 import 'package:swit/features/study/schedule/domain/usecases/create_schedule_use_case.dart';
 import 'package:swit/features/study/schedule/domain/usecases/get_schedule_use_case.dart';
-import 'package:swit/features/study/schedule/presentation/view/edit_schedule_screen.dart';
+import 'package:swit/features/study/schedule/domain/usecases/update_schedule_use_case.dart';
 import 'package:swit/shared/constant/schedule_color.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:uuid/uuid.dart';
 
 class ScheduleViewModel extends GetxController {
   final GetScheduleUseCase _getScheduleUseCase;
   final CreateScheduleUseCase _createScheduleUseCase;
-
+  final UpdateScheduleUseCase _updateScheduleUseCase;
   ScheduleViewModel({
     required GetScheduleUseCase getScheduleUseCase,
     required CreateScheduleUseCase createScheduleUseCase,
+    required UpdateScheduleUseCase updateScheduleUseCase,
   })  : _getScheduleUseCase = getScheduleUseCase,
-        _createScheduleUseCase = createScheduleUseCase;
+        _createScheduleUseCase = createScheduleUseCase,
+        _updateScheduleUseCase = updateScheduleUseCase;
 
   /* -- Calendar -- */
   late final Rx<CalendarController> _controller = CalendarController().obs;
@@ -40,7 +44,7 @@ class ScheduleViewModel extends GetxController {
 
   late final Rx<Schedule> _editingSchedule = createInitSchedule().obs;
   Schedule get editingSchedule => _editingSchedule.value;
-  late final Schedule storedSchedule;
+  late Schedule storedSchedule;
 
   late final Rx<TextEditingController> _titleController = TextEditingController().obs;
   TextEditingController get titleController => _titleController.value;
@@ -61,10 +65,11 @@ class ScheduleViewModel extends GetxController {
     //       description: 'memo',
     //       to: DateTime.now().add(Duration(hours: 9)),
     //       sectionColor: Colors.green,
-    //       isTimeSet: false),
+    //       isTimeSet: true),
     //   Schedule(
     //       scheduleName: 'Test',
     //       from: DateTime.now(),
+    //       description: 'memo',
     //       to: DateTime.now().add(Duration(days: 1)),
     //       sectionColor: Colors.blue,
     //       isTimeSet: false),
@@ -82,34 +87,38 @@ class ScheduleViewModel extends GetxController {
   }
 
   /* -- Init -- */
-  Schedule createInitSchedule() {
+
+  Schedule createInitSchedule({Schedule? existingSchedule}) {
     final now = DateTime.now();
     DateTime initialStartDate;
     DateTime initialEndDate;
-    final selectedDate = _selectedDate.value ?? now;
+    final selectedDate = existingSchedule?.from ?? _selectedDate.value ?? now;
+
     if (now.hour >= 22) {
-      // 22시 이후라면 선택된 날짜의 00:00부터 02:00까지로 설정
-      initialStartDate = DateTime(
-          selectedDate.year, selectedDate.month, selectedDate.day, 22, 0);
-      initialEndDate = DateTime(
-          selectedDate.year, selectedDate.month, selectedDate.day, 23, 0);
+      initialStartDate = DateTime(selectedDate.year, selectedDate.month, selectedDate.day, 22, 0);
+      initialEndDate = DateTime(selectedDate.year, selectedDate.month, selectedDate.day, 23, 0);
     } else {
-      // 그 외의 경우 현재 시간부터 2시간 후로 설정
-      initialStartDate = DateTime(
-          selectedDate.year, selectedDate.month, selectedDate.day, now.hour, 0);
-      initialEndDate = DateTime(selectedDate.year, selectedDate.month,
-          selectedDate.day, now.hour + 2, 0);
+      initialStartDate = DateTime(selectedDate.year, selectedDate.month, selectedDate.day, now.hour, 0);
+      initialEndDate = DateTime(selectedDate.year, selectedDate.month, selectedDate.day, now.hour + 2, 0);
     }
 
     return Schedule(
-      // uid: Uuid().v4(),
-      scheduleName: '',
-      from: initialStartDate,
-      to: initialEndDate,
-      isTimeSet: true,
-      description: '',
-      sectionColor: ScheduleColor.colorList[0],
+      // 새 일정이면 빈 데이터, 기존 일정이면 해당 데이터
+      id : existingSchedule?.id ?? const Uuid().v4(),
+      scheduleName: existingSchedule?.scheduleName ?? '',
+      from: existingSchedule?.from ?? initialStartDate,
+      to: existingSchedule?.to ?? initialEndDate,
+      isAllDay: existingSchedule?.isAllDay ?? false,
+      description: existingSchedule?.description ?? '',
+      sectionColor: existingSchedule?.sectionColor ?? ScheduleColor.colorList[0],
     );
+  }
+
+  void initNewSchedule() {
+    _editingSchedule.value = createInitSchedule();
+    _titleController.value.text = '';
+    _descriptionController.value.text = '';
+    // 다른 필드들도 초기화
   }
 
   /* -- Create -- */
@@ -117,16 +126,17 @@ class ScheduleViewModel extends GetxController {
     if (isFormValid) {
       storedSchedule = _editingSchedule.value;
       await _createScheduleUseCase.createSchedule(storedSchedule);
+      await getSchedules();
+      initNewSchedule();
     }
-    await getSchedules();
   }
 
   /* -- Get -- */
   Future<void> getSchedules() async {
     try {
       _isSchedulesLoaded.value = false;
-      final data = await _getScheduleUseCase.getSchedules();
-      schedules.addAll(data);
+      final List<Schedule> data = await _getScheduleUseCase.getSchedules();
+      schedules = data;
       _isSchedulesLoaded.value = true;
       update();
       print('Schedules after mapping: ${schedules}');
@@ -156,9 +166,9 @@ class ScheduleViewModel extends GetxController {
     });
   }
 
-  void updateScheduleIsTimeSet(bool isTimeSet) {
+  void updateScheduleIsAllDay(bool isAllDay) {
     _editingSchedule.update((val) {
-      val?.isTimeSet = isTimeSet;
+      val?.isAllDay = isAllDay;
     });
   }
 
@@ -172,6 +182,29 @@ class ScheduleViewModel extends GetxController {
     _editingSchedule.update((val) {
       val?.sectionColor = color;
     });
+  }
+
+  void updateEditingSchedule(Schedule? schedule) {
+    _editingSchedule.value = createInitSchedule(existingSchedule: schedule);
+    _titleController.value.text = _editingSchedule.value.scheduleName;
+    _descriptionController.value.text = _editingSchedule.value.description;
+    // 필요한 다른 필드들도 여기서 설정
+  }
+
+  Future<void> onUpdatePressed() async {
+    print('onUpdatePressed called');  // 로그 추가
+    if (isFormValid) {
+      try {
+        print('Updating schedule: ${_editingSchedule.value}');  // 로그 추가
+        await _updateScheduleUseCase.updateSchedule(_editingSchedule.value);
+        print('Schedule updated successfully');  // 로그 추가
+        await getSchedules();
+      } catch (e) {
+        print('Failed to update schedule: $e');
+      }
+    } else {
+      print('Form is not valid');  // 로그 추가
+    }
   }
 
   /* -- Client Functions -- */
@@ -217,13 +250,14 @@ class ScheduleViewModel extends GetxController {
       // Agenda 영역의 일정을 탭한 경우
       if (details.appointments != null && details.appointments!.isNotEmpty) {
         final Schedule tappedSchedule = details.appointments![0];
-        navigateToEditScreen(tappedSchedule);
+        updateEditingSchedule(tappedSchedule);
+        navigateToEditScreen();
       }
     }
   }
 
-  void navigateToEditScreen(Schedule schedule) {
-    Get.to(() => EditScheduleScreen(), arguments: schedule);
+  void navigateToEditScreen() {
+    Get.toNamed(Routes.STUDY + Routes.SCHEDULE + Routes.EDITSCHEDULE);
   }
 
   void onLongPress(CalendarLongPressDetails details) {

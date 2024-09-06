@@ -47,7 +47,7 @@ class ScheduleForm extends GetView<ScheduleViewModel> {
                       child: const Text('확인',
                           style: FontBox.DIALOGSTYLE),
                       onPressed: () {
-                        // _sectionColor = viewModel.colorIndex;
+                        controller.updateScheduleColor(controller.editingSchedule.sectionColor);
                         Get.back();
                       },
                     ),
@@ -95,8 +95,8 @@ class ScheduleForm extends GetView<ScheduleViewModel> {
                     inputBorder: InputBorder.none,
                   ),
                 ),
-                controller.editingSchedule.isTimeSet
-                    ? Expanded(
+                controller.editingSchedule.isAllDay
+                    ? const SizedBox() : Expanded(
                   flex: 2,
                     child: CustomTextFormField(
                       onTap: () {
@@ -110,7 +110,7 @@ class ScheduleForm extends GetView<ScheduleViewModel> {
                           ? TextStyle(color: ColorBox.darkRed)
                           : const TextStyle(),
                       inputBorder: InputBorder.none,
-                    )) : const SizedBox(),
+                    )),
               ],
             ),
             const CustomGap(8),
@@ -141,8 +141,8 @@ class ScheduleForm extends GetView<ScheduleViewModel> {
                     inputBorder: InputBorder.none,
                   ),
                 ),
-                controller.editingSchedule.isTimeSet
-                    ? Expanded(
+                controller.editingSchedule.isAllDay
+                    ?  const SizedBox() : Expanded(
                   flex: 2,
                       child: CustomTextFormField(
                         onTap: () {
@@ -157,7 +157,7 @@ class ScheduleForm extends GetView<ScheduleViewModel> {
                             : const TextStyle(),
                         inputBorder: InputBorder.none,
                       ),
-                    ) : const SizedBox(),
+                    ),
               ],
             ),
             CustomGap(8),
@@ -168,16 +168,16 @@ class ScheduleForm extends GetView<ScheduleViewModel> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text('Time', style: FontBox.CONTENTSTYLE),
+                  Text('하루 종일', style: FontBox.CONTENTSTYLE.copyWith(letterSpacing: 1)),
                   const SizedBox(width: 3),
                   Transform.scale(
                     scale: 0.8,
                     child: CupertinoSwitch(
-                      value: controller.editingSchedule.isTimeSet,
-                      activeColor: Color(0xff8FB8EE),
+                      value: controller.editingSchedule.isAllDay,
+                      activeColor: const Color(0xff8FB8EE),
                       //Color(0xffC8D8FA)
                       onChanged: (bool value) {
-                        controller.updateScheduleIsTimeSet(value);
+                        controller.updateScheduleIsAllDay(value);
                       },
                     ),
                   ),

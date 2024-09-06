@@ -5,4 +5,6 @@ abstract class ScheduleRepository {
   Future<List<Schedule>> getSchedules();
 
   Future createSchedule(Schedule schedule);
+
+  Future updateSchedule(Schedule schedule);
 }

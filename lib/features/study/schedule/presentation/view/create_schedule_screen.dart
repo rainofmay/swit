@@ -12,7 +12,7 @@ class CreateScheduleScreen extends GetView<ScheduleViewModel> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold(
+    return Obx(() => CustomScaffold(
         appBar: CustomBackAppBar(
           appbarTitle: '',
           contentColor: ColorBox.white,
@@ -21,8 +21,8 @@ class CreateScheduleScreen extends GetView<ScheduleViewModel> {
           backgroundColor: controller.editingSchedule.sectionColor,
           actions: [
             Obx(() => TextButton(
-              onPressed: () {
-                controller.isFormValid ? controller.onSavePressed() : null;
+              onPressed: () async {
+                controller.isFormValid ? await controller.onSavePressed() : null;
                 Get.back();
               },
               child: Text('저장',
@@ -30,6 +30,6 @@ class CreateScheduleScreen extends GetView<ScheduleViewModel> {
             ))
           ],
         ),
-        body: ScheduleForm());
+        body: SafeArea(child: ScheduleForm())));
   }
 }

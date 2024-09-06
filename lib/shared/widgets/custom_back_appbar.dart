@@ -29,6 +29,7 @@ class CustomBackAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+
       titleSpacing: -5,
       scrolledUnderElevation: 0,
       backgroundColor: backgroundColor ?? ColorBox.white,

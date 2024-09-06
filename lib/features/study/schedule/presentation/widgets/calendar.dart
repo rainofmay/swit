@@ -26,6 +26,13 @@ class Calendar extends GetView<ScheduleViewModel> {
         showAgenda: true, // 하단에 이벤트 내용 표시
       ),
 
+      timeSlotViewSettings: TimeSlotViewSettings(
+        timeFormat: 'hh:mm a',
+        timeInterval: Duration(minutes: 30),
+        timeIntervalHeight: 80,
+      ),
+
+
       // agenda 영역에서 오늘 날짜 색
       todayHighlightColor: Colors.pink,
       //   appointmentBuilder: (context, calendarAppointmentDetails) {

@@ -1,23 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:swit/features/study/schedule/presentation/viewmodel/schedule_view_model.dart';
+import 'package:swit/features/study/schedule/presentation/widgets/schedule_form.dart';
+import 'package:swit/shared/constant/color_box.dart';
+import 'package:swit/shared/constant/font_box.dart';
 import 'package:swit/shared/widgets/custom_back_appbar.dart';
+import 'package:swit/shared/widgets/custom_scaffold.dart';
 
-class EditScheduleScreen extends StatelessWidget {
+class EditScheduleScreen extends GetView<ScheduleViewModel> {
   const EditScheduleScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return CustomScaffold(
       appBar: CustomBackAppBar(
         appbarTitle: '',
         isLeading: true,
         isCenterTitle: true,
-        actions: [TextButton(onPressed: () {
-        }, child: Text('저장')),],
+        backgroundColor: controller.editingSchedule.sectionColor,
+        backFunction: () {
+          // 뒤로가면 editingSchedule 초기화
+          controller.initNewSchedule();
+          Get.back();
+        },
+        actions: [
+          Obx(() => TextButton(
+              onPressed: () {
+                controller.isFormValid ? controller.onUpdatePressed() : null;
+                Get.back();
+              }, child: Text('수정', style: FontBox.CONTENTSTYLE.copyWith(color: controller.isFormValid ? ColorBox.black : ColorBox.grey))),),
+          TextButton(onPressed: () {},
+              child: Text('삭제',
+                style: FontBox.CONTENTSTYLE.copyWith(color: ColorBox.darkRed),))
+        ],
       ),
-      body: SingleChildScrollView(
-          child: Column(
-        children: [],
-      )),
-    );
+      body: SafeArea(child: ScheduleForm()));
   }
 }

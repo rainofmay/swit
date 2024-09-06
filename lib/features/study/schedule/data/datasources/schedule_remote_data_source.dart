@@ -32,13 +32,29 @@ class ScheduleRemoteDataSource {
       await supabase.from('schedule').insert({
         'schedule_name': dto.scheduleName,
         'description': dto.description,
-        'is_time_set': dto.isTimeSet,
+        'is_all_day': dto.isAllDay,
         'section_color': dto.sectionColor,
         'from': converter.toJson(dto.from),
         'to': converter.toJson(dto.to),
       });
     } catch (error) {
-      print('Schedule Add 에러 $error');
+      print('Error DataSource Schedule Create 에러 $error');
+    }
+  }
+
+  Future updateSchedule(ScheduleDTO dto) async {
+    try {
+      const converter = DatetimeConverter();
+      await supabase.from('schedule').update({
+        'schedule_name': dto.scheduleName,
+        'description': dto.description,
+        'is_all_day': dto.isAllDay,
+        'section_color': dto.sectionColor,
+        'from': converter.toJson(dto.from),
+        'to': converter.toJson(dto.to),
+      }).eq('id', dto.id);
+    } catch (error) {
+      print('Error DataSource Schedule Update 에러 $error');
     }
   }
 }

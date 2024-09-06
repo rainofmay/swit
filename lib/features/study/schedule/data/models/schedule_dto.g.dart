@@ -8,9 +8,10 @@ part of 'schedule_dto.dart';
 
 _$ScheduleDTOImpl _$$ScheduleDTOImplFromJson(Map<String, dynamic> json) =>
     _$ScheduleDTOImpl(
+      id: json['id'] as String,
       scheduleName: json['schedule_name'] as String,
-      description: json['description'] as String?,
-      isTimeSet: json['is_time_set'] as bool,
+      description: json['description'] as String,
+      isAllDay: json['is_all_day'] as bool,
       sectionColor: (json['section_color'] as num).toInt(),
       from: const DatetimeConverter().fromJson(json['from'] as String),
       to: const DatetimeConverter().fromJson(json['to'] as String),
@@ -18,9 +19,10 @@ _$ScheduleDTOImpl _$$ScheduleDTOImplFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$ScheduleDTOImplToJson(_$ScheduleDTOImpl instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'schedule_name': instance.scheduleName,
       'description': instance.description,
-      'is_time_set': instance.isTimeSet,
+      'is_all_day': instance.isAllDay,
       'section_color': instance.sectionColor,
       'from': const DatetimeConverter().toJson(instance.from),
       'to': const DatetimeConverter().toJson(instance.to),

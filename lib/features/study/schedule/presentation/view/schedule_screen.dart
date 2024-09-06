@@ -18,8 +18,11 @@ class ScheduleScreen extends StatelessWidget {
         isCenterTitle: true,
         actions: [
           IconButton(
-              onPressed: () => Get.toNamed(
-                    Routes.STUDY + Routes.SCHEDULE + Routes.CREATESCHEDULE),
+              onPressed: () {
+
+                Get.toNamed(
+                    Routes.STUDY + Routes.SCHEDULE + Routes.CREATESCHEDULE);
+              },
               icon: const Icon(Icons.add))
         ],
       ),

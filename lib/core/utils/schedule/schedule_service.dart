@@ -31,7 +31,7 @@ class ScheduleService extends CalendarDataSource {
 
   @override
   bool isAllDay(int index) {
-    return getScheduleData(index).isTimeSet;
+    return getScheduleData(index).isAllDay;
   }
 
   Schedule getScheduleData(int index) {

@@ -42,4 +42,15 @@ class ScheduleRepositoryImpl implements ScheduleRepository {
       throw Exception('Failed to create Schedule repository: $e');
     }
   }
+
+  @override
+  Future updateSchedule(Schedule schedule) async {
+    try {
+      final dto = ScheduleMapper.toDTO(schedule);
+      await remoteDataSource.updateSchedule(dto);
+
+    } catch (e) {
+      throw Exception('Failed to update Schedule repository: $e');
+    }
+  }
 }

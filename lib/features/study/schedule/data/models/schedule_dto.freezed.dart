@@ -21,11 +21,12 @@ ScheduleDTO _$ScheduleDTOFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$ScheduleDTO {
 // required String uid,
+  String get id => throw _privateConstructorUsedError;
   @JsonKey(name: 'schedule_name')
   String get scheduleName => throw _privateConstructorUsedError;
-  String? get description => throw _privateConstructorUsedError;
-  @JsonKey(name: 'is_time_set')
-  bool get isTimeSet => throw _privateConstructorUsedError;
+  String get description => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_all_day')
+  bool get isAllDay => throw _privateConstructorUsedError;
   @JsonKey(name: 'section_color')
   int get sectionColor => throw _privateConstructorUsedError;
   @JsonKey(name: 'from')
@@ -52,9 +53,10 @@ abstract class $ScheduleDTOCopyWith<$Res> {
       _$ScheduleDTOCopyWithImpl<$Res, ScheduleDTO>;
   @useResult
   $Res call(
-      {@JsonKey(name: 'schedule_name') String scheduleName,
-      String? description,
-      @JsonKey(name: 'is_time_set') bool isTimeSet,
+      {String id,
+      @JsonKey(name: 'schedule_name') String scheduleName,
+      String description,
+      @JsonKey(name: 'is_all_day') bool isAllDay,
       @JsonKey(name: 'section_color') int sectionColor,
       @JsonKey(name: 'from') @DatetimeConverter() DateTime from,
       @JsonKey(name: 'to') @DatetimeConverter() DateTime to});
@@ -75,25 +77,30 @@ class _$ScheduleDTOCopyWithImpl<$Res, $Val extends ScheduleDTO>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? scheduleName = null,
-    Object? description = freezed,
-    Object? isTimeSet = null,
+    Object? description = null,
+    Object? isAllDay = null,
     Object? sectionColor = null,
     Object? from = null,
     Object? to = null,
   }) {
     return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       scheduleName: null == scheduleName
           ? _value.scheduleName
           : scheduleName // ignore: cast_nullable_to_non_nullable
               as String,
-      description: freezed == description
+      description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String?,
-      isTimeSet: null == isTimeSet
-          ? _value.isTimeSet
-          : isTimeSet // ignore: cast_nullable_to_non_nullable
+              as String,
+      isAllDay: null == isAllDay
+          ? _value.isAllDay
+          : isAllDay // ignore: cast_nullable_to_non_nullable
               as bool,
       sectionColor: null == sectionColor
           ? _value.sectionColor
@@ -120,9 +127,10 @@ abstract class _$$ScheduleDTOImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: 'schedule_name') String scheduleName,
-      String? description,
-      @JsonKey(name: 'is_time_set') bool isTimeSet,
+      {String id,
+      @JsonKey(name: 'schedule_name') String scheduleName,
+      String description,
+      @JsonKey(name: 'is_all_day') bool isAllDay,
       @JsonKey(name: 'section_color') int sectionColor,
       @JsonKey(name: 'from') @DatetimeConverter() DateTime from,
       @JsonKey(name: 'to') @DatetimeConverter() DateTime to});
@@ -141,25 +149,30 @@ class __$$ScheduleDTOImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? scheduleName = null,
-    Object? description = freezed,
-    Object? isTimeSet = null,
+    Object? description = null,
+    Object? isAllDay = null,
     Object? sectionColor = null,
     Object? from = null,
     Object? to = null,
   }) {
     return _then(_$ScheduleDTOImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       scheduleName: null == scheduleName
           ? _value.scheduleName
           : scheduleName // ignore: cast_nullable_to_non_nullable
               as String,
-      description: freezed == description
+      description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String?,
-      isTimeSet: null == isTimeSet
-          ? _value.isTimeSet
-          : isTimeSet // ignore: cast_nullable_to_non_nullable
+              as String,
+      isAllDay: null == isAllDay
+          ? _value.isAllDay
+          : isAllDay // ignore: cast_nullable_to_non_nullable
               as bool,
       sectionColor: null == sectionColor
           ? _value.sectionColor
@@ -181,9 +194,10 @@ class __$$ScheduleDTOImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ScheduleDTOImpl implements _ScheduleDTO {
   const _$ScheduleDTOImpl(
-      {@JsonKey(name: 'schedule_name') required this.scheduleName,
-      this.description,
-      @JsonKey(name: 'is_time_set') required this.isTimeSet,
+      {required this.id,
+      @JsonKey(name: 'schedule_name') required this.scheduleName,
+      required this.description,
+      @JsonKey(name: 'is_all_day') required this.isAllDay,
       @JsonKey(name: 'section_color') required this.sectionColor,
       @JsonKey(name: 'from') @DatetimeConverter() required this.from,
       @JsonKey(name: 'to') @DatetimeConverter() required this.to});
@@ -193,13 +207,15 @@ class _$ScheduleDTOImpl implements _ScheduleDTO {
 
 // required String uid,
   @override
+  final String id;
+  @override
   @JsonKey(name: 'schedule_name')
   final String scheduleName;
   @override
-  final String? description;
+  final String description;
   @override
-  @JsonKey(name: 'is_time_set')
-  final bool isTimeSet;
+  @JsonKey(name: 'is_all_day')
+  final bool isAllDay;
   @override
   @JsonKey(name: 'section_color')
   final int sectionColor;
@@ -214,7 +230,7 @@ class _$ScheduleDTOImpl implements _ScheduleDTO {
 
   @override
   String toString() {
-    return 'ScheduleDTO(scheduleName: $scheduleName, description: $description, isTimeSet: $isTimeSet, sectionColor: $sectionColor, from: $from, to: $to)';
+    return 'ScheduleDTO(id: $id, scheduleName: $scheduleName, description: $description, isAllDay: $isAllDay, sectionColor: $sectionColor, from: $from, to: $to)';
   }
 
   @override
@@ -222,12 +238,13 @@ class _$ScheduleDTOImpl implements _ScheduleDTO {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ScheduleDTOImpl &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.scheduleName, scheduleName) ||
                 other.scheduleName == scheduleName) &&
             (identical(other.description, description) ||
                 other.description == description) &&
-            (identical(other.isTimeSet, isTimeSet) ||
-                other.isTimeSet == isTimeSet) &&
+            (identical(other.isAllDay, isAllDay) ||
+                other.isAllDay == isAllDay) &&
             (identical(other.sectionColor, sectionColor) ||
                 other.sectionColor == sectionColor) &&
             (identical(other.from, from) || other.from == from) &&
@@ -236,8 +253,8 @@ class _$ScheduleDTOImpl implements _ScheduleDTO {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, scheduleName, description,
-      isTimeSet, sectionColor, from, to);
+  int get hashCode => Object.hash(runtimeType, id, scheduleName, description,
+      isAllDay, sectionColor, from, to);
 
   /// Create a copy of ScheduleDTO
   /// with the given fields replaced by the non-null parameter values.
@@ -257,9 +274,10 @@ class _$ScheduleDTOImpl implements _ScheduleDTO {
 
 abstract class _ScheduleDTO implements ScheduleDTO {
   const factory _ScheduleDTO(
-      {@JsonKey(name: 'schedule_name') required final String scheduleName,
-      final String? description,
-      @JsonKey(name: 'is_time_set') required final bool isTimeSet,
+      {required final String id,
+      @JsonKey(name: 'schedule_name') required final String scheduleName,
+      required final String description,
+      @JsonKey(name: 'is_all_day') required final bool isAllDay,
       @JsonKey(name: 'section_color') required final int sectionColor,
       @JsonKey(name: 'from') @DatetimeConverter() required final DateTime from,
       @JsonKey(name: 'to')
@@ -271,13 +289,15 @@ abstract class _ScheduleDTO implements ScheduleDTO {
 
 // required String uid,
   @override
+  String get id;
+  @override
   @JsonKey(name: 'schedule_name')
   String get scheduleName;
   @override
-  String? get description;
+  String get description;
   @override
-  @JsonKey(name: 'is_time_set')
-  bool get isTimeSet;
+  @JsonKey(name: 'is_all_day')
+  bool get isAllDay;
   @override
   @JsonKey(name: 'section_color')
   int get sectionColor;

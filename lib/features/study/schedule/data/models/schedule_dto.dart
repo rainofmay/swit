@@ -8,9 +8,10 @@ part 'schedule_dto.g.dart';
 class ScheduleDTO with _$ScheduleDTO {
   const factory ScheduleDTO({
     // required String uid,
+    required String id,
     @JsonKey(name: 'schedule_name') required String scheduleName,
-    String? description,
-    @JsonKey(name: 'is_time_set') required bool isTimeSet,
+    required String description,
+    @JsonKey(name: 'is_all_day') required bool isAllDay,
     @JsonKey(name: 'section_color') required int sectionColor,
 
     @JsonKey(name: 'from')
