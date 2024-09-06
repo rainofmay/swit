@@ -36,9 +36,8 @@ class ScheduleRepositoryImpl implements ScheduleRepository {
   Future createSchedule(Schedule schedule) async {
     try {
       final dto = ScheduleMapper.toDTO(schedule);
-      final createdDto = await remoteDataSource.createSchedule(dto);
+      await remoteDataSource.createSchedule(dto);
 
-      return ScheduleMapper.toEntity(createdDto);
     } catch (e) {
       throw Exception('Failed to create Schedule repository: $e');
     }

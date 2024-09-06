@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:swit/core/utils/schedule_service.dart';
+import 'package:swit/core/utils/schedule/schedule_service.dart';
 import 'package:swit/features/study/schedule/domain/entities/schedule.dart';
 import 'package:swit/features/study/schedule/domain/usecases/create_schedule_use_case.dart';
 import 'package:swit/features/study/schedule/domain/usecases/get_schedule_use_case.dart';
+import 'package:swit/features/study/schedule/presentation/view/edit_schedule_screen.dart';
 import 'package:swit/shared/constant/schedule_color.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
@@ -21,19 +22,22 @@ class ScheduleViewModel extends GetxController {
   late final Rx<CalendarController> _controller = CalendarController().obs;
   CalendarController get controller => _controller.value;
 
-  final RxList<Schedule> _schedules = <Schedule>[].obs;
-  List<Schedule> get schedules => _schedules;
+  late List<Schedule> schedules = <Schedule>[];
+  // List<Schedule> get schedules => _schedules;
 
   ScheduleService get scheduleService => ScheduleService(schedules);
 
-  final RxList<DateTime> _selectedDates = <DateTime>[].obs;
-  List<DateTime> get selectedDates => _selectedDates;
-  late final Rx<DateTime?> _selectedDate = Rx<DateTime?>(null);
+
+  late final Rx<DateTime?> _selectedDate = Rx<DateTime?>(DateTime.now());
   DateTime? get selectedDate => _selectedDate.value;
   final RxList<DateTime> _selectedDateRange = <DateTime>[].obs;
   List<DateTime> get selectedDateRange => _selectedDateRange;
 
   /* -- Schedule -- */
+
+  late final RxBool _isSchedulesLoaded = false.obs;
+  bool get isSchedulesLoaded => _isSchedulesLoaded.value;
+
   late final Rx<Schedule> _editingSchedule = createInitSchedule().obs;
   Schedule get editingSchedule => _editingSchedule.value;
   late final Schedule storedSchedule;
@@ -48,7 +52,7 @@ class ScheduleViewModel extends GetxController {
 
   @override
   void onInit() {
-    // 테스트 코드
+    super.onInit();
     getSchedules();
     // schedules.addAll([
     //   Schedule(
@@ -65,8 +69,8 @@ class ScheduleViewModel extends GetxController {
     //       sectionColor: Colors.blue,
     //       isTimeSet: false),
     // ]);
+    print('schedules $schedules');
 
-    super.onInit();
   }
 
   @override
@@ -98,29 +102,38 @@ class ScheduleViewModel extends GetxController {
     }
 
     return Schedule(
-      // id: Uuid().v4(),
       // uid: Uuid().v4(),
       scheduleName: '',
       from: initialStartDate,
       to: initialEndDate,
-      isTimeSet: false,
+      isTimeSet: true,
       description: '',
       sectionColor: ScheduleColor.colorList[0],
     );
   }
 
   /* -- Create -- */
-  void onSavePressed() async {
+  Future<void> onSavePressed() async {
     if (isFormValid) {
       storedSchedule = _editingSchedule.value;
       await _createScheduleUseCase.createSchedule(storedSchedule);
-      // 저장 로직 구현
     }
+    await getSchedules();
   }
 
   /* -- Get -- */
-  void getSchedules() async {
-    _schedules.value = await _getScheduleUseCase.getSchedules();
+  Future<void> getSchedules() async {
+    try {
+      _isSchedulesLoaded.value = false;
+      final data = await _getScheduleUseCase.getSchedules();
+      schedules.addAll(data);
+      _isSchedulesLoaded.value = true;
+      update();
+      print('Schedules after mapping: ${schedules}');
+    } catch(e) {
+      _isSchedulesLoaded.value = false;
+    }
+
   }
 
 
@@ -165,7 +178,12 @@ class ScheduleViewModel extends GetxController {
   void onTap(CalendarTapDetails details) {
     if (details.targetElement == CalendarElement.calendarCell) {
       final tappedDate =
-          DateTime(details.date!.year, details.date!.month, details.date!.day);
+      DateTime(details.date!.year, details.date!.month, details.date!.day);
+
+      final editedFrom = tappedDate.copyWith(hour: DateTime.now().hour);
+      final editedTo = DateTime.now().hour >= 22
+          ? tappedDate.copyWith(hour: 23)
+          : editedFrom.add(const Duration(hours: 2));
 
       if (_selectedDateRange.length > 1) {
         // 범위 선택 상태에서 탭한 경우
@@ -186,11 +204,26 @@ class ScheduleViewModel extends GetxController {
         _selectedDateRange.clear();
       } else {
         // 새로운 날짜 선택
+        _editingSchedule.value.from = editedFrom;
+        _editingSchedule.value.to = editedTo;
         _selectedDate.value = tappedDate;
         _selectedDateRange.clear();
         _selectedDateRange.add(tappedDate);
       }
+
+      // 일정을 터치해 수정 모드로 진입
+    } else if (details.targetElement == CalendarElement.appointment ||
+        details.targetElement == CalendarElement.agenda) {
+      // Agenda 영역의 일정을 탭한 경우
+      if (details.appointments != null && details.appointments!.isNotEmpty) {
+        final Schedule tappedSchedule = details.appointments![0];
+        navigateToEditScreen(tappedSchedule);
+      }
     }
+  }
+
+  void navigateToEditScreen(Schedule schedule) {
+    Get.to(() => EditScheduleScreen(), arguments: schedule);
   }
 
   void onLongPress(CalendarLongPressDetails details) {

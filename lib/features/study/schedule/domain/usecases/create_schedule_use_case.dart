@@ -5,7 +5,7 @@ class CreateScheduleUseCase {
   final ScheduleRepository repository;
   CreateScheduleUseCase(this.repository);
 
-  Future<List<Schedule>> createSchedule(Schedule schedule) async {
-    return await repository.createSchedule(schedule);
+  Future createSchedule(Schedule schedule) async {
+    await repository.createSchedule(schedule);
   }
 }

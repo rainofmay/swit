@@ -56,7 +56,10 @@ class ScheduleForm extends GetView<ScheduleViewModel> {
               maxLines: 1,
               maxLength: 60,
               textStyle: FontBox.TITLESTYLE,
-              onChanged: (value) => controller.checkFormValidity(),
+              onChanged: (value) {
+                controller.checkFormValidity();
+                controller.updateScheduleName(value);
+              },
               fieldWidth:  MediaQuery.of(context).size.width * 0.7,
               keyboardType: TextInputType.multiline,
               textInputAction: TextInputAction.done,
@@ -205,13 +208,10 @@ class ScheduleForm extends GetView<ScheduleViewModel> {
                   inputBorder: InputBorder.none,
                   maxLines: 10,
                   maxLength: 900,
-                  validator: (value) {
-                    if (value != null && value.length > 900) {
-                      return '메모는 900자를 초과할 수 없습니다.';
-                    }
-                    return null;
+                  onChanged: (value) {
+                    controller.checkFormValidity();
+                    controller.updateScheduleDescription(value);
                   },
-                  onChanged: (value) => controller.checkFormValidity(),
                   fieldWidth: MediaQuery.of(context).size.width * 0.7,
                 ),
               ],

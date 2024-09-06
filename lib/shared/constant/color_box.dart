@@ -19,17 +19,13 @@ abstract class ColorBox {
   /// Red for Error
   static Color darkRed = const Color(0xff790F07);
 
-  /// Health Primary Color
-  static Color lightPink = const Color(0xFFFBE1EA);
 
-  /// Cash Primary Color
-  static Color lightYellow = const Color(0xFFFEF0D6);
+  /// pink
+  static Color customPink = Colors.pink;
 
-  /// Mental Primary Color
-  static Color lightBlue = const Color(0xFFE1EAFC);
 
-  /// Speech Bubble Color
-  static Color lightBeige = const Color(0xFFF3F1EE);
+
+
 
   static const int _bluePrimaryValue = 0xFF5356FF;
 

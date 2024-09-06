@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:swit/core/utils/schedule_service.dart';
+import 'package:swit/core/utils/schedule/schedule_service.dart';
 import 'package:swit/features/study/schedule/domain/entities/schedule.dart';
 import 'package:swit/features/study/schedule/presentation/viewmodel/schedule_view_model.dart';
 import 'package:swit/shared/constant/color_box.dart';
@@ -12,18 +12,22 @@ class Calendar extends GetView<ScheduleViewModel> {
 
   @override
   Widget build(BuildContext context) {
-    return SfCalendar(
-        view: CalendarView.month,
-        dataSource: controller.scheduleService,
-        monthViewSettings: const MonthViewSettings(
-          // 이전/다음 달의 날짜를 표시
-          showTrailingAndLeadingDates: true,
+    return Obx(() => controller.isSchedulesLoaded ? SfCalendar(
+      view: CalendarView.month,
+      dataSource: controller.scheduleService,
+      initialSelectedDate: controller.selectedDate,
 
-          appointmentDisplayMode: MonthAppointmentDisplayMode.indicator, // appointment 텍스트로 표시
-          showAgenda: true, // 하단에 이벤트 내용 표시
+      monthViewSettings: const MonthViewSettings(
+        // 이전/다음 달의 날짜를 표시
+        showTrailingAndLeadingDates: true,
 
-          agendaStyle: AgendaStyle(),
-        ),
+        appointmentDisplayMode: MonthAppointmentDisplayMode.indicator,
+        // appointment 텍스트로 표시
+        showAgenda: true, // 하단에 이벤트 내용 표시
+      ),
+
+      // agenda 영역에서 오늘 날짜 색
+      todayHighlightColor: Colors.pink,
       //   appointmentBuilder: (context, calendarAppointmentDetails) {
       //   return SvgPicture.asset(
       //     'assets/your_custom_indicator.svg',
@@ -55,30 +59,41 @@ class Calendar extends GetView<ScheduleViewModel> {
       //     ),
       //   );
       // },
-        // 년, 월 헤더 스타일
-        headerStyle: CalendarHeaderStyle(backgroundColor: ColorBox.white, textStyle: FontBox.CONTENTSTYLE.copyWith(color: ColorBox.primaryColor)),
-        // 요일 헤더 스타일
-        viewHeaderStyle: ViewHeaderStyle(backgroundColor: ColorBox.secondColor,),
+
+
+      // 년, 월 헤더 스타일
+      headerStyle: CalendarHeaderStyle(
+          backgroundColor: ColorBox.white,
+          textStyle:
+          FontBox.CONTENTSTYLE.copyWith(color: ColorBox.primaryColor)),
+      // 요일 헤더 스타일
+      viewHeaderStyle: ViewHeaderStyle(
+        backgroundColor: ColorBox.secondColor,
+      ),
 
       selectionDecoration: BoxDecoration(
         border: Border.all(color: ColorBox.transparent),
       ),
 
-        showDatePickerButton : true,
+      showDatePickerButton: true,
 
       onTap: controller.onTap,
       onLongPress: controller.onLongPress,
       monthCellBuilder: (context, details) {
-        final currentDate = DateTime(details.date.year, details.date.month, details.date.day);
+        final currentDate =
+        DateTime(details.date.year, details.date.month, details.date.day);
         final isSelected = controller.selectedDateRange.contains(currentDate);
         // 무조건 현재인 달과 비교하여 현재 달의 날짜인지 확인, 다른 달이면 회색 처리
-        final isCurrentMonth = details.date.month == details.visibleDates[15].month;
+        final isCurrentMonth =
+            details.date.month == details.visibleDates[15].month;
         // 선택된 범위의 시작과 끝 날짜 확인
         final startDate = controller.selectedDateRange.isNotEmpty
-            ? controller.selectedDateRange.reduce((a, b) => a.isBefore(b) ? a : b)
+            ? controller.selectedDateRange
+            .reduce((a, b) => a.isBefore(b) ? a : b)
             : null;
         final endDate = controller.selectedDateRange.isNotEmpty
-            ? controller.selectedDateRange.reduce((a, b) => a.isAfter(b) ? a : b)
+            ? controller.selectedDateRange
+            .reduce((a, b) => a.isAfter(b) ? a : b)
             : null;
 
         // 날짜 범위에 따른 UI 스타일 결정
@@ -87,13 +102,13 @@ class Calendar extends GetView<ScheduleViewModel> {
           if (startDate == endDate) {
             // 단일 날짜 선택
             decoration = BoxDecoration(
-              color: ColorBox.primaryColor,
+              color: ColorBox.secondColor,
               shape: BoxShape.circle,
             );
           } else if (currentDate == startDate) {
             // 범위의 시작
             decoration = BoxDecoration(
-              color: ColorBox.primaryColor,
+              color: ColorBox.secondColor,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(8),
                 bottomLeft: Radius.circular(8),
@@ -102,7 +117,7 @@ class Calendar extends GetView<ScheduleViewModel> {
           } else if (currentDate == endDate) {
             // 범위의 끝
             decoration = BoxDecoration(
-              color: ColorBox.primaryColor,
+              color: ColorBox.secondColor,
               borderRadius: BorderRadius.only(
                 topRight: Radius.circular(8),
                 bottomRight: Radius.circular(8),
@@ -111,7 +126,7 @@ class Calendar extends GetView<ScheduleViewModel> {
           } else {
             // 범위 중간
             decoration = BoxDecoration(
-              color: ColorBox.primaryColor,
+              color: ColorBox.secondColor,
             );
           }
         }
@@ -122,20 +137,18 @@ class Calendar extends GetView<ScheduleViewModel> {
             child: Text(
               details.date.day.toString(),
               style: TextStyle(
-                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                fontWeight: FontWeight.normal,
                 color: isSelected
-                    ? ColorBox.white
+                    ? ColorBox.black
                     : (isCurrentMonth ? ColorBox.black : Colors.grey),
               ),
             ),
           ),
         );
       },
-    );
+    ) : Container());
   }
-
 }
-
 
 /// An object to set the appointment collection data source to calendar, which
 /// used to map the custom appointment data to the calendar appointment, and

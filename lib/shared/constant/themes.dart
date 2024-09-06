@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:swit/shared/constant/color_box.dart';
 
 ThemeData theme = ThemeData(
+   // date picker 구글 색 제거하기 위해 false로 설정했음.
+    useMaterial3: false,
     dividerColor: ColorBox.transparent,
     fontFamily: 'cafe24OhsquareAir',
     splashColor: ColorBox.transparent,
@@ -19,6 +21,13 @@ ThemeData theme = ThemeData(
           letterSpacing: 1.5,
         )),
     scaffoldBackgroundColor: ColorBox.white,
+  appBarTheme: AppBarTheme(
+    titleTextStyle: TextStyle(color: Colors.black),
+    actionsIconTheme: IconThemeData(color: Colors.black),
+    iconTheme: IconThemeData(color: Colors.black),
+    elevation: 0.0,
+    shadowColor: Colors.black.withOpacity(0.5),
+  ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: ColorBox.black,
       type: BottomNavigationBarType.fixed,

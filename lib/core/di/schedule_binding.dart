@@ -23,6 +23,6 @@ class ScheduleBinding extends Bindings {
     Get.put(CreateScheduleUseCase(Get.find<ScheduleRepository>()));
 
     /* -- ViewModel -- */
-    Get.put(ScheduleViewModel(getScheduleUseCase: Get.find<GetScheduleUseCase>(),createScheduleUseCase: Get.find<CreateScheduleUseCase>()));
+    Get.put(ScheduleViewModel(getScheduleUseCase: Get.find<GetScheduleUseCase>(),createScheduleUseCase: Get.find<CreateScheduleUseCase>()), permanent: true);
   }
 }
