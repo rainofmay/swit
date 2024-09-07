@@ -12,28 +12,39 @@ class EditScheduleScreen extends GetView<ScheduleViewModel> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold(
-      appBar: CustomBackAppBar(
-        appbarTitle: '',
-        isLeading: true,
-        isCenterTitle: true,
-        backgroundColor: controller.editingSchedule.sectionColor,
-        backFunction: () {
-          // 뒤로가면 editingSchedule 초기화
-          controller.initNewSchedule();
-          Get.back();
-        },
-        actions: [
-          Obx(() => TextButton(
-              onPressed: () {
-                controller.isFormValid ? controller.onUpdatePressed() : null;
-                Get.back();
-              }, child: Text('수정', style: FontBox.CONTENTSTYLE.copyWith(color: controller.isFormValid ? ColorBox.black : ColorBox.grey))),),
-          TextButton(onPressed: () {},
-              child: Text('삭제',
-                style: FontBox.CONTENTSTYLE.copyWith(color: ColorBox.darkRed),))
-        ],
-      ),
-      body: SafeArea(child: ScheduleForm()));
+    return Obx(()=> CustomScaffold(
+        appBar: CustomBackAppBar(
+            appbarTitle: '',
+            isLeading: true,
+            isCenterTitle: true,
+            backgroundColor: controller.editingSchedule.sectionColor,
+            backFunction: () {
+              // 뒤로가면 editingSchedule 초기화
+              controller.initNewSchedule();
+              Get.back();
+            },
+            actions: [
+              Obx(() => TextButton(
+                  onPressed: () async {
+                    controller.isFormValid
+                        ? await controller.onUpdatePressed()
+                        : null;
+                    Get.back();
+                  },
+                  child: Text('수정',
+                      style: FontBox.CONTENTSTYLE.copyWith(
+                          color: controller.isFormValid
+                              ? ColorBox.black
+                              : ColorBox.grey)))),
+              TextButton(
+                  onPressed: () async {
+                    await controller.deleteSchedule();
+                    Get.back();
+                  },
+                  child: Text('삭제',
+                      style: FontBox.CONTENTSTYLE
+                          .copyWith(color: ColorBox.darkRed)))
+            ]),
+        body: SafeArea(child: ScheduleForm())));
   }
 }

@@ -53,4 +53,14 @@ class ScheduleRepositoryImpl implements ScheduleRepository {
       throw Exception('Failed to update Schedule repository: $e');
     }
   }
+
+  @override
+  Future deleteSchedule(Schedule schedule) async {
+    try {
+      final dto = ScheduleMapper.toDTO(schedule);
+      await remoteDataSource.deleteSchedule(dto);
+    } catch (e) {
+      throw Exception('Failed to delete Schedule repository: $e');
+    }
+  }
 }

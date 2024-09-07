@@ -5,7 +5,8 @@ class CustomScaffold extends StatelessWidget {
   final PreferredSizeWidget? appBar;
   final Widget? body;
   final Widget? bottomNavigationBar;
-  const CustomScaffold({super.key, this.appBar, this.body, this.bottomNavigationBar});
+  final Widget? floatingActionButton;
+  const CustomScaffold({super.key, this.appBar, this.body, this.bottomNavigationBar, this.floatingActionButton});
 
   @override
   Widget build(BuildContext context) {
@@ -13,6 +14,7 @@ class CustomScaffold extends StatelessWidget {
       backgroundColor: ColorBox.white,
       appBar: appBar,
       body: body,
+      floatingActionButton: floatingActionButton,
       bottomNavigationBar: bottomNavigationBar,
     );
   }

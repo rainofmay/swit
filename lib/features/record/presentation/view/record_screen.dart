@@ -6,6 +6,7 @@ import 'package:swit/features/record/presentation/widgets/timer.dart';
 import 'package:swit/shared/constant/color_box.dart';
 import 'package:swit/shared/constant/icon_size.dart';
 import 'package:swit/shared/widgets/custom_appbar.dart';
+import 'package:swit/shared/widgets/custom_scaffold.dart';
 
 class RecordScreen extends StatelessWidget {
   const RecordScreen({super.key});
@@ -15,7 +16,7 @@ class RecordScreen extends StatelessWidget {
     return DefaultTabController(
       length: 3,
       child: SafeArea(
-        child: Scaffold(
+        child: CustomScaffold(
           appBar: CustomAppBar(appbarTitle: '기 록'),
           body: Column(
             children: [

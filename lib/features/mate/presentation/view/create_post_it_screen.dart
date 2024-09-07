@@ -1,0 +1,16 @@
+import 'package:flutter/material.dart';
+import 'package:swit/shared/widgets/custom_back_appbar.dart';
+import 'package:swit/shared/widgets/custom_scaffold.dart';
+
+class CreatePostItScreen extends StatelessWidget {
+  const CreatePostItScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: CustomScaffold(
+        appBar: CustomBackAppBar(appbarTitle: '오늘 우리', isLeading: true, isCenterTitle: true),
+          body: Text('포스트잇 생성 페이지')),
+    );
+  }
+}

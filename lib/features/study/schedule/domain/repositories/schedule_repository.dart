@@ -7,4 +7,6 @@ abstract class ScheduleRepository {
   Future createSchedule(Schedule schedule);
 
   Future updateSchedule(Schedule schedule);
+
+  Future deleteSchedule(Schedule schedule);
 }

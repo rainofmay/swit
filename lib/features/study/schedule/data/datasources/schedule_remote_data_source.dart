@@ -57,5 +57,13 @@ class ScheduleRemoteDataSource {
       print('Error DataSource Schedule Update 에러 $error');
     }
   }
+
+  Future deleteSchedule(ScheduleDTO dto) async {
+    try{
+      await supabase.from('schedule').delete().eq('id', dto.id);
+    } catch (error) {
+      print('Error DataSource Schedule Delete 에러 $error');
+    }
+  }
 }
 

@@ -4,6 +4,7 @@ import 'package:swit/core/router/app_pages.dart';
 import 'package:swit/core/utils/schedule/schedule_service.dart';
 import 'package:swit/features/study/schedule/domain/entities/schedule.dart';
 import 'package:swit/features/study/schedule/domain/usecases/create_schedule_use_case.dart';
+import 'package:swit/features/study/schedule/domain/usecases/delete_schedule_use_case.dart';
 import 'package:swit/features/study/schedule/domain/usecases/get_schedule_use_case.dart';
 import 'package:swit/features/study/schedule/domain/usecases/update_schedule_use_case.dart';
 import 'package:swit/shared/constant/schedule_color.dart';
@@ -14,13 +15,16 @@ class ScheduleViewModel extends GetxController {
   final GetScheduleUseCase _getScheduleUseCase;
   final CreateScheduleUseCase _createScheduleUseCase;
   final UpdateScheduleUseCase _updateScheduleUseCase;
+  final DeleteScheduleUseCase _deleteScheduleUseCase;
   ScheduleViewModel({
     required GetScheduleUseCase getScheduleUseCase,
     required CreateScheduleUseCase createScheduleUseCase,
     required UpdateScheduleUseCase updateScheduleUseCase,
+    required DeleteScheduleUseCase deleteScheduleUseCase,
   })  : _getScheduleUseCase = getScheduleUseCase,
         _createScheduleUseCase = createScheduleUseCase,
-        _updateScheduleUseCase = updateScheduleUseCase;
+        _updateScheduleUseCase = updateScheduleUseCase,
+        _deleteScheduleUseCase = deleteScheduleUseCase;
 
   /* -- Calendar -- */
   late final Rx<CalendarController> _controller = CalendarController().obs;
@@ -143,7 +147,6 @@ class ScheduleViewModel extends GetxController {
     } catch(e) {
       _isSchedulesLoaded.value = false;
     }
-
   }
 
 
@@ -192,12 +195,10 @@ class ScheduleViewModel extends GetxController {
   }
 
   Future<void> onUpdatePressed() async {
-    print('onUpdatePressed called');  // 로그 추가
     if (isFormValid) {
       try {
-        print('Updating schedule: ${_editingSchedule.value}');  // 로그 추가
-        await _updateScheduleUseCase.updateSchedule(_editingSchedule.value);
-        print('Schedule updated successfully');  // 로그 추가
+        storedSchedule = _editingSchedule.value;
+        await _updateScheduleUseCase.updateSchedule(storedSchedule);
         await getSchedules();
       } catch (e) {
         print('Failed to update schedule: $e');
@@ -206,6 +207,18 @@ class ScheduleViewModel extends GetxController {
       print('Form is not valid');  // 로그 추가
     }
   }
+
+  /* -- Delete -- */
+  Future<void> deleteSchedule() async {
+    try {
+      storedSchedule = _editingSchedule.value;
+      _deleteScheduleUseCase.deleteSchedule(storedSchedule);
+      await getSchedules();
+    } catch (e) {
+      print('Failed to delete schedule: $e');
+    }
+  }
+
 
   /* -- Client Functions -- */
   void onTap(CalendarTapDetails details) {
