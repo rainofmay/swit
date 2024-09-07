@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:swit/features/home/presentations/viewmodel/home_viewmodel.dart';
 import 'package:swit/core/enums/home_tab_type.dart';
 import 'package:swit/features/mate/presentation/view/mate_screen.dart';
+import 'package:swit/features/mate/presentation/viewmodel/mate_view_model.dart';
 import 'package:swit/features/more/presentation/view/more.screen.dart';
 import 'package:swit/features/record/presentation/view/record_screen.dart';
 import 'package:swit/features/study/study_screen.dart';
@@ -35,7 +36,10 @@ Widget _buildTabScreen(HomeTab tab) {
     case HomeTab.record:
       return const RecordScreen();
     case HomeTab.mate:
-      return const MateScreen();
+      return GetBuilder<MateViewModel>(
+        init: MateViewModel(), // MateViewModel 초기화
+        builder: (vm) => MateScreen(),
+      );
     case HomeTab.more:
       return const MoreScreen();
   }

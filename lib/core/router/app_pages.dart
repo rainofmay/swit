@@ -1,9 +1,11 @@
 import 'package:get/get.dart';
 import 'package:swit/core/di/home_binding.dart';
 import 'package:swit/core/di/audio_binding.dart';
+import 'package:swit/core/di/mate_binding.dart';
 import 'package:swit/core/di/schedule_binding.dart';
 import 'package:swit/core/di/setting_binding.dart';
 import 'package:swit/features/home/presentations/view/home_screen.dart';
+import 'package:swit/features/mate/presentation/view/mate_screen.dart';
 import 'package:swit/features/study/audio/presentation/view/audio_screen.dart';
 import 'package:swit/features/study/schedule/presentation/view/create_schedule_screen.dart';
 import 'package:swit/features/study/schedule/presentation/view/edit_schedule_screen.dart';
@@ -59,5 +61,10 @@ class AppPages {
         ),
       ],
     ),
+    GetPage(
+      name: Routes.MATE,
+      page: () => MateScreen(),
+      binding: MateBinding(),
+    )
   ];
 }

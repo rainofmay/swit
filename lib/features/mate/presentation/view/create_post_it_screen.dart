@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:swit/features/mate/presentation/widgets/post_it.dart';
 import 'package:swit/shared/widgets/custom_back_appbar.dart';
 import 'package:swit/shared/widgets/custom_scaffold.dart';
 
@@ -8,9 +10,14 @@ class CreatePostItScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: CustomScaffold(
-        appBar: CustomBackAppBar(appbarTitle: '오늘 우리', isLeading: true, isCenterTitle: true),
-          body: Text('포스트잇 생성 페이지')),
-    );
+        child: CustomScaffold(
+      appBar: CustomBackAppBar(
+        appbarTitle: '오늘 우리',
+        isLeading: true,
+        isCenterTitle: true,
+        actions: [IconButton(onPressed: () {}, icon: Icon(CupertinoIcons.checkmark_alt))],
+      ),
+      body: Center(child: PostIt()),
+    ));
   }
 }
