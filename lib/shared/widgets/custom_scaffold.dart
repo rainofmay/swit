@@ -4,14 +4,15 @@ import 'package:swit/shared/constant/color_box.dart';
 class CustomScaffold extends StatelessWidget {
   final PreferredSizeWidget? appBar;
   final Widget? body;
+  final Color? backgroundColor;
   final Widget? bottomNavigationBar;
   final Widget? floatingActionButton;
-  const CustomScaffold({super.key, this.appBar, this.body, this.bottomNavigationBar, this.floatingActionButton});
+  const CustomScaffold({super.key, this.appBar, this.body, this.bottomNavigationBar, this.floatingActionButton, this.backgroundColor});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorBox.white,
+      backgroundColor: backgroundColor ?? ColorBox.white,
       appBar: appBar,
       body: body,
       floatingActionButton: floatingActionButton,

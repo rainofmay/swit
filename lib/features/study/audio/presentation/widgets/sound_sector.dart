@@ -1,32 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:swit/features/study/audio/presentation/widgets/sound_volume.dart';
-import 'package:swit/shared/constant/font_box.dart';
 import 'package:swit/features/study/audio/presentation/viewmodel/sound_view_model.dart';
-import 'package:swit/shared/widgets/custom_gap.dart';
 
 class SoundSector extends GetView<SoundViewModel> {
-  const SoundSector({super.key});
+  SoundSector({super.key});
+  final imageUrls = ['assets/images/music/fire.jpg', 'assets/images/music/rain.jpg', 'assets/images/music/wave.jpg', 'assets/images/music/bug.jpg'];
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const Row(children: [
-         Icon(Icons.headphones_rounded, size: 14),
-         CustomGap(8),
-         Text('소리', style: FontBox.CONTENTSTYLE),
-        ]),
-        Obx(() => ListView.builder(
-            shrinkWrap: true,
-            itemCount: controller.sounds.length,
-            itemBuilder: (BuildContext context, int index) {
-              final audio = controller.sounds[index];
-              return SoundVolume(
-                audio: audio,
-              );
-            })),
-      ],
-    );
+    return Obx(() => ListView.builder(
+        shrinkWrap: true,
+        itemCount: controller.sounds.length,
+        itemBuilder: (BuildContext context, int index) {
+          final audio = controller.sounds[index];
+          final imageUrl = imageUrls[index];
+          return SoundVolume(
+            audio: audio,
+            imageUrl : imageUrl,
+          );
+        }));
   }
 }

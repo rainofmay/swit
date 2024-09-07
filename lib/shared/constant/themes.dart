@@ -78,7 +78,7 @@ ThemeData theme = ThemeData(
     thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 6),
     overlayShape: const RoundSliderOverlayShape(overlayRadius: 13),
     overlayColor: ColorBox.primaryColor.withOpacity(0.2),
-    activeTrackColor: ColorBox.primaryColor,
-    inactiveTrackColor: ColorBox.grey[700],
+    activeTrackColor: ColorBox.white,
+    inactiveTrackColor:  Color(0xFF616161),
   ),
 );
