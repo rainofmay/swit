@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:swit/features/study/audio/presentation/widgets/circled_music_player.dart';
+import 'package:swit/features/study/audio/presentation/widgets/music_player.dart';
 
 class MusicSector extends StatelessWidget {
   const MusicSector({super.key});
@@ -8,7 +8,7 @@ class MusicSector extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Center(child: CircledMusicPlayer()),
+        Center(child: MusicPlayer()),
       ],
     );
   }

@@ -75,7 +75,7 @@ ThemeData theme = ThemeData(
     trackHeight: 2,
     trackShape: const RoundedRectSliderTrackShape(),
     thumbColor: ColorBox.white,
-    thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 6),
+    thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 6, elevation: 1.1),
     overlayShape: const RoundSliderOverlayShape(overlayRadius: 13),
     overlayColor: ColorBox.primaryColor.withOpacity(0.2),
     activeTrackColor: ColorBox.white,

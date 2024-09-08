@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:swit/features/study/audio/presentation/widgets/sound_volume.dart';
+import 'package:swit/features/study/audio/presentation/widgets/sound_player.dart';
 import 'package:swit/features/study/audio/presentation/viewmodel/sound_view_model.dart';
 
 class SoundSector extends GetView<SoundViewModel> {
@@ -15,7 +15,7 @@ class SoundSector extends GetView<SoundViewModel> {
         itemBuilder: (BuildContext context, int index) {
           final audio = controller.sounds[index];
           final imageUrl = imageUrls[index];
-          return SoundVolume(
+          return SoundPlayer(
             audio: audio,
             imageUrl : imageUrl,
           );

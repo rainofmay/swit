@@ -11,13 +11,15 @@ import 'package:swit/shared/constant/color_box.dart';
     @override
     Widget build(BuildContext context) {
       return CustomScaffold(
-        backgroundColor: ColorBox.thirdColor,
-        appBar: CustomBackAppBar(appbarTitle: '음 악', isLeading: true, isCenterTitle: true, backgroundColor: ColorBox.thirdColor),
-        body: Column(
-          children: [
-            MusicSector(),
-            SoundSector(),
-          ],
+        backgroundColor: ColorBox.white,
+        appBar: CustomBackAppBar(appbarTitle: '음 악', isLeading: true, isCenterTitle: true, backgroundColor: ColorBox.white),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              MusicSector(),
+              SoundSector(),
+            ],
+          ),
         ),
       );
     }

@@ -6,10 +6,10 @@ abstract class ColorBox {
 
   /// White Color
   static Color white = const Color(0xFFFFFFFF);
-
+  static Color transWhite = Color.fromRGBO(255, 255, 255, 0.8);
   /// Black Color
   static Color black = const Color(0xFF000000);
-
+  static Color dark = const Color(0xff272727);
   /// Primary Color
   static Color primaryColor = const Color(0xFF6A88BE);
 

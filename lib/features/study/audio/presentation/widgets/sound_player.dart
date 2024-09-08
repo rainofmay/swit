@@ -8,11 +8,11 @@ import 'package:swit/features/study/audio/domain/entities/audio.dart';
 import 'package:swit/features/study/audio/presentation/viewmodel/sound_view_model.dart';
 import 'package:swit/shared/widgets/custom_gap.dart';
 
-class SoundVolume extends GetView<SoundViewModel> {
+class SoundPlayer extends GetView<SoundViewModel> {
   final Audio audio;
   final String imageUrl;
 
-  const SoundVolume({super.key, required this.audio, required this.imageUrl});
+  const SoundPlayer({super.key, required this.audio, required this.imageUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -27,17 +27,14 @@ class SoundVolume extends GetView<SoundViewModel> {
                 image: AssetImage(imageUrl),
                 fit: BoxFit.fitWidth,
                 colorFilter: ColorFilter.mode(
-                  Colors.black.withOpacity(0.3), // 어둡게
+                  ColorBox.black.withOpacity(0.2), // 어둡게
                   BlendMode.darken,
-                )
-            )),
+                ))),
         child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+          const CustomGap(16),
           Circle(
               backgroundColor: ColorBox.thirdColor,
               child: Obx(() => IconButton(
-                  splashColor: ColorBox.transparent,
-                  highlightColor: ColorBox.transparent,
-                  hoverColor: ColorBox.transparent,
                   icon: Icon(
                     controller.isPlaying(audio.id)
                         ? CupertinoIcons.speaker_2
@@ -50,11 +47,9 @@ class SoundVolume extends GetView<SoundViewModel> {
                   }))),
           const CustomGap(16),
           SizedBox(
-            width: 130,
-            child: Text(audio.name,
-                style: FontBox.MINISTYLE.copyWith(color: ColorBox.white),
-                overflow: TextOverflow.ellipsis),
-          ),
+              width: 140,
+              child: Text(audio.name,
+                  style: FontBox.WHITEMINI.copyWith(fontWeight: FontWeight.bold))),
           const CustomGap(4),
           SliderTheme(
             data: Theme.of(context).sliderTheme,
@@ -65,7 +60,7 @@ class SoundVolume extends GetView<SoundViewModel> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Obx(() => SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.45,
+                          width: MediaQuery.of(context).size.width * 0.4,
                           child: Slider(
                             value: controller.getVolume(audio.id),
                             onChanged: (volume) =>

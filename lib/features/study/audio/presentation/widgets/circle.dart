@@ -9,7 +9,7 @@ class Circle extends StatelessWidget {
   const Circle({
     super.key,
     required this.child,
-    this.size = 40.0,
+    this.size = 38.0,
     this.backgroundColor = Colors.blue,
   });
 
@@ -24,16 +24,16 @@ class Circle extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color: ColorBox.white,
-            blurRadius: 16,
-            spreadRadius: 8,
-            offset: Offset(-4, -4),
+            blurRadius: 6,
+            spreadRadius: 3,
+            offset: Offset(-2, -2),
           ),
           // 오른쪽 하단의 어두운 그림자
           BoxShadow(
             color: ColorBox.grey.withOpacity(0.4),
-            blurRadius: 16,
-            spreadRadius: 4,
-            offset: Offset(4, 4),
+            blurRadius: 6,
+            spreadRadius: 3,
+            offset: Offset(2, 2),
           ),
         ],
       ),

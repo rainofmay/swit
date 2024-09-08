@@ -1,8 +1,11 @@
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:swit/core/utils/audio_service.dart';
+import 'package:just_audio_background/just_audio_background.dart';
 import 'package:swit/features/study/audio/domain/entities/audio.dart';
 import 'package:swit/features/study/audio/domain/usecases/get_music_use_case.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
 
 class MusicViewModel extends GetxController {
   final GetMusicUseCase _useCase;
@@ -21,18 +24,18 @@ class MusicViewModel extends GetxController {
 
   final RxBool isShuffled = false.obs;
   late final RxBool _isRepeated = false.obs;
-
   bool get isRepeated => _isRepeated.value;
+
   late final RxInt _currentIndex = 0.obs;
-
   late final Rx<Duration> _currentMusicDuration = Duration.zero.obs;
-
   Duration get currentMusicDuration => _currentMusicDuration.value;
   late final Rx<Duration> _currentMusicPosition = Duration.zero.obs;
-
   Duration get currentMusicPosition => _currentMusicPosition.value;
-
   Audio get currentMusic => _musicList[_currentIndex.value];
+
+  /* -- music background -- */
+  late final Rx<MediaItem?> _currentMediaItem = Rx<MediaItem?>(null);
+  MediaItem? get currentMediaItem => _currentMediaItem.value;
 
   @override
   void onInit() {
@@ -62,12 +65,27 @@ class MusicViewModel extends GetxController {
     }
   }
 
+  /* --- Init & Get --- */
   void _initAudioPlayer() {
     _musicPlayer.value = AudioPlayer(
       handleInterruptions: false, // 오디오 포커스 자동 관리 비활성화를 통해 소리, 음악 둘다 재생 가능하게.
+      androidApplyAudioAttributes: false,
+      handleAudioSessionActivation: false,
     );
     _setupPlayerListeners();
   }
+
+  //assetPath에서 추출 후에, Uri 형태로 사용하기 위해서 만든 구조
+  Future<Uri> _getAssetUri(String assetPath) async {
+    final byteData = await rootBundle.load(assetPath);
+    final buffer = byteData.buffer;
+    final tempDir = await getTemporaryDirectory();
+    final tempFile = File('${tempDir.path}/${assetPath.split('/').last}');
+    await tempFile.writeAsBytes(
+        buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+    return Uri.file(tempFile.path);
+  }
+
 
   void _setupPlayerListeners() {
     _musicPlayer.value.playerStateStream.listen((state) {
@@ -84,13 +102,56 @@ class MusicViewModel extends GetxController {
     _musicPlayer.value.currentIndexStream.listen((index) {
       if (index != null && index != _currentIndex.value) {
         _currentIndex.value = index;
-        // _updateCurrentMediaItem();
+        _updateCurrentMediaItem();
         update(); // Trigger UI update
       }
     });
 
     // Listen to changes in _musicInfoList and update background playback
-    // ever(_musicInfoList, (_) => _setupBackgroundPlayback());
+    ever(_musicList, (_) => _setupBackgroundPlayback());
+  }
+
+  Future<void> _setupBackgroundPlayback() async {
+    if (_musicList.isEmpty) return;
+
+    final audioSources = await Future.wait(_musicList.map((music) async {
+      final artUri = await _getAssetUri('assets/images/music/music_background.png');
+      return AudioSource.uri(
+        Uri.parse(music.audioUrl),
+        tag: MediaItem(
+          id: music.audioUrl,
+          album: music.theme,
+          title: music.name,
+          artist: "Swit",
+          artUri: artUri,
+        ),
+      );
+    }));
+
+    await _musicPlayer.value.setAudioSource(
+      ConcatenatingAudioSource(children: audioSources),
+      initialIndex: _currentIndex.value,
+      preload: false,
+    );
+  }
+
+  /* --- Update --- */
+
+  // 백그라운드 현재 음악 설정을 위한 함수
+  void _updateCurrentMediaItem() async {
+    if (_musicList.isNotEmpty &&
+        _currentIndex.value < _musicList.length) {
+      final currentMusic = _musicList[_currentIndex.value];
+      final artUri = await _getAssetUri('assets/images/music/music_background.png');
+      _currentMediaItem.value = MediaItem(
+        id: currentMusic.audioUrl,
+        album: currentMusic.theme,
+        title: currentMusic.name,
+        artist: "Swit",
+        duration: _currentMusicDuration.value,
+        artUri: artUri,
+      );
+    }
   }
 
   /* --- Functions --- */
