@@ -23,10 +23,10 @@ class SoundPlayer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 8.0),
+      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
       child: Container(
         width: double.infinity,
-        height: 75,
+        height: 70,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(4),
             image: DecorationImage(

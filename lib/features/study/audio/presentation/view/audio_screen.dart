@@ -30,12 +30,12 @@ class AudioScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      backgroundColor: ColorBox.white,
+      backgroundColor: ColorBox.secondColor,
       appBar: CustomBackAppBar(
           appbarTitle: '음 악',
           isLeading: true,
           isCenterTitle: true,
-          backgroundColor: ColorBox.white),
+          backgroundColor: ColorBox.secondColor),
       body: SingleChildScrollView(
         child: Column(
           children: [

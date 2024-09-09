@@ -11,17 +11,20 @@ class SoundSector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => ListView.builder(
-        shrinkWrap: true,
-        itemCount: viewModel.sounds.length,
-        itemBuilder: (BuildContext context, int index) {
-          final audio = viewModel.sounds[index];
-          final imageUrl = imageUrls[index];
-          return SoundPlayer(
-            audio: audio,
-            imageUrl : imageUrl,
-            viewModel: viewModel,
-          );
-        }));
+    return Obx(() => Padding(
+      padding: const EdgeInsets.only(top:48.0),
+      child: ListView.builder(
+          shrinkWrap: true,
+          itemCount: viewModel.sounds.length,
+          itemBuilder: (BuildContext context, int index) {
+            final audio = viewModel.sounds[index];
+            final imageUrl = imageUrls[index];
+            return SoundPlayer(
+              audio: audio,
+              imageUrl : imageUrl,
+              viewModel: viewModel,
+            );
+          }),
+    ));
   }
 }
