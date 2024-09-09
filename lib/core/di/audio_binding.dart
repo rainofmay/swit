@@ -1,5 +1,6 @@
+import 'package:audio_service/audio_service.dart';
 import 'package:get/get.dart';
-import 'package:swit/core/utils/audio_service.dart';
+import 'package:swit/core/utils/my_audio_handler.dart';
 import 'package:swit/features/study/audio/data/datasources/music_remote_data_source.dart';
 import 'package:swit/features/study/audio/data/datasources/sound_remote_data_source.dart';
 import 'package:swit/features/study/audio/data/repsoitories/music_repository_impl.dart';
@@ -29,25 +30,10 @@ class AudioBinding extends Bindings {
     );
 
     // Use Case
-    Get.put(GetMusicUseCase(Get.find<MusicRepository>()), permanent: true);
-    Get.put(GetSoundUseCase(Get.find<SoundRepository>()), permanent: true);
+    Get.put<GetMusicUseCase>(GetMusicUseCase(Get.find<MusicRepository>()), permanent: true);
+    Get.put<GetSoundUseCase>(GetSoundUseCase(Get.find<SoundRepository>()), permanent: true);
 
-    // Service
-    Get.put(AudioService(), permanent: true);
-
-    // ViewModel
-    Get.put(
-        MusicViewModel(
-          useCase: Get.find<GetMusicUseCase>(),
-        ),
-        permanent: true
-    );
-    Get.put(
-        SoundViewModel(
-          useCase: Get.find<GetSoundUseCase>(),
-          audioService: Get.find<AudioService>(),
-        ),
-        permanent: true
-    );
+    /* -- View Model 은 2개 주입 불가로 View 페이지에 직접 등록 -- */
+    /* -- Audio Handler는 메인에 등록 -- */
   }
 }

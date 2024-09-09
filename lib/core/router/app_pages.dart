@@ -32,7 +32,7 @@ class AppPages {
           children: [
             GetPage(
               name: Routes.AUDIO,
-              page: () => const AudioScreen(),
+              page: () => AudioScreen(),
               binding: AudioBinding(),
             ),
             GetPage(

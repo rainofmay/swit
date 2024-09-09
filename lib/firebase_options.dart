@@ -63,6 +63,6 @@ class DefaultFirebaseOptions {
     messagingSenderId: '167838128706',
     projectId: 'swit-2e779',
     storageBucket: 'swit-2e779.appspot.com',
-    iosBundleId: 'com.example.swit',
+    iosBundleId: 'com.cled.swit',
   );
 }

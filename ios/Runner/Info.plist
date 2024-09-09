@@ -3,10 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>NSAppTransportSecurity</key>
-    <key>UIBackgroundModes</key>
-    <array>
-        <string>audio</string>
-    </array>
+
     <dict>
         <key>NSAllowsArbitraryLoads</key>
         <true/>
@@ -15,7 +12,10 @@
 	<string>배경 사진 등록을 위해서 카메라의 권한이 필요합니다!</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>배경 사진 등록을 위해서 사진의 권한이 필요합니다</string>
-
+    <key>UIBackgroundModes</key>
+    <array>
+        <string>audio</string>
+    </array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>

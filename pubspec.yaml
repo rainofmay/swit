@@ -28,7 +28,6 @@ dependencies:
   omni_datetime_picker: ^1.1.0
   intl: ^0.19.0
   uuid: ^4.5.0
-  just_audio_background: ^0.0.1-beta.13
   path_provider: ^2.1.4
   audio_service: ^0.18.15
 

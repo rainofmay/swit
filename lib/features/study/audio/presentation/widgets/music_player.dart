@@ -11,20 +11,19 @@ import 'package:swit/shared/widgets/custom_circular_indicator.dart';
 import 'package:swit/shared/widgets/custom_gap.dart';
 
 class MusicPlayer extends StatelessWidget {
-  MusicPlayer({super.key});
-
-  final vm = Get.find<MusicViewModel>();
+  final MusicViewModel viewModel;
+  const MusicPlayer({super.key, required this.viewModel});
 
   @override
   Widget build(BuildContext context) {
     double mediaWidth = MediaQuery.of(context).size.width;
     return Obx(() {
-      if (vm.isLoading) {
+      if (viewModel.isLoading) {
         return const Center(child: CustomCircularIndicator(size: 30.0));
       }
       return Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
         const CustomGap(16),
-        Text(vm.currentMusic.name,
+        Text(viewModel.currentMusic.name,
             style: FontBox.MIDDLETITLE),
         const CustomGap(8),
         Padding(
@@ -48,39 +47,39 @@ class MusicPlayer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               IconButton(
-                  onPressed: vm.toggleShuffle,
+                  onPressed: viewModel.toggleShuffle,
                   icon: Icon(
                     CupertinoIcons.shuffle,
-                    color: vm.isShuffled.value
+                    color: viewModel.isShuffled.value
                         ? ColorBox.primaryColor
                         : ColorBox.black,
                     size: IconSize.md,
                   )),
               IconButton(
-                  onPressed: vm.previousTrack,
+                  onPressed: viewModel.previousTrack,
                   icon: Icon(Icons.skip_previous,
                       color: ColorBox.black, size: IconSize.md)),
               IconButton(
                   onPressed: () async {
-                    await vm.musicPlayPause();
+                    await viewModel.musicPlayPause();
                   },
                   icon: Icon(
-                      vm.isMusicPlaying
+                      viewModel.isMusicPlaying
                           ? Icons.pause_rounded
                           : Icons.play_arrow_rounded,
                       color: ColorBox.black,
                       size: IconSize.md)),
               IconButton(
-                  onPressed: vm.nextTrack,
+                  onPressed: viewModel.nextTrack,
                   icon: Icon(Icons.skip_next_rounded,
                       color: ColorBox.black, size: IconSize.md)),
               IconButton(
-                  onPressed: vm.toggleRepeat,
+                  onPressed: viewModel.toggleRepeat,
                   icon: Icon(
-                      vm.isRepeated
+                      viewModel.isRepeated
                           ? CupertinoIcons.repeat_1
                           : CupertinoIcons.repeat,
-                      color: vm.isRepeated
+                      color: viewModel.isRepeated
                           ? ColorBox.primaryColor
                           : ColorBox.black,
                       size: IconSize.md)),

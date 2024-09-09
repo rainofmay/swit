@@ -8,11 +8,17 @@ import 'package:swit/features/study/audio/domain/entities/audio.dart';
 import 'package:swit/features/study/audio/presentation/viewmodel/sound_view_model.dart';
 import 'package:swit/shared/widgets/custom_gap.dart';
 
-class SoundPlayer extends GetView<SoundViewModel> {
+class SoundPlayer extends StatelessWidget {
   final Audio audio;
   final String imageUrl;
+  final SoundViewModel viewModel;
 
-  const SoundPlayer({super.key, required this.audio, required this.imageUrl});
+  const SoundPlayer({
+    super.key,
+    required this.audio,
+    required this.imageUrl,
+    required this.viewModel,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -36,14 +42,14 @@ class SoundPlayer extends GetView<SoundViewModel> {
               backgroundColor: ColorBox.thirdColor,
               child: Obx(() => IconButton(
                   icon: Icon(
-                    controller.isPlaying(audio.id)
+                    viewModel.isPlaying(audio.id)
                         ? CupertinoIcons.speaker_2
                         : CupertinoIcons.speaker_slash,
                     color: ColorBox.black,
                   ),
                   iconSize: 16.0,
                   onPressed: () {
-                    controller.togglePlay(audio.id);
+                    viewModel.togglePlay(audio.id);
                   }))),
           const CustomGap(16),
           SizedBox(
@@ -62,9 +68,9 @@ class SoundPlayer extends GetView<SoundViewModel> {
                     Obx(() => SizedBox(
                           width: MediaQuery.of(context).size.width * 0.4,
                           child: Slider(
-                            value: controller.getVolume(audio.id),
+                            value: viewModel.getVolume(audio.id),
                             onChanged: (volume) =>
-                                controller.setVolume(audio.id, volume),
+                                viewModel.setVolume(audio.id, volume),
                           ),
                         )),
                   ],

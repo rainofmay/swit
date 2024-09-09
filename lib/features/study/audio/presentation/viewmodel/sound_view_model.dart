@@ -1,27 +1,23 @@
+import 'package:audio_service/audio_service.dart';
 import 'package:get/get.dart';
-import 'package:just_audio/just_audio.dart';
-import 'package:swit/core/utils/audio_service.dart';
 import 'package:swit/features/study/audio/domain/entities/audio.dart';
 import 'package:swit/features/study/audio/domain/usecases/get_sound_use_case.dart';
 
 class SoundViewModel extends GetxController {
   final GetSoundUseCase _useCase;
-  final AudioService _audioService;
+  final AudioHandler _audioHandler;
 
   SoundViewModel({
     required GetSoundUseCase useCase,
-    required AudioService audioService,
+    required AudioHandler audioHandler,
   })  : _useCase = useCase,
-        _audioService = audioService;
+        _audioHandler = audioHandler;
 
   final RxList<Audio> _sounds = <Audio>[].obs;
-
   List<Audio> get sounds => _sounds;
 
-  final RxMap<int, AudioPlayer> _players = <int, AudioPlayer>{}.obs;
   final RxMap<int, RxBool> _isPlaying = <int, RxBool>{}.obs;
-  final RxMap<int, double> _volumes = <int, double>{}.obs;
-  Map<int, double> get volumes => _volumes.value;
+  final RxMap<int, RxDouble> _volumes = <int, RxDouble>{}.obs;
 
   @override
   void onInit() {
@@ -29,21 +25,18 @@ class SoundViewModel extends GetxController {
     loadSoundsAndInitializePlayers();
   }
 
-  /* init */
   Future<void> loadSoundsAndInitializePlayers() async {
     try {
       final loadedSounds = await _useCase.execute('sound');
       _sounds.assignAll(loadedSounds);
 
       for (var sound in loadedSounds) {
-        final player = await _audioService.createPlayer(sound.audioUrl);
-        _players[sound.id] = player;
-        _isPlaying[sound.id] = false.obs;
-        _volumes[sound.id] = 1.0;
-
-        player.playerStateStream.listen((state) {
-          _isPlaying[sound.id]?.value = state.playing;
+        await _audioHandler.customAction('initializeSoundPlayer', {
+          'soundId': sound.id,
+          'url': sound.audioUrl,
         });
+        _isPlaying[sound.id] = false.obs;
+        _volumes[sound.id] = 1.0.obs;
       }
     } catch (e) {
       print('Error loading sounds and initializing players: $e');
@@ -52,39 +45,32 @@ class SoundViewModel extends GetxController {
 
   @override
   void onClose() {
-    for (var player in _players.values) {
-      _audioService.dispose(player);
-    }
-    _players.clear();
+    _audioHandler.customAction('dispose');
     super.onClose();
   }
 
   Future<void> togglePlay(int audioId) async {
-    if (_players.containsKey(audioId)) {
-      final player = _players[audioId]!;
-      if (_isPlaying[audioId]?.value == true) {
-        await _audioService.pause(player);
-      } else {
-        await _audioService.play(player);
-      }
-      _isPlaying[audioId]?.toggle();
+    if (_isPlaying[audioId] == null) {
+      _isPlaying[audioId] = false.obs;
     }
-  }
 
-  Future<void> stopAudio(int audioId) async {
-    if (_players.containsKey(audioId)) {
-      await _audioService.stop(_players[audioId]!);
-      _isPlaying[audioId]?.value = false;
+    _isPlaying[audioId]!.toggle();  // 즉시 UI 상태 업데이트
+
+    if (_isPlaying[audioId]!.value) {
+      await _audioHandler.customAction('playSoundTrack', {'soundId': audioId});
+    } else {
+      await _audioHandler.customAction('pauseSoundTrack', {'soundId': audioId});
     }
   }
 
   Future<void> setVolume(int audioId, double volume) async {
-    if (_players.containsKey(audioId)) {
-      await _audioService.setVolume(_players[audioId]!, volume);
-      _volumes[audioId] = volume;
-    }
+    await _audioHandler.customAction('setSoundVolume', {
+      'soundId': audioId,
+      'volume': volume,
+    });
+    _volumes[audioId]?.value = volume;
   }
 
   bool isPlaying(int audioId) => _isPlaying[audioId]?.value ?? false;
-  double getVolume(int audioId) => _volumes[audioId] ?? 1.0;
+  double getVolume(int audioId) => _volumes[audioId]?.value ?? 1.0;
 }
