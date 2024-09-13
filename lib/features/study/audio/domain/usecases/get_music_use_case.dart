@@ -5,7 +5,7 @@ class GetMusicUseCase {
   final MusicRepository repository;
   GetMusicUseCase(this.repository);
 
-  Future<List<Audio>> execute(String theme) async {
+  Future<List<Audio>> getMusics(String theme) async {
     return await repository.getMusics(theme);
   }
 }

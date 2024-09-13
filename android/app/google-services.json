@@ -7,9 +7,28 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:167838128706:android:a6f06d7bbacc2cf7a6abdb",
+        "mobilesdk_app_id": "1:167838128706:android:842cb78573246158a6abdb",
         "android_client_info": {
           "package_name": "com.cled.swit"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAaaX7tCqH-5HCWoVN4qjwS_olibUboa7U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:167838128706:android:a6f06d7bbacc2cf7a6abdb",
+        "android_client_info": {
+          "package_name": "com.example.swit"
         }
       },
       "oauth_client": [],

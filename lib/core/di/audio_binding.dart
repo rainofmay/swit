@@ -14,7 +14,7 @@ import 'package:swit/features/study/audio/presentation/viewmodel/sound_view_mode
 
 class AudioBinding extends Bindings {
   @override
-  void dependencies() {
+  Future<void> dependencies() async {
     // Data Source
     Get.put<MusicRemoteDataSource>(MusicRemoteDataSource(), permanent: true);
     Get.put<SoundRemoteDataSource>(SoundRemoteDataSource(), permanent: true);
@@ -35,5 +35,7 @@ class AudioBinding extends Bindings {
 
     /* -- View Model 은 2개 주입 불가로 View 페이지에 직접 등록 -- */
     /* -- Audio Handler는 메인에 등록 -- */
+
   }
 }
+

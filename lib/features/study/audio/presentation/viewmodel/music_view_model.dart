@@ -36,11 +36,14 @@ class MusicViewModel extends GetxController {
     _setupAudioHandlerListeners();
   }
 
+  /* -- Init & Get -- */
   Future<void> _loadMusics() async {
     _isLoading.value = true;
     try {
-      final result = await _useCase.execute('study');
+      final result = await _useCase.getMusics('study');
       _musicList.assignAll(result);
+
+      // 실질적인 재생리스트 및 플레이어 초기화
       await _updateQueue();
       _isLoading.value = false;
     } catch (e) {
@@ -65,6 +68,8 @@ class MusicViewModel extends GetxController {
     });
   }
 
+  /* -- Update -- */
+
   Future<void> _updateQueue() async {
     final mediaItems = _musicList.map((audio) => MediaItem(
       id: audio.audioUrl,
@@ -77,6 +82,8 @@ class MusicViewModel extends GetxController {
     await _audioHandler.addQueueItems(mediaItems);
   }
 
+
+  /* -- 제어 기능 -- */
   Future<void> musicPlayPause() async {
     if (_isMusicPlaying.value) {
       await _audioHandler.pause();

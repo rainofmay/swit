@@ -4,13 +4,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:swit/core/di/audio_binding.dart';
 import 'package:swit/core/router/app_pages.dart';
 import 'package:swit/core/utils/my_audio_handler.dart';
 import 'package:swit/features/home/presentations/view/home_screen.dart';
 import 'package:swit/features/home/presentations/viewmodel/home_viewmodel.dart';
-import 'package:swit/features/study/audio/domain/usecases/get_music_use_case.dart';
-import 'package:swit/features/study/audio/presentation/viewmodel/music_view_model.dart';
 import 'package:swit/features/study/setting/presentation/viewmodel/bg_setting_view_model.dart';
 import 'shared/constant/color_box.dart';
 import 'shared/constant/themes.dart' as main_themes;
@@ -24,18 +21,18 @@ Future<void> main() async {
       anonKey: dotenv.get("PROJECT_API_KEY")
   );
 
-  final audioHandler = await initAudioService();
-  Get.put<AudioHandler>(audioHandler, permanent: true);
+  // final audioHandler = await initAudioService();
+  // Get.put<AudioHandler>(audioHandler, permanent: true);
   // await Firebase.initializeApp(
   //   options: DefaultFirebaseOptions.currentPlatform,
   // );
 
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({super.key});
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -45,12 +42,11 @@ class MyApp extends StatelessWidget {
     ));
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      // supportedLocales: const [
-      //   Locale('ko', 'KR'),
-      // ],
-      initialBinding: BindingsBuilder(() {
+      initialBinding: BindingsBuilder(() async {
         Get.put(BgSettingViewModel());
         Get.put(HomeViewModel());
+        final audioHandler = await initAudioService();
+        Get.put<AudioHandler>(audioHandler, permanent: true);
         }),
 
       initialRoute: AppPages.INITIAL,
