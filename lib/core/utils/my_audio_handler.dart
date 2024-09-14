@@ -92,7 +92,7 @@ class MyAudioHandler extends BaseAudioHandler {
     });
   }
 
-  // 현재 재생 중인 트랙의 인덱스 변경을 감지합니다.
+  // 현재 재생 중인 트랙의 인덱스 변경을 감지
   // 셔플 모드를 고려하여 올바른 MediaItem을 선택하고 업데이트
   void _listenForCurrentSongIndexChanges() {
     _musicPlayer.currentIndexStream.listen((index) {

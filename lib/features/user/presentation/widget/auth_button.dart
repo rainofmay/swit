@@ -21,11 +21,11 @@ class AuthButton extends StatelessWidget {
       onPressed: onPressed,
       child: Row(
         children: [
-          Image.asset(
-            'assets/images/apple.png',
-            width: 48,
-            height: 48,
-          ),
+          // Image.asset(
+          //   'assets/images/apple.png',
+          //   width: 48,
+          //   height: 48,
+          // ),
           Expanded(
             child: Center(
               child: Text(

@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:swit/core/di/home_binding.dart';
 import 'package:swit/core/di/audio_binding.dart';
+import 'package:swit/core/di/login_binding.dart';
 import 'package:swit/core/di/mate_binding.dart';
 import 'package:swit/core/di/schedule_binding.dart';
 import 'package:swit/core/di/setting_binding.dart';
@@ -13,6 +14,7 @@ import 'package:swit/features/study/schedule/presentation/view/schedule_screen.d
 import 'package:swit/features/study/setting/presentation/view/bg_setting_screen.dart';
 import 'package:swit/features/study/setting/presentation/view/setting_screen.dart';
 import 'package:swit/features/study/study_screen.dart';
+import 'package:swit/features/user/presentation/view/login_screen.dart';
 // 다른 필요한 import 추가
 
 part 'app_routes.dart';
@@ -65,6 +67,11 @@ class AppPages {
       name: Routes.MATE,
       page: () => MateScreen(),
       binding: MateBinding(),
-    )
+    ),
+    GetPage(
+      name: Routes.LOGIN,
+      page: () => LoginScreen(),
+      binding: LoginBinding(),
+    ),
   ];
 }

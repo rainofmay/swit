@@ -12,19 +12,19 @@ import 'package:swit/shared/constant/color_box.dart';
 import 'package:swit/shared/widgets/custom_back_appbar.dart';
 import 'package:swit/shared/widgets/custom_scaffold.dart';
 
-class AudioScreen extends StatelessWidget {
-  AudioScreen({super.key});
+  class AudioScreen extends StatelessWidget {
+    AudioScreen({super.key});
 
-  final musicVM = Get.put<MusicViewModel>(
-      MusicViewModel(
-          useCase: Get.find<GetMusicUseCase>(),
-          audioHandler: Get.find<AudioHandler>()),
-      permanent: true);
-  final soundVM = Get.put<SoundViewModel>(
-      SoundViewModel(
-          useCase: Get.find<GetSoundUseCase>(),
-          audioHandler: Get.find<AudioHandler>()),
-      permanent: true);
+    final musicVM = Get.put<MusicViewModel>(
+        MusicViewModel(
+            useCase: Get.find<GetMusicUseCase>(),
+            audioHandler: Get.find<AudioHandler>()),
+        permanent: true);
+    final soundVM = Get.put<SoundViewModel>(
+        SoundViewModel(
+            useCase: Get.find<GetSoundUseCase>(),
+            audioHandler: Get.find<AudioHandler>()),
+        permanent: true);
 
 
   @override

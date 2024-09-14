@@ -12,5 +12,6 @@ abstract class Routes {
   static const RECORD = '/record';
   static const MATE = '/mate';
   static const MORE = '/more';
+  static const LOGIN = '/login';
 }
 

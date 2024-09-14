@@ -15,11 +15,11 @@ import 'package:swit/features/study/audio/presentation/viewmodel/sound_view_mode
 class AudioBinding extends Bindings {
   @override
   Future<void> dependencies() async {
-    // Data Source
+    /* -- DataSource -- */
     Get.put<MusicRemoteDataSource>(MusicRemoteDataSource(), permanent: true);
     Get.put<SoundRemoteDataSource>(SoundRemoteDataSource(), permanent: true);
 
-    // Repository
+    /* -- Repository -- */
     Get.put<MusicRepository>(
         MusicRepositoryImpl(Get.find<MusicRemoteDataSource>()),
         permanent: true
@@ -29,7 +29,7 @@ class AudioBinding extends Bindings {
         permanent: true
     );
 
-    // Use Case
+    /* -- Use case -- */
     Get.put<GetMusicUseCase>(GetMusicUseCase(Get.find<MusicRepository>()), permanent: true);
     Get.put<GetSoundUseCase>(GetSoundUseCase(Get.find<SoundRepository>()), permanent: true);
 

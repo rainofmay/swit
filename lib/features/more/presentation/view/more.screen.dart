@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:swit/core/router/app_pages.dart';
 import 'package:swit/features/more/presentation/view/update_sreen.dart';
 import 'package:swit/features/more/presentation/view/user_info_screen.dart';
 import 'package:swit/features/more/presentation/widgets/profile_row.dart';
@@ -60,7 +61,9 @@ class MoreScreen extends StatelessWidget {
                 TapRow(
                     widget: Icon(Icons.login_rounded, size: IconSize.md),
                     title: '로그인',
-                    onTap: () {}),
+                    onTap: () {
+                      Get.toNamed(Routes.LOGIN);
+                    }),
               ],
             ),
           )

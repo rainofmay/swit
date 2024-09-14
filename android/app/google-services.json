@@ -12,7 +12,12 @@
           "package_name": "com.cled.swit"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "167838128706-5fq7g0l5cr2qvu0ihig75b8v40l4u0bf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAaaX7tCqH-5HCWoVN4qjwS_olibUboa7U"
@@ -20,26 +25,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:167838128706:android:a6f06d7bbacc2cf7a6abdb",
-        "android_client_info": {
-          "package_name": "com.example.swit"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAaaX7tCqH-5HCWoVN4qjwS_olibUboa7U"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "167838128706-5fq7g0l5cr2qvu0ihig75b8v40l4u0bf.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "167838128706-2djmh4tgsepvlnttem2sga7lmldlbdqt.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.swit"
+              }
+            }
+          ]
         }
       }
     }
