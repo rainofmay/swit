@@ -1,10 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:swit/features/mate/presentation/viewmodel/mate_view_model.dart';
 import 'package:swit/features/mate/presentation/widgets/post_it.dart';
+import 'package:swit/shared/constant/color_box.dart';
 import 'package:swit/shared/widgets/custom_back_appbar.dart';
+import 'package:swit/shared/widgets/custom_gap.dart';
 import 'package:swit/shared/widgets/custom_scaffold.dart';
+import 'package:swit/shared/widgets/custom_text_form_field.dart';
 
-class CreatePostItScreen extends StatelessWidget {
+class CreatePostItScreen extends GetView<MateViewModel> {
   const CreatePostItScreen({super.key});
 
   @override
@@ -15,9 +21,33 @@ class CreatePostItScreen extends StatelessWidget {
         appbarTitle: '오늘 우리',
         isLeading: true,
         isCenterTitle: true,
-        actions: [IconButton(onPressed: () {}, icon: Icon(CupertinoIcons.checkmark_alt))],
+        actions: [
+          IconButton(onPressed: () {}, icon: const Icon(CupertinoIcons.checkmark_alt))
+        ],
       ),
-      body: Center(child: PostIt()),
+      body: Center(
+          child: Container(
+        width: 300,
+        height: 300,
+        decoration: BoxDecoration(
+          color: ColorBox.secondColor,
+        ),
+        child: Column(
+          children: [
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              Text('user name'),
+              Text(DateFormat('yyyy.MM.dd').format(controller.selectedDate)),
+            ]),
+            CustomGap(24),
+            Obx(() => CustomTextFormField(
+              isReadOnly: false,
+              controller: controller.postItController,
+              onChanged: (val) => controller.updatePostIt(),
+              maxLength: 300,
+            )),
+          ],
+        ),
+      )),
     ));
   }
 }

@@ -3,10 +3,11 @@ import 'package:swit/shared/constant/color_box.dart';
 import 'package:swit/shared/constant/font_box.dart';
 
 class AuthButton extends StatelessWidget {
+  final String authName;
   final double width;
   final double height;
   final void Function()? onPressed;
-  const AuthButton({super.key, required this.width, required this.height, this.onPressed});
+  const AuthButton({super.key, required this.width, required this.height, this.onPressed, required this.authName});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class AuthButton extends StatelessWidget {
           Expanded(
             child: Center(
               child: Text(
-                'Apple로 로그인',
+                authName,
                 style: FontBox.TITLESTYLE,
               ),
             ),

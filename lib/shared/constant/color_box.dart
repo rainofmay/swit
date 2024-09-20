@@ -19,9 +19,12 @@ abstract class ColorBox {
   // for background Color
   static Color thirdColor = const Color(0xffE0EAFB);
 
-  /// Red for Error
-  static Color darkRed = const Color(0xff790F07);
+  // cupertinoswitchColor
+  static Color switchColor = const Color(0xff8FB8EE);
 
+  /// Red for Error, Sunday
+  static Color darkRed = const Color(0xff790F07);
+  static Color red = Colors.red;
 
   /// pink
   static Color customPink = Colors.pink;

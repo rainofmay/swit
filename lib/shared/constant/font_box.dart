@@ -39,6 +39,14 @@ abstract class FontBox {
     color: Colors.black,
   );
 
+  static const TextStyle XSMALLSTYLE = TextStyle(
+    fontSize: 10,
+    fontWeight: FontWeight.normal,
+    fontFamily: 'cafe24OhsquareAir',
+    color: Colors.black,
+  );
+
+
   /* -------------------------------------------------- */
   /* -------------------- WHITE ----------------------- */
   /* -------------------------------------------------- */

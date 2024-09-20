@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:swit/core/router/app_pages.dart';
 import 'package:swit/features/mate/presentation/view/create_post_it_screen.dart';
-import 'package:swit/features/mate/presentation/view/post_screen.dart';
+import 'package:swit/features/mate/presentation/view/mate_tab.dart';
+import 'package:swit/features/mate/presentation/view/post_tab.dart';
 import 'package:swit/features/mate/presentation/viewmodel/mate_view_model.dart';
 import 'package:swit/shared/constant/color_box.dart';
 import 'package:swit/shared/constant/icon_size.dart';
@@ -36,7 +38,7 @@ class MateScreen extends GetView<MateViewModel> {
               floatingActionButton: controller.tabIndex == 1
                   ? FloatingActionButton.small(
                       onPressed: () {
-                        Get.to(() => CreatePostItScreen());
+                        Get.toNamed(Routes.MATE + Routes.CREATEPOSTIT);
                       },
                       child: Icon(Icons.edit, color: ColorBox.black),
                       elevation: 1,
@@ -58,10 +60,10 @@ class MateScreen extends GetView<MateViewModel> {
                   Expanded(
                     child: TabBarView(
                       children: [
-                        const PostScreen(),
-                        const PostScreen(),
-                        const PostScreen(),
-                        const PostScreen(),
+                        const MateTab(),
+                        const PostTab(),
+                        const PostTab(),
+                        const PostTab(),
                       ],
                     ),
                   ),

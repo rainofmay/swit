@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:swit/features/study/setting/presentation/viewmodel/bg_setting_view_model.dart';
+import 'package:swit/features/study/swit/presentation/viewmodel/bg_setting_view_model.dart';
 
 class SettingBinding extends Bindings {
   @override

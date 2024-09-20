@@ -4,11 +4,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:swit/core/di/mate_binding.dart';
 import 'package:swit/core/router/app_pages.dart';
-import 'package:swit/core/utils/my_audio_handler.dart';
+import 'package:swit/core/utils/audio/my_audio_handler.dart';
+import 'package:swit/core/utils/user/login_service.dart';
 import 'package:swit/features/home/presentations/view/home_screen.dart';
 import 'package:swit/features/home/presentations/viewmodel/home_viewmodel.dart';
-import 'package:swit/features/study/setting/presentation/viewmodel/bg_setting_view_model.dart';
+import 'package:swit/features/mate/presentation/viewmodel/mate_view_model.dart';
+import 'package:swit/features/study/swit/presentation/viewmodel/bg_setting_view_model.dart';
 import 'shared/constant/color_box.dart';
 import 'shared/constant/themes.dart' as main_themes;
 
@@ -45,6 +48,8 @@ class MyApp extends StatelessWidget {
       initialBinding: BindingsBuilder(() async {
         Get.put(BgSettingViewModel());
         Get.put(HomeViewModel());
+        // Get.put(LoginService());
+        MateBinding().dependencies();
         final audioHandler = await initAudioService();
         Get.put<AudioHandler>(audioHandler, permanent: true);
         }),

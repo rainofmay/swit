@@ -1,7 +1,7 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:swit/core/utils/my_audio_handler.dart';
+import 'package:swit/core/utils/audio/my_audio_handler.dart';
 import 'package:swit/features/study/audio/domain/usecases/get_music_use_case.dart';
 import 'package:swit/features/study/audio/domain/usecases/get_sound_use_case.dart';
 import 'package:swit/features/study/audio/presentation/viewmodel/music_view_model.dart';

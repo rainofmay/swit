@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:swit/core/di/mate_binding.dart';
 import 'package:swit/features/home/presentations/viewmodel/home_viewmodel.dart';
 import 'package:swit/core/enums/home_tab_type.dart';
+import 'package:swit/features/mate/domain/usecases/get_user_profile_use_case.dart';
 import 'package:swit/features/mate/presentation/view/mate_screen.dart';
 import 'package:swit/features/mate/presentation/viewmodel/mate_view_model.dart';
 import 'package:swit/features/more/presentation/view/more.screen.dart';
@@ -32,15 +34,13 @@ Widget _buildTabScreen(HomeTab tab) {
   // switch 패턴 매칭
   switch (tab) {
     case HomeTab.home:
-      return const StudyScreen();
+      return StudyScreen();
     case HomeTab.record:
-      return const RecordScreen();
+      return RecordScreen();
     case HomeTab.mate:
-      return GetBuilder<MateViewModel>(
-        init: MateViewModel(), // MateViewModel 초기화
-        builder: (vm) => MateScreen(),
-      );
+      MateBinding().dependencies();
+      return MateScreen();
     case HomeTab.more:
-      return const MoreScreen();
+      return MoreScreen();
   }
 }

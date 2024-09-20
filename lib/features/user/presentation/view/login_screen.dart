@@ -4,6 +4,8 @@ import 'package:swit/features/user/presentation/viewmodel/login_view_model.dart'
 import 'package:swit/features/user/presentation/widget/auth_button.dart';
 import 'package:swit/shared/constant/color_box.dart';
 import 'package:swit/shared/constant/font_box.dart';
+import 'package:swit/shared/widgets/custom_appbar.dart';
+import 'package:swit/shared/widgets/custom_back_appbar.dart';
 import 'package:swit/shared/widgets/custom_scaffold.dart';
 
 class LoginScreen extends GetView<LoginViewModel> {
@@ -13,6 +15,7 @@ class LoginScreen extends GetView<LoginViewModel> {
   Widget build(BuildContext context) {
     return CustomScaffold(
       backgroundColor: ColorBox.secondColor,
+      appBar: CustomBackAppBar(appbarTitle: '임시', isLeading: true, isCenterTitle: true),
       body: Column(
         children: [
           Text('Swit', style: FontBox.TITLESTYLE,),
@@ -25,9 +28,10 @@ class LoginScreen extends GetView<LoginViewModel> {
               // child: Image.asset('name'),
             ),
           ),
-          AuthButton(width: 500, height: 300, onPressed: () async {
+          AuthButton(authName: '구글로 로그인', width: 500, height: 300, onPressed: () async {
             await controller.signInWithGoogle();
-          })
+          }),
+          AuthButton(authName: '애플로 로그인', width: 500, height: 300, onPressed: () {})
         ],
       ),
     );

@@ -32,6 +32,7 @@ dependencies:
   audio_service: ^0.18.15
   google_sign_in: ^6.2.1
   firebase_auth: ^5.2.1
+  table_calendar: ^3.1.2
 
 dev_dependencies:
   flutter_test:
@@ -51,6 +52,9 @@ flutter:
     - assets/
     - assets/fonts/
     - assets/icons/
+    - assets/icons/music/
+    - assets/icons/background/
+    - assets/icons/record/
     - assets/images/
     - assets/images/music/
     - .env

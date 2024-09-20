@@ -1,6 +1,6 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:get/get.dart';
-import 'package:swit/core/utils/my_audio_handler.dart';
+import 'package:swit/core/utils/audio/my_audio_handler.dart';
 import 'package:swit/features/study/audio/data/datasources/music_remote_data_source.dart';
 import 'package:swit/features/study/audio/data/datasources/sound_remote_data_source.dart';
 import 'package:swit/features/study/audio/data/repsoitories/music_repository_impl.dart';

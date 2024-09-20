@@ -8,7 +8,7 @@ import 'package:swit/features/user/domain/repositories/login_repository.dart';
 class LoginRepositoryImpl implements LoginRepository {
   final GoogleLoginRemoteDataSource _googleDataSource;
 
-  LoginRepositoryImpl(this._googleDataSource,);
+  LoginRepositoryImpl(this._googleDataSource);
 
   @override
   Future signInWithSocial(SocialLoginProvider provider) async {

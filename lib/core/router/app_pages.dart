@@ -5,18 +5,23 @@ import 'package:swit/core/di/login_binding.dart';
 import 'package:swit/core/di/mate_binding.dart';
 import 'package:swit/core/di/schedule_binding.dart';
 import 'package:swit/core/di/setting_binding.dart';
+import 'package:swit/core/di/swit_setting_binding.dart';
+import 'package:swit/core/middleware/login_middleware.dart';
 import 'package:swit/features/home/presentations/view/home_screen.dart';
+import 'package:swit/features/mate/presentation/view/create_post_it_screen.dart';
 import 'package:swit/features/mate/presentation/view/mate_screen.dart';
+import 'package:swit/features/more/presentation/view/more.screen.dart';
+import 'package:swit/features/more/presentation/view/user_info_screen.dart';
 import 'package:swit/features/study/audio/presentation/view/audio_screen.dart';
 import 'package:swit/features/study/schedule/presentation/view/create_schedule_screen.dart';
 import 'package:swit/features/study/schedule/presentation/view/edit_schedule_screen.dart';
 import 'package:swit/features/study/schedule/presentation/view/schedule_screen.dart';
-import 'package:swit/features/study/setting/presentation/view/bg_setting_screen.dart';
-import 'package:swit/features/study/setting/presentation/view/setting_screen.dart';
 import 'package:swit/features/study/study_screen.dart';
+import 'package:swit/features/study/swit/presentation/view/bg_setting_screen.dart';
+import 'package:swit/features/study/swit/presentation/view/swit_screen.dart';
+import 'package:swit/features/study/swit/presentation/view/swit_setting_screen.dart';
 import 'package:swit/features/user/presentation/view/login_screen.dart';
 // 다른 필요한 import 추가
-
 part 'app_routes.dart';
 
 class AppPages {
@@ -31,6 +36,7 @@ class AppPages {
         GetPage(
           name: Routes.STUDY,
           page: () => StudyScreen(),
+          middlewares: [LoginMiddleware()], // 미들웨어 테스트
           children: [
             GetPage(
               name: Routes.AUDIO,
@@ -38,13 +44,20 @@ class AppPages {
               binding: AudioBinding(),
             ),
             GetPage(
-                name: Routes.SETTING,
-                page: () => const SettingScreen(),
+                name: Routes.SWIT,
+                page: () => const SwitScreen(),
                 children: [
                   GetPage(
-                    name: Routes.BACKGROUNDSETTING,
-                    page: () => const BgSettingScreen(),
-                    binding: SettingBinding(),
+                    name: Routes.SWITSETTING,
+                    page: () => const SwitSettingScreen(),
+                    binding: SwitSettingBinding(),
+                    children: [
+                      GetPage(
+                        name: Routes.BACKGROUNDSETTING,
+                        page: () => const BgSettingScreen(),
+                        binding: SettingBinding(),
+                      )
+                    ],
                   ),
                 ]),
             GetPage(
@@ -67,6 +80,23 @@ class AppPages {
       name: Routes.MATE,
       page: () => MateScreen(),
       binding: MateBinding(),
+      children: [
+        GetPage(
+            name: Routes.CREATEPOSTIT,
+            page: () => const CreatePostItScreen())
+      ]
+    ),
+    GetPage(
+        name: Routes.MORE,
+        page: () => MoreScreen(),
+        binding: LoginBinding(),
+        children: [
+          GetPage(
+              name: Routes.USERINFO,
+              page: () => const UserInfoScreen(),
+              binding: LoginBinding(),
+          )
+        ]
     ),
     GetPage(
       name: Routes.LOGIN,

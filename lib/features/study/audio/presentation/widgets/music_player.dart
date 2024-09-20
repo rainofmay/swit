@@ -8,6 +8,7 @@ import 'package:swit/features/study/audio/presentation/widgets/circle.dart';
 import 'package:swit/shared/constant/color_box.dart';
 import 'package:swit/shared/constant/font_box.dart';
 import 'package:swit/shared/constant/icon_size.dart';
+import 'package:swit/shared/widgets/action_icon_button.dart';
 import 'package:swit/shared/widgets/custom_circular_indicator.dart';
 import 'package:swit/shared/widgets/custom_gap.dart';
 
@@ -79,36 +80,30 @@ class MusicPlayer extends StatelessWidget {
             children: [
               Circle(
                 backgroundColor: Colors.white,
-                child: IconButton(
-                    onPressed: viewModel.toggleShuffle,
-                    icon: Icon(
-                      CupertinoIcons.shuffle,
-                      color: viewModel.isShuffled.value
-                          ? ColorBox.primaryColor
-                          : ColorBox.black,
-                      size: IconSize.md,
-                    )),
-              ),
+                child: ActionIconButton(
+                    width: 14,
+                    height: 14,
+                    onTap: viewModel.toggleShuffle,
+                    svgAsset: 'assets/icons/music/shuffle.svg',
+              )),
               Circle(
                 backgroundColor: Colors.white,
-                child: IconButton(
-                    onPressed: viewModel.previousTrack,
-                    icon: Icon(Icons.skip_previous,
-                        color: ColorBox.black, size: IconSize.md)),
-              ),
+                child: ActionIconButton(
+                    width: 14,
+                    height: 14,
+                    onTap: viewModel.previousTrack,
+                    svgAsset: 'assets/icons/music/reverse.svg',
+                )),
               Circle(
                 backgroundColor: Colors.white,
-                child: IconButton(
-                    onPressed: () async {
-                      await viewModel.musicPlayPause();
-                    },
-                    icon: Icon(
-                        viewModel.isMusicPlaying
-                            ? Icons.pause_rounded
-                            : Icons.play_arrow_rounded,
-                        color: ColorBox.black,
-                        size: IconSize.md)),
-              ),
+                child: ActionIconButton(
+                    width: 14,
+                    height: 14,
+                    onTap: viewModel.musicPlayPause,
+                    svgAsset: viewModel.isMusicPlaying
+                            ? 'assets/icons/music/stop.svg'
+                            : 'assets/icons/music/play.svg'
+                )),
               Circle(
                 backgroundColor: Colors.white,
                 child: IconButton(

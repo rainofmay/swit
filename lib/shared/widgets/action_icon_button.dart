@@ -4,16 +4,20 @@ import 'package:flutter_svg/flutter_svg.dart';
 class ActionIconButton extends StatelessWidget {
   final dynamic svgAsset;
   final void Function()? onTap;
-  const ActionIconButton({super.key, required this.svgAsset, this.onTap});
+  final double? width;
+  final double? height;
+  final ColorFilter? colorFilter;
+  const ActionIconButton({super.key, required this.svgAsset, this.onTap, this.width, this.height, this.colorFilter});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap : onTap,
       child: SvgPicture.asset(
+        colorFilter: colorFilter,
         svgAsset,
-        width: 20,
-        height: 20,
+        width: width ?? 20,
+        height: height ?? 20,
       ),
     );
   }

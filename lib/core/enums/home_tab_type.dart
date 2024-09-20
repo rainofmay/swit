@@ -16,7 +16,7 @@ extension HomeTabX on HomeTab {
       case HomeTab.home:
         return 'assets/icons/home_black.svg';
       case HomeTab.record:
-        return 'assets/icons/mate_black.svg';
+        return 'assets/icons/log_black.svg';
       case HomeTab.mate:
         return 'assets/icons/mate_black.svg';
       case HomeTab.more:
@@ -29,7 +29,7 @@ extension HomeTabX on HomeTab {
       case HomeTab.home:
         return 'assets/icons/home_gray.svg';
       case HomeTab.record:
-        return 'assets/icons/mate_gray.svg';
+        return 'assets/icons/log_gray.svg';
       case HomeTab.mate:
         return 'assets/icons/mate_gray.svg';
       case HomeTab.more:

@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:swit/core/enums/bg_theme.dart';
-import 'package:swit/features/study/setting/presentation/viewmodel/bg_setting_view_model.dart';
 import 'dart:io' as io;
+
+import 'package:swit/features/study/swit/presentation/viewmodel/bg_setting_view_model.dart';
 
 class BuildBackground extends StatelessWidget {
   final vm = Get.find<BgSettingViewModel>();

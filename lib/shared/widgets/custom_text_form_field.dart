@@ -59,7 +59,7 @@ class CustomTextFormField extends StatelessWidget {
         this.hintStyle,
         this.inputBorder,
         this.textStyle,
-        super.key, });
+        super.key,});
 
   @override
   Widget build(BuildContext context) {

@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:swit/core/enums/bg_theme.dart';
-import 'package:swit/features/study/setting/presentation/viewmodel/bg_setting_view_model.dart';
-import 'package:swit/features/study/setting/presentation/widgets/build_background.dart';
+import 'package:swit/features/study/swit/presentation/viewmodel/bg_setting_view_model.dart';
+import 'package:swit/features/study/swit/presentation/widgets/build_background.dart';
 import 'package:swit/shared/constant/color_box.dart';
 import 'package:swit/shared/constant/icon_size.dart';
 import 'package:swit/shared/widgets/action_icon_button.dart';
@@ -47,7 +47,7 @@ class BgSettingScreen extends GetView<BgSettingViewModel> {
                             svgAsset: 'assets/icons/background/day.svg',
                             colorFilter: controller.editingTheme == BgTheme.day
                                 ? ColorFilter.mode(ColorBox.primaryColor, BlendMode.srcIn)
-                            : null),
+                                : ColorFilter.mode(ColorBox.grey, BlendMode.srcIn)),
                         onTap: () {
                           controller.updateEditingTheme(BgTheme.day);
                         }),
@@ -56,7 +56,7 @@ class BgSettingScreen extends GetView<BgSettingViewModel> {
                             svgAsset: 'assets/icons/background/night.svg',
                             colorFilter: controller.editingTheme == BgTheme.night
                                 ? ColorFilter.mode(ColorBox.primaryColor, BlendMode.srcIn)
-                                : ColorFilter.mode(ColorBox.black, BlendMode.srcIn)),
+                                : ColorFilter.mode(ColorBox.grey, BlendMode.srcIn)),
                         onTap: () {
                           controller.updateEditingTheme(BgTheme.night);
                         }),
@@ -65,9 +65,9 @@ class BgSettingScreen extends GetView<BgSettingViewModel> {
                           // width: 16,
                           // height: 16,
                             svgAsset: 'assets/icons/background/background.svg',
-                            // colorFilter: controller.editingTheme == BgTheme.custom
-                            //     ? ColorFilter.mode(ColorBox.primaryColor, BlendMode.srcIn)
-                            //     : ColorFilter.mode(ColorBox.grey, BlendMode.srcIn)
+                            colorFilter: controller.editingTheme == BgTheme.custom
+                                ? ColorFilter.mode(ColorBox.primaryColor, BlendMode.srcIn)
+                                : ColorFilter.mode(ColorBox.grey, BlendMode.srcIn)
     ),
                         onTap: () {
                           controller.updateEditingTheme(BgTheme.custom);

@@ -32,7 +32,9 @@ class GoogleLoginRemoteDataSource {
       // 사용자 정보 가져오기
       String? email = googleUser?.email;
       String? name = googleUser?.displayName;
-      String? profileUrl = googleUser?.photoUrl;
+      String? profileUrl = '';
+
+      // String? profileUrl = googleUser?.photoUrl;
 
       if (email == null) {
         print('오류 : 이메일 정보를 가져올 수 없습니다.');
@@ -99,10 +101,10 @@ class GoogleLoginRemoteDataSource {
 
       // 사용자 정보 저장
       await supabase.from('user').insert({
-        'id': response.user!.id,
+        // 'id': response.user!.id,
         'email': email,
-        'nickname': name,
-        'created_at': DateTime.now().toIso8601String(),
+        'username': name,
+        'profile_url':profileUrl,
       });
 
     } catch (error) {
@@ -136,6 +138,7 @@ class GoogleLoginRemoteDataSource {
 
   /* -- 구글 로그아웃 -- */
   Future<void> signOut() async {
-    googleSignIn.signOut();
+    googleSignIn.signOut(); // supabase 세션은 그대로 살아있는 듯
+    await supabase.auth.signOut(); // auth 로그아웃, 로컬에 저장된 토큰 정보 삭, 서버측 세션 정보 갱신
   }
 }
