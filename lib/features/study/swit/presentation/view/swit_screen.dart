@@ -41,9 +41,9 @@ class SwitScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const CustomGap(40),
-          Text('Here is Swit.', style: FontBox.TITLESTYLE),
+          Text('Here is Swit.', style: FontBox.H4),
           const CustomGap(16),
-          Text('From ${DateFormat('yyyy.MM.dd').format(DateTime.now())}', style: FontBox.CONTENTSTYLE),
+          Text('From ${DateFormat('yyyy.MM.dd').format(DateTime.now())}', style: FontBox.B1),
           const CustomGap(32),
           Container(
               width: 180,
@@ -64,7 +64,7 @@ class SwitScreen extends StatelessWidget {
                   children: [
                     ProfileImg(width: 60, height: 60),
                     const CustomGap(8),
-                    Text('User ID', style: FontBox.XSMALLSTYLE)
+                    Text('User ID', style: FontBox.B3)
                   ],
                 ),
               ],

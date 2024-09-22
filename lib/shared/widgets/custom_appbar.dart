@@ -39,7 +39,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       leading: leadingWidget,
       title: Text(
         appbarTitle ?? '',
-        style: FontBox.TITLESTYLE.copyWith(color: contentColor ?? ColorBox.black, letterSpacing: 1),
+        style: FontBox.H4.copyWith(color: contentColor ?? ColorBox.black, letterSpacing: 1),
       ),
       // centerTitle: true,
       actions: actions,

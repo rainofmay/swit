@@ -1,11 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:swit/core/enums/bg_theme.dart';
+import 'package:swit/app/enums/bg_theme.dart';
 import 'package:swit/features/study/swit/presentation/viewmodel/bg_setting_view_model.dart';
 import 'package:swit/features/study/swit/presentation/widgets/build_background.dart';
 import 'package:swit/shared/constant/color_box.dart';
-import 'package:swit/shared/constant/icon_size.dart';
 import 'package:swit/shared/widgets/action_icon_button.dart';
 import 'package:swit/shared/widgets/custom_back_appbar.dart';
 import 'package:swit/shared/widgets/custom_scaffold.dart';
@@ -35,14 +33,6 @@ class BgSettingScreen extends GetView<BgSettingViewModel> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     TapColumn(
-                      // widget: Icon(CupertinoIcons.sun_max,
-                      //     size: IconSize.xl,
-                      //     color: controller.editingTheme == BgTheme.day
-                      //         ? ColorBox.primaryColor
-                      //         : ColorBox.grey),
-                      // onTap: () {
-                      //   controller.updateEditingTheme(BgTheme.day);
-                      // }
                         widget: ActionIconButton(
                             svgAsset: 'assets/icons/background/day.svg',
                             colorFilter: controller.editingTheme == BgTheme.day

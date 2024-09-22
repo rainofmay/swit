@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:swit/core/enums/bg_theme.dart';
+import 'package:swit/app/enums/bg_theme.dart';
+
 
 
 

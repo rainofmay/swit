@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:swit/shared/constant/color_box.dart';
+import 'package:swit/shared/constant/font_box.dart';
 
 class CustomTextFormField extends StatelessWidget {
   final double? fieldWidth;
@@ -111,9 +112,12 @@ class CustomTextFormField extends StatelessWidget {
           suffixIcon: suffixIcon,
           labelText: labelText,
           hintText: hintText,
-          hintStyle: hintStyle ?? TextStyle(color: ColorBox.grey.withOpacity(0.5)),
+          hintStyle: hintStyle ?? FontBox.H5.copyWith(
+            color: ColorBox.grey,
+            height: 1.875,
+          ),
           counter: counter,
-          labelStyle: TextStyle(color: ColorBox.grey.withOpacity(0.5)),
+          labelStyle: FontBox.H5.copyWith(color: ColorBox.grey),
         ),
         obscureText: isPasswordField,
       ),

@@ -36,15 +36,15 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomGap(16),
-                Text('탈퇴 시 유의사항', style: FontBox.TITLESTYLE),
+                Text('탈퇴 시 유의사항', style: FontBox.H4),
                 CustomGap(32),
                 Text(
                     '1. 배경화면, 프로필 등 사용자가 설정한 데이터, 일정, 공부 일지, 메이트 등에 관한 모든 정보는 사라지며 복구할 수 없습니다.',
-                    style: FontBox.CONTENTSTYLE,
+                    style: FontBox.B1,
                     softWrap: true),
                 CustomGap(32),
                 Text('2. 본 애플리케이션 서비스는 귀하의 탈퇴 이후 개인정보 저장, 활용 등의 행위를 일체 하지 않습니다.',
-                    style: FontBox.CONTENTSTYLE, softWrap: true),
+                    style: FontBox.B1, softWrap: true),
               ],
             ),
           ),

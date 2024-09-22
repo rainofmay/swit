@@ -18,9 +18,9 @@ class LoginScreen extends GetView<LoginViewModel> {
       appBar: CustomBackAppBar(appbarTitle: '임시', isLeading: true, isCenterTitle: true),
       body: Column(
         children: [
-          Text('Swit', style: FontBox.TITLESTYLE,),
-          Text('같이 공부할래?', style: FontBox.CONTENTSTYLE,),
-          Text('Copyright', style: FontBox.MINISTYLE,),
+          Text('Swit', style: FontBox.H4,),
+          Text('같이 공부할래?', style: FontBox.B1,),
+          Text('Copyright', style: FontBox.B2,),
           Center(
             child: FractionallySizedBox(
               widthFactor: 0.7,

@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:swit/app/config/app_config.dart';
 import 'package:swit/core/di/mate_binding.dart';
 import 'package:swit/core/router/app_pages.dart';
 import 'package:swit/core/utils/audio/my_audio_handler.dart';
@@ -24,8 +25,6 @@ Future<void> main() async {
       anonKey: dotenv.get("PROJECT_API_KEY")
   );
 
-  // final audioHandler = await initAudioService();
-  // Get.put<AudioHandler>(audioHandler, permanent: true);
   // await Firebase.initializeApp(
   //   options: DefaultFirebaseOptions.currentPlatform,
   // );
@@ -44,6 +43,12 @@ class MyApp extends StatelessWidget {
       // systemNavigationBarColor: ColorBox.white, // 앱 하단 색
     ));
     return GetMaterialApp(
+      title: AppConfig.APP_TITLE,
+
+      // Localization
+      locale: Get.deviceLocale,
+      fallbackLocale: const Locale('ko', 'KR'),
+
       debugShowCheckedModeBanner: false,
       initialBinding: BindingsBuilder(() async {
         Get.put(BgSettingViewModel());

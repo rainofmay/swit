@@ -32,7 +32,7 @@ class EditScheduleScreen extends GetView<ScheduleViewModel> {
                     Get.back();
                   },
                   child: Text('수정',
-                      style: FontBox.CONTENTSTYLE.copyWith(
+                      style: FontBox.B1.copyWith(
                           color: controller.isFormValid
                               ? ColorBox.black
                               : ColorBox.grey)))),
@@ -42,7 +42,7 @@ class EditScheduleScreen extends GetView<ScheduleViewModel> {
                     Get.back();
                   },
                   child: Text('삭제',
-                      style: FontBox.CONTENTSTYLE
+                      style: FontBox.B1
                           .copyWith(color: ColorBox.darkRed)))
             ]),
         body: SafeArea(child: ScheduleForm())));

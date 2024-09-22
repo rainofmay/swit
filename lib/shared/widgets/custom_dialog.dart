@@ -15,7 +15,7 @@ Future<void> customDialog(BuildContext context, double height, String title,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(6)),
         ),
-        title: Text(title, style: FontBox.DIALOGSTYLE),
+        title: Text(title, style: FontBox.B1),
         content: SizedBox(
             height: height,
             child: contents),

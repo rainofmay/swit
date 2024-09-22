@@ -31,7 +31,7 @@ class AuthButton extends StatelessWidget {
             child: Center(
               child: Text(
                 authName,
-                style: FontBox.TITLESTYLE,
+                style: FontBox.H4,
               ),
             ),
           ),

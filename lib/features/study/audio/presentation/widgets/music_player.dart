@@ -65,7 +65,7 @@ class MusicPlayer extends StatelessWidget {
                   Icon(CupertinoIcons.music_note_2, size: IconSize.sm, color: ColorBox.white),
                   const CustomGap(8),
                   Text(viewModel.currentMusic.name,
-                      style: FontBox.WHITECONTENT.copyWith(
+                      style: FontBox.B1.copyWith(color: ColorBox.white
                   )),
                 ],
               ),

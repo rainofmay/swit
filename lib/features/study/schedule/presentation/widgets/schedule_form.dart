@@ -45,7 +45,7 @@ class ScheduleForm extends GetView<ScheduleViewModel> {
                     ]),
                     TextButton(
                       child: const Text('확인',
-                          style: FontBox.DIALOGSTYLE),
+                          style: FontBox.H5),
                       onPressed: () {
                         controller.updateScheduleColor(controller.editingSchedule.sectionColor);
                         Get.back();
@@ -55,7 +55,7 @@ class ScheduleForm extends GetView<ScheduleViewModel> {
               hintText: '일정을 입력해 주세요.',
               maxLines: 1,
               maxLength: 60,
-              textStyle: FontBox.TITLESTYLE,
+              textStyle: FontBox.H4,
               onChanged: (value) {
                 controller.checkFormValidity();
                 controller.updateScheduleName(value);
@@ -168,7 +168,7 @@ class ScheduleForm extends GetView<ScheduleViewModel> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text('하루 종일', style: FontBox.CONTENTSTYLE.copyWith(letterSpacing: 1)),
+                  Text('하루 종일', style: FontBox.B1.copyWith(letterSpacing: 1)),
                   const SizedBox(width: 3),
                   Transform.scale(
                     scale: 0.8,

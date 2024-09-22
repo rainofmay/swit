@@ -1,87 +1,71 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:flutter/material.dart';
+import 'package:swit/app/config/app_config.dart';
 
 abstract class FontBox {
-  /* Korean */
-  static const TextStyle TITLESTYLE = TextStyle(
+  /* -------------------------------------------------- */
+  /* --BLACK BASIC FONT ------------------------------- */
+  /* -------------------------------------------------- */
+
+  static const TextStyle H1 = TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.normal,
+    fontFamily: AppConfig.APP_FONT_STYLE,
+    color: Colors.black,
+  );
+
+  static const TextStyle H2 = TextStyle(
+    fontSize: 22,
+    fontWeight: FontWeight.normal,
+    fontFamily: AppConfig.APP_FONT_STYLE,
+    color: Colors.black,
+  );
+
+  static const TextStyle H3 = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.normal,
+    fontFamily: AppConfig.APP_FONT_STYLE,
+    color: Colors.black,
+  );
+
+  static const TextStyle H4 = TextStyle(
     fontSize: 18,
     fontWeight: FontWeight.normal,
-    fontFamily: 'cafe24OhsquareAir',
+    fontFamily: AppConfig.APP_FONT_STYLE,
     color: Colors.black,
   );
 
-  static const TextStyle MIDDLETITLE = TextStyle(
+  static const TextStyle H5 = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.normal,
-    fontFamily: 'cafe24OhsquareAir',
+    fontFamily: AppConfig.APP_FONT_STYLE,
     color: Colors.black,
   );
 
-  static const TextStyle DIALOGSTYLE = TextStyle(
+  static const TextStyle B1 = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.normal,
-    fontFamily: 'cafe24OhsquareAir',
+    fontFamily: AppConfig.APP_FONT_STYLE,
     color: Colors.black,
   );
 
-  static const TextStyle CONTENTSTYLE = TextStyle(
-    fontSize: 14,
-    fontWeight: FontWeight.normal,
-    fontFamily: 'cafe24OhsquareAir',
-    color: Colors.black,
-  );
-
-  static const TextStyle MINISTYLE = TextStyle(
+  static const TextStyle B2 = TextStyle(
     fontSize: 12,
     fontWeight: FontWeight.normal,
-    fontFamily: 'cafe24OhsquareAir',
+    fontFamily: AppConfig.APP_FONT_STYLE,
     color: Colors.black,
   );
 
-  static const TextStyle XSMALLSTYLE = TextStyle(
+  static const TextStyle B3 = TextStyle(
     fontSize: 10,
     fontWeight: FontWeight.normal,
-    fontFamily: 'cafe24OhsquareAir',
+    fontFamily: AppConfig.APP_FONT_STYLE,
     color: Colors.black,
   );
-
-
+  
   /* -------------------------------------------------- */
-  /* -------------------- WHITE ----------------------- */
+  /* --WHITE G-MARKET FONT ---------------------------- */
   /* -------------------------------------------------- */
-  static const TextStyle WHITETITLE = TextStyle(
-    fontSize: 18,
-    fontWeight: FontWeight.normal,
-    fontFamily: 'cafe24OhsquareAir',
-    color: Colors.white,
-  );
 
-  static const TextStyle WHITEMIDDLE = TextStyle(
-    fontSize: 16,
-    fontWeight: FontWeight.normal,
-    fontFamily: 'cafe24OhsquareAir',
-    color: Colors.white,
-  );
-
-  static const TextStyle WHITEDIALOG = TextStyle(
-    fontSize: 14,
-    fontWeight: FontWeight.normal,
-    fontFamily: 'cafe24OhsquareAir',
-    color: Colors.white,
-  );
-
-  static const TextStyle WHITECONTENT = TextStyle(
-    fontSize: 14,
-    fontWeight: FontWeight.normal,
-    fontFamily: 'cafe24OhsquareAir',
-    color: Colors.white,
-  );
-
-  static const TextStyle WHITEMINI = TextStyle(
-    fontSize: 12,
-    fontWeight: FontWeight.normal,
-    fontFamily: 'cafe24OhsquareAir',
-    color: Colors.white,
-  );
 }

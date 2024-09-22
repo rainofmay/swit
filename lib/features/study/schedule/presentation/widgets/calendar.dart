@@ -72,7 +72,7 @@ class Calendar extends GetView<ScheduleViewModel> {
       headerStyle: CalendarHeaderStyle(
           backgroundColor: ColorBox.white,
           textStyle:
-          FontBox.CONTENTSTYLE.copyWith(color: ColorBox.primaryColor)),
+          FontBox.B1.copyWith(color: ColorBox.primaryColor)),
       // 요일 헤더 스타일
       viewHeaderStyle: ViewHeaderStyle(
         backgroundColor: ColorBox.secondColor,

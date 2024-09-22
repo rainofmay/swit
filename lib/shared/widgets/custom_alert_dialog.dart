@@ -25,7 +25,7 @@ class CustomAlertDialog extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(8)),
       ),
       title:
-          Text(title, style: FontBox.MIDDLETITLE, textAlign: TextAlign.center),
+          Text(title, style: FontBox.H5, textAlign: TextAlign.center),
       content: SizedBox(width: width, height: height, child: contents),
       actions: [
         actionWidget,

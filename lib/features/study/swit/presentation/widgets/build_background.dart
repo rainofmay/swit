@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:swit/core/enums/bg_theme.dart';
+import 'package:swit/app/enums/bg_theme.dart';
 import 'dart:io' as io;
 
 import 'package:swit/features/study/swit/presentation/viewmodel/bg_setting_view_model.dart';

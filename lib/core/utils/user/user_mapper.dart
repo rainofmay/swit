@@ -1,4 +1,4 @@
-import 'package:swit/core/enums/online_status.dart';
+import 'package:swit/app/enums/online_status.dart';
 import 'package:swit/features/user/data/models/user_dto.dart';
 import 'package:swit/features/user/domain/entities/user.dart';
 

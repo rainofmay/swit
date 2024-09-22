@@ -30,8 +30,8 @@ class OkCancelButtons extends StatelessWidget {
           TextButton(
             child: Text(cancelText ?? '',
                 style: cancelTextColor != null
-                    ? FontBox.DIALOGSTYLE.copyWith(color: cancelTextColor)
-                    : FontBox.DIALOGSTYLE),
+                    ? FontBox.B1.copyWith(color: cancelTextColor)
+                    : FontBox.B1),
             onPressed: () {
               Navigator.of(context).pop(); // 닫히는 버튼
               onCancelPressed;
@@ -41,8 +41,8 @@ class OkCancelButtons extends StatelessWidget {
             onPressed: onPressed,
             child: Text(okText,
                 style: okTextColor != null
-                    ? FontBox.DIALOGSTYLE.copyWith(color: okTextColor)
-                    : FontBox.DIALOGSTYLE),
+                    ? FontBox.B1.copyWith(color: okTextColor)
+                    : FontBox.B1),
           ),
         ],
       ),

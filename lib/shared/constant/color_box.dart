@@ -24,7 +24,6 @@ abstract class ColorBox {
 
   /// Red for Error, Sunday
   static Color darkRed = const Color(0xff790F07);
-  static Color red = Colors.red;
 
   /// pink
   static Color customPink = Colors.pink;
@@ -104,4 +103,21 @@ abstract class ColorBox {
     },
   );
   static const int _pinkPrimaryValue = 0xFFF2ABAB;
+
+  static const MaterialColor red = MaterialColor(
+    _redValue,
+    <int, Color>{
+      900: Color(0xFF7A082D),
+      800: Color(0xFF930D2E),
+      700: Color(0xFFB7152F),
+      600: Color(0xFFDB1F2C),
+      500: Color(0xFFFF2E2B),
+      400: Color(0xFFFF6F60),
+      300: Color(0xFFFF977F),
+      200: Color(0xFFFFE3D4),
+      100: Color(0xFFFFD5D5),
+      50: Color(0xFFFFEFE6),
+    },
+  );
+  static const int _redValue = 0xFFFF2E2B;
 }

@@ -78,15 +78,15 @@ class MateTab extends GetView<MateViewModel> {
                       children: [
                         if (controller.username.isEmpty)
                           Text('로그인 해주세요.',
-                              style: FontBox.CONTENTSTYLE
+                              style: FontBox.B1
                                   .copyWith(color: ColorBox.grey))
                         else if (controller.username.trim().isEmpty)
                           Text('이름을 설정해 주세요.',
-                              style: FontBox.CONTENTSTYLE
+                              style: FontBox.B1
                                   .copyWith(color: ColorBox.grey))
                         else
                           Text(controller.username.trim(),
-                              style: FontBox.CONTENTSTYLE),
+                              style: FontBox.B1),
                         const CustomGap(6),
                         // SizedBox(
                         //
@@ -114,10 +114,10 @@ class MateTab extends GetView<MateViewModel> {
             child: Row(
               children: [
                 Text('Mates',
-                    style: FontBox.MINISTYLE.copyWith(color: ColorBox.dark)),
+                    style: FontBox.B2.copyWith(color: ColorBox.dark)),
                 const SizedBox(width: 10),
                 // Text('(${viewModel.mateProfiles.length})',
-                //     style: FontBox.MINISTYLE.copyWith(color: ColorBox.dark)),
+                //     style: FontBox.B2.copyWith(color: ColorBox.dark)),
                 const SizedBox(width: 16),
                 Expanded(
                     child: Container(color: ColorBox.grey.withOpacity(0.3), height: 1))

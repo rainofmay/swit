@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:swit/core/enums/online_status.dart';
+import 'package:swit/app/enums/online_status.dart';
 import 'package:swit/features/mate/domain/usecases/get_user_profile_use_case.dart';
 import 'package:swit/features/user/domain/entities/user.dart';
 import 'package:table_calendar/table_calendar.dart';

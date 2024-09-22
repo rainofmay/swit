@@ -42,7 +42,7 @@ class Calendar extends GetView<MateViewModel> {
                     alignment: Alignment.topLeft,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(day.day.toString(), style: FontBox.XSMALLSTYLE),
+                      child: Text(day.day.toString(), style: FontBox.B3),
                     )));
           },
               // 해당 주, 또는 월에서 벗어나는 날짜
@@ -53,7 +53,7 @@ class Calendar extends GetView<MateViewModel> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(day.day.toString(),
-                        style: FontBox.XSMALLSTYLE.copyWith(color: ColorBox.grey)),
+                        style: FontBox.B3.copyWith(color: ColorBox.grey)),
                   )),
             );
           },
@@ -69,7 +69,7 @@ class Calendar extends GetView<MateViewModel> {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     '${date.day}',
-                    style: FontBox.XSMALLSTYLE.copyWith(
+                    style: FontBox.B3.copyWith(
                         color: ColorBox.primaryColor,
                         fontWeight: FontWeight.bold),
                   ),
@@ -84,7 +84,7 @@ class Calendar extends GetView<MateViewModel> {
               final text = DateFormat.E().format(day);
               return Center(
                   child: Text(text,
-                      style: FontBox.MINISTYLE.copyWith(color: ColorBox.red)));
+                      style: FontBox.B2.copyWith(color: ColorBox.red)));
             }
             return null;
           },
@@ -155,13 +155,13 @@ class Calendar extends GetView<MateViewModel> {
               color: ColorBox.black,
               size: 18,
             ),
-            titleTextStyle: FontBox.CONTENTSTYLE,
+            titleTextStyle: FontBox.B1,
           ),
 
           // 요일 날짜 스타일
           daysOfWeekStyle: const DaysOfWeekStyle(
-            weekdayStyle: FontBox.MINISTYLE,
-            weekendStyle: FontBox.MINISTYLE,
+            weekdayStyle: FontBox.B2,
+            weekendStyle: FontBox.B2,
           ),
 
           calendarStyle: const CalendarStyle(

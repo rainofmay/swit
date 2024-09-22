@@ -33,7 +33,7 @@ class TapRow extends StatelessWidget {
                   widget ?? const SizedBox(),
                   const CustomGap(12),
                   Text(title,
-                      style: FontBox.MIDDLETITLE),
+                      style: FontBox.H5),
                 ],
               ),
             ),

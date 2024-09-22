@@ -1,4 +1,4 @@
-import 'package:swit/core/enums/online_status.dart';
+import 'package:swit/app/enums/online_status.dart';
 
 class User {
   final String uid;

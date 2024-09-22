@@ -55,7 +55,7 @@ class SoundPlayer extends StatelessWidget {
           SizedBox(
               width: 140,
               child: Text(audio.name,
-                  style: FontBox.WHITEMINI.copyWith(fontWeight: FontWeight.bold))),
+                  style: FontBox.B2.copyWith(fontWeight: FontWeight.bold, color: ColorBox.white))),
           const CustomGap(4),
           SliderTheme(
             data: Theme.of(context).sliderTheme,

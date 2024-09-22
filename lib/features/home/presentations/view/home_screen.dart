@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:swit/app/enums/home_tab_type.dart';
 import 'package:swit/core/di/mate_binding.dart';
 import 'package:swit/features/home/presentations/viewmodel/home_viewmodel.dart';
-import 'package:swit/core/enums/home_tab_type.dart';
 import 'package:swit/features/mate/domain/usecases/get_user_profile_use_case.dart';
 import 'package:swit/features/mate/presentation/view/mate_screen.dart';
 import 'package:swit/features/mate/presentation/viewmodel/mate_view_model.dart';
