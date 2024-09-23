@@ -40,7 +40,7 @@ class ScheduleViewModel extends GetxController {
   final RxList<DateTime> _selectedDateRange = <DateTime>[].obs;
   List<DateTime> get selectedDateRange => _selectedDateRange;
 
-  late List<Schedule> _schedules = <Schedule>[].obs;
+  late RxList<Schedule> _schedules = <Schedule>[].obs;
   List<Schedule> get schedules => _schedules;
   final RxList<Schedule> _selectedDateSchedules = <Schedule>[].obs;
   List get selectedDateSchedules => _selectedDateSchedules;
@@ -140,7 +140,7 @@ class ScheduleViewModel extends GetxController {
     try {
       _isSchedulesLoaded.value = false;
       final List<Schedule> data = await _getScheduleUseCase.execute();
-      _schedules = data;
+      _schedules.value = data;
       _isSchedulesLoaded.value = true;
       update();
       print('Schedules after mapping: ${_schedules}');
@@ -158,7 +158,8 @@ class ScheduleViewModel extends GetxController {
   void updateSelectedDate(DateTime selectedDate) {
     _selectedDate.value = selectedDate;
 
-    updateSelectedDateSchedules();
+    initNewSchedule(); // 일정 생성 시, 선택된 날짜를 초기값으로 하기 위함
+    updateSelectedDateSchedules(); // 선택된 날짜 일정을 불러옴
   }
 
   void updateFocusedDate(DateTime focusedDate) {
@@ -212,14 +213,19 @@ class ScheduleViewModel extends GetxController {
   Future<void> onUpdatePressed() async {
     if (isFormValid) {
       try {
+        _editingSchedule.update((val) {
+          val?.scheduleName = _titleController.value.text;
+          val?.description = _descriptionController.value.text;
+        });
         storedSchedule = _editingSchedule.value;
         await _updateScheduleUseCase.execute(storedSchedule);
         await getSchedules();
+        initNewSchedule();
       } catch (e) {
-        print('Failed to update schedule: $e');
+        print('ViewModel failed to update schedule: $e');
       }
     } else {
-      print('Form is not valid');  // 로그 추가
+      print('Form is not valid');
     }
   }
 
@@ -248,81 +254,6 @@ class ScheduleViewModel extends GetxController {
       await getSchedules();
     } catch (e) {
       print('Failed to delete schedule: $e');
-    }
-  }
-
-
-  /* -- Client Functions -- */
-  void onTap(CalendarTapDetails details) {
-    if (details.targetElement == CalendarElement.calendarCell) {
-      final tappedDate =
-      DateTime(details.date!.year, details.date!.month, details.date!.day);
-
-      final editedFrom = tappedDate.copyWith(hour: DateTime.now().hour);
-      final editedTo = DateTime.now().hour >= 22
-          ? tappedDate.copyWith(hour: 23)
-          : editedFrom.add(const Duration(hours: 2));
-
-      if (_selectedDateRange.length > 1) {
-        // 범위 선택 상태에서 탭한 경우
-        if (_selectedDateRange.contains(tappedDate)) {
-          // 탭한 날짜가 선택된 범위 내에 있으면 해당 날짜만 선택
-          _selectedDate.value = tappedDate;
-          _selectedDateRange.clear();
-          _selectedDateRange.add(tappedDate);
-        } else {
-          // 범위 밖의 날짜를 탭하면 새로운 단일 선택
-          _selectedDate.value = tappedDate;
-          _selectedDateRange.clear();
-          _selectedDateRange.add(tappedDate);
-        }
-      } else if (_selectedDate.value == tappedDate) {
-        // 이미 선택된 단일 날짜를 다시 탭하면 선택 해제
-        _selectedDate.value = tappedDate;
-        _selectedDateRange.clear();
-      } else {
-        // 새로운 날짜 선택
-        _editingSchedule.value.from = editedFrom;
-        _editingSchedule.value.to = editedTo;
-        _selectedDate.value = tappedDate;
-        _selectedDateRange.clear();
-        _selectedDateRange.add(tappedDate);
-      }
-
-      // 일정을 터치해 수정 모드로 진입
-    } else if (details.targetElement == CalendarElement.appointment ||
-        details.targetElement == CalendarElement.agenda) {
-      // Agenda 영역의 일정을 탭한 경우
-      if (details.appointments != null && details.appointments!.isNotEmpty) {
-        final Schedule tappedSchedule = details.appointments![0];
-        updateEditingSchedule(tappedSchedule);
-      }
-    }
-  }
-
-
-  void onLongPress(CalendarLongPressDetails details) {
-    if (details.targetElement == CalendarElement.calendarCell) {
-      final longPressedDate =
-          DateTime(details.date!.year, details.date!.month, details.date!.day);
-
-      if (_selectedDate.value != null) {
-        // 범위 선택
-        final startDate = _selectedDate.value!;
-        final endDate = longPressedDate;
-
-        _selectedDateRange.clear();
-        for (var date = startDate;
-            date.isBefore(endDate.add(Duration(days: 1)));
-            date = date.add(Duration(days: 1))) {
-          _selectedDateRange.add(date);
-        }
-      } else {
-        // 단일 날짜 선택 (길게 누르기)
-        _selectedDate.value = longPressedDate;
-        _selectedDateRange.clear();
-        _selectedDateRange.add(longPressedDate);
-      }
     }
   }
 

@@ -26,8 +26,8 @@ class Calendar extends GetView<MateViewModel> {
 
           selectedDayPredicate: (day) =>
               isSameDay(controller.selectedDate, day),
-          firstDay: DateTime.now().subtract(const Duration(days: 365 * 10 + 5)),
-          lastDay: DateTime.now().add(const Duration(days: 365 * 10 + 5)),
+          firstDay: DateTime.now().subtract(const Duration(days: 365 * 3)),
+          lastDay: DateTime.now().add(const Duration(days: 365 * 20)),
 
           calendarBuilders: CalendarBuilders(
 

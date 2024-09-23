@@ -16,41 +16,61 @@ class ScheduleList extends GetView<ScheduleViewModel> {
     return Padding(
       padding: const EdgeInsets.only(left: 2.0),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,  // 상단 정렬
         children: [
-          Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-            Obx(() {
-              final isToday = controller.selectedDate.day == DateTime.now().day;
-              return Container(
-                width: 60,
-                height: 60,
-                child: Column(
-                  children: [
-                    Text(
-                      DateFormat('E')
-                          .format(controller.selectedDate)
-                          .toUpperCase(),
-                      style: FontBox.B3.copyWith(
-                        color: isToday
-                            ? ColorBox.primaryColor
-                            : ColorBox.grey,
-                      ),
+          Expanded(
+            flex: 1,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Obx(() {
+                  final isToday = controller.selectedDate.day == DateTime.now().day;
+                  return SizedBox(
+                    width: 60,
+                    height: 80,  // 높이를 더 크게 설정
+                    child: Column(
+                      children: [
+                        Text(
+                          DateFormat('E').format(controller.selectedDate).toUpperCase(),
+                          style: FontBox.B3.copyWith(
+                            color: isToday ? ColorBox.primaryColor : ColorBox.grey,
+                          ),
+                        ),
+                        const CustomGap(4),
+                        _buildDayText(controller.selectedDate),
+                      ],
                     ),
-                    CustomGap(isToday ? 4 : 8),
-                    _buildDayText(controller.selectedDate),
-                  ],
-                ),
-              );
-            })
-          ]),
-          Obx(() => Expanded(
-              child: ListView.builder(
+                  );
+                })
+              ],
+            ),
+          ),
+          Expanded(
+            flex: 7,
+            child: ConstrainedBox(  // 최소 높이 설정
+              constraints: const BoxConstraints(minHeight: 80),
+              child: Obx(() => controller.selectedDateSchedules.isNotEmpty
+                  ? ListView.builder(
                 shrinkWrap: true,
                 itemCount: controller.selectedDateSchedules.length,
                 itemBuilder: (BuildContext context, int index) {
                   final schedule = controller.selectedDateSchedules[index];
                   return _scheduleCard(schedule, context);
                 },
-              ))),
+              )
+                  : Align(
+                alignment: Alignment.topLeft,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 16, top: 8),
+                  child: Text(
+                    'No Schedules',
+                    style: FontBox.B1.copyWith(color: ColorBox.grey),
+                  ),
+                ),
+              )
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -80,58 +100,55 @@ class ScheduleList extends GetView<ScheduleViewModel> {
 
     return text;
   }
+
+
   Widget _scheduleCard(Schedule schedule, BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.only(bottom: 8.0, left: 12.0, right: 12.0),
-        child: GestureDetector(
-          behavior: HitTestBehavior.opaque, // 빈 영역도 터치되도록
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque, // 빈 영역도 터치되도록
 
-          // 수정 페이지 들어갈 때,
-          onTap: () {
-            viewModel.initializeForEditSchedule(schedule);
-            Get.toNamed(Routes.STUDY + Routes.SCHEDULE + Routes.EDITSCHEDULE);
-          },
-          child: Expanded(
-            child: Container(
-              margin: const EdgeInsets.only(right: 30, left: 5, bottom: 15),
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  // 카드 안에서 텍스트의 패딩 간격
-                    left: 8,
-                    right: 8,
-                    top: 12,
-                    bottom: 0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(schedule.scheduleName, style: FontBox.H5),
-                    Text(
-                      !schedule.isAllDay
-                          ? schedule.from.day !=
-                          schedule
-                              .to.day // 시간 설정 있고, 기간일 때
-                          ? schedule.from.year ==
-                          schedule.to.year
-                          ? '${schedule.from.year}/${schedule.from.month}/${schedule.from.day} ~ ${schedule.to.month}/${schedule.to.day}'
-                          : '${schedule.from.year}/${schedule.from.month}/${schedule.from.day} ~ ${schedule.to.year}/${schedule.to.month}/${schedule.to.day}'
-                          : '${DateFormat('hh:mm a').format(schedule.from)}~${DateFormat('hh:mm a').format(schedule.to)}' // 하루일 때
+      // 수정 페이지 들어갈 때,
+      onTap: () {
+        controller.updateEditingSchedule(schedule);
+        Get.toNamed(Routes.STUDY + Routes.SCHEDULE + Routes.EDITSCHEDULE);
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: schedule.sectionColor
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(schedule.scheduleName, style: FontBox.B1.copyWith(color: ColorBox.white), overflow: TextOverflow.ellipsis),
+              const CustomGap(8),
+              Text(
+                !schedule.isAllDay
+                    ? schedule.from.day !=
+                    schedule
+                        .to.day // 시간 설정 있고, 기간일 때
+                    ? schedule.from.year ==
+                    schedule.to.year
+                    ? '${schedule.from.year}/${schedule.from.month}/${schedule.from.day} ~ ${schedule.to.month}/${schedule.to.day}'
+                    : '${schedule.from.year}/${schedule.from.month}/${schedule.from.day} ~ ${schedule.to.year}/${schedule.to.month}/${schedule.to.day}'
+                    : '${DateFormat('hh:mm a').format(schedule.from)}~${DateFormat('hh:mm a').format(schedule.to)}' // 하루일 때
 
-                          : schedule.from.day !=
-                          schedule
-                              .to.day // 시간 설정 없고 기간일 때,
-                          ? schedule.from.year ==
-                          schedule.to.year
-                          ? '${schedule.from.year}/${schedule.from.month}/${schedule.from.day} ~ ${schedule.to.month}/${schedule.to.day}'
-                          : '${schedule.from.year}/${schedule.from.month}/${schedule.from.day} ~ ${schedule.to.year}/${schedule.to.month}/${schedule.to.day}'
-                          : '${schedule.from.year}/${schedule.from.month}/${schedule.from.day}',
-                      style: FontBox.B3.copyWith(color: ColorBox.grey),
-                    ),
-                  ],
-                ),
+                    : schedule.from.day !=
+                    schedule
+                        .to.day // 시간 설정 없고 기간일 때,
+                    ? schedule.from.year ==
+                    schedule.to.year
+                    ? '${schedule.from.year}/${schedule.from.month}/${schedule.from.day} ~ ${schedule.to.month}/${schedule.to.day}'
+                    : '${schedule.from.year}/${schedule.from.month}/${schedule.from.day} ~ ${schedule.to.year}/${schedule.to.month}/${schedule.to.day}'
+                    : '${schedule.from.year}/${schedule.from.month}/${schedule.from.day}',
+                style: FontBox.B3.copyWith(color: ColorBox.white),
               ),
-            ),
+            ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 
 }
