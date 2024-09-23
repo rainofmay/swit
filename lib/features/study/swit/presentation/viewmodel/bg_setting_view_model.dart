@@ -3,8 +3,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swit/app/enums/bg_theme.dart';
 
 
-
-
 class BgSettingViewModel extends GetxController {
   late final Rx<BgTheme> _editingTheme = BgTheme.day.obs; // 수정 중인 값
   late final Rx<BgTheme> _storedTheme; // 최종 저장된 값

@@ -6,7 +6,7 @@ class GetUserProfileUseCase {
 
   GetUserProfileUseCase(this._mateRepository);
 
-  Future<User> getUserProfile() async {
+  Future<User> execute() async {
     return await _mateRepository.fetchUserProfile();
   }
 }

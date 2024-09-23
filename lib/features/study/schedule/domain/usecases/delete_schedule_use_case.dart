@@ -5,7 +5,7 @@ class DeleteScheduleUseCase {
   final ScheduleRepository repository;
   DeleteScheduleUseCase(this.repository);
 
-  Future deleteSchedule(Schedule schedule) async {
+  Future execute(Schedule schedule) async {
     await repository.deleteSchedule(schedule);
   }
 }

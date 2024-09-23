@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:swit/core/router/app_pages.dart';
 import 'package:swit/features/study/schedule/presentation/view/create_schedule_screen.dart';
 import 'package:swit/features/study/schedule/presentation/widgets/calendar.dart';
+import 'package:swit/features/study/schedule/presentation/widgets/schedule_list.dart';
 import 'package:swit/shared/widgets/custom_back_appbar.dart';
 import 'package:swit/shared/widgets/custom_scaffold.dart';
 
@@ -26,7 +27,12 @@ class ScheduleScreen extends StatelessWidget {
               icon: const Icon(Icons.add))
         ],
       ),
-      body: Calendar(),
+      body: Column(
+        children: [
+          Calendar(),
+          ScheduleList(),
+        ],
+      ),
     );
   }
 }

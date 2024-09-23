@@ -8,7 +8,7 @@ import 'package:swit/features/study/schedule/domain/usecases/delete_schedule_use
 import 'package:swit/features/study/schedule/domain/usecases/get_schedule_use_case.dart';
 import 'package:swit/features/study/schedule/domain/usecases/update_schedule_use_case.dart';
 import 'package:swit/shared/constant/schedule_color.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:table_calendar/table_calendar.dart';
 import 'package:uuid/uuid.dart';
 
 class ScheduleViewModel extends GetxController {
@@ -26,22 +26,29 @@ class ScheduleViewModel extends GetxController {
         _updateScheduleUseCase = updateScheduleUseCase,
         _deleteScheduleUseCase = deleteScheduleUseCase;
 
-  /* -- Calendar -- */
-  late final Rx<CalendarController> _controller = CalendarController().obs;
-  CalendarController get controller => _controller.value;
+  /* ------------------------------------------------------ */
+  /* Calendar --------------------------------------------- */
+  /* ------------------------------------------------------ */
 
-  late List<Schedule> schedules = <Schedule>[];
-  // List<Schedule> get schedules => _schedules;
+  late final Rx<DateTime> _selectedDate = DateTime.now().obs;
+  DateTime get selectedDate => _selectedDate.value;
+  late final Rx<DateTime> _focusedDate = DateTime.now().obs;
+  DateTime get focusedDate => _focusedDate.value;
 
-  ScheduleService get scheduleService => ScheduleService(schedules);
-
-
-  late final Rx<DateTime?> _selectedDate = Rx<DateTime?>(DateTime.now());
-  DateTime? get selectedDate => _selectedDate.value;
+  final Rx<CalendarFormat> _calendarFormat = CalendarFormat.month.obs;
+  CalendarFormat get calendarFormat => _calendarFormat.value;
   final RxList<DateTime> _selectedDateRange = <DateTime>[].obs;
   List<DateTime> get selectedDateRange => _selectedDateRange;
 
-  /* -- Schedule -- */
+  late List<Schedule> _schedules = <Schedule>[].obs;
+  List<Schedule> get schedules => _schedules;
+  final RxList<Schedule> _selectedDateSchedules = <Schedule>[].obs;
+  List get selectedDateSchedules => _selectedDateSchedules;
+
+
+  /* ------------------------------------------------------ */
+  /* Schedule --------------------------------------------- */
+  /* ------------------------------------------------------ */
 
   late final RxBool _isSchedulesLoaded = false.obs;
   bool get isSchedulesLoaded => _isSchedulesLoaded.value;
@@ -62,35 +69,23 @@ class ScheduleViewModel extends GetxController {
   void onInit() {
     super.onInit();
     getSchedules();
-    // schedules.addAll([
-    //   Schedule(
-    //       scheduleName: 'Meeting',
-    //       from: DateTime.now(),
-    //       description: 'memo',
-    //       to: DateTime.now().add(Duration(hours: 9)),
-    //       sectionColor: Colors.green,
-    //       isTimeSet: true),
-    //   Schedule(
-    //       scheduleName: 'Test',
-    //       from: DateTime.now(),
-    //       description: 'memo',
-    //       to: DateTime.now().add(Duration(days: 1)),
-    //       sectionColor: Colors.blue,
-    //       isTimeSet: false),
-    // ]);
+    updateSelectedDateSchedules();
     print('schedules $schedules');
 
   }
 
   @override
   void onClose() {
-    _controller.value.dispose();
     _titleController.value.dispose();
     _descriptionController.value.dispose();
     super.onClose();
   }
 
-  /* -- Init -- */
+
+  /* ------------------------------------------------------ */
+  /* Init ------------------------------------------------- */
+  /* ------------------------------------------------------ */
+
 
   Schedule createInitSchedule({Schedule? existingSchedule}) {
     final now = DateTime.now();
@@ -125,32 +120,52 @@ class ScheduleViewModel extends GetxController {
     // 다른 필드들도 초기화
   }
 
-  /* -- Create -- */
+  /* ------------------------------------------------------ */
+  /* Create ----------------------------------------------- */
+  /* ------------------------------------------------------ */
   Future<void> onSavePressed() async {
     if (isFormValid) {
       storedSchedule = _editingSchedule.value;
-      await _createScheduleUseCase.createSchedule(storedSchedule);
+      await _createScheduleUseCase.execute(storedSchedule);
       await getSchedules();
       initNewSchedule();
     }
   }
 
-  /* -- Get -- */
+  /* ------------------------------------------------------ */
+  /* Get -------------------------------------------------- */
+  /* ------------------------------------------------------ */
+
   Future<void> getSchedules() async {
     try {
       _isSchedulesLoaded.value = false;
-      final List<Schedule> data = await _getScheduleUseCase.getSchedules();
-      schedules = data;
+      final List<Schedule> data = await _getScheduleUseCase.execute();
+      _schedules = data;
       _isSchedulesLoaded.value = true;
       update();
-      print('Schedules after mapping: ${schedules}');
+      print('Schedules after mapping: ${_schedules}');
     } catch(e) {
       _isSchedulesLoaded.value = false;
     }
   }
 
 
-  /* -- Update -- */
+  /* ------------------------------------------------------ */
+  /* Update ----------------------------------------------- */
+  /* ------------------------------------------------------ */
+
+  /* -- Calendar -- */
+  void updateSelectedDate(DateTime selectedDate) {
+    _selectedDate.value = selectedDate;
+
+    updateSelectedDateSchedules();
+  }
+
+  void updateFocusedDate(DateTime focusedDate) {
+    _focusedDate.value = focusedDate;
+  }
+
+  /* -- Schedule -- */
   void updateScheduleName(String name) {
     _editingSchedule.update((val) {
       val?.scheduleName = name;
@@ -198,7 +213,7 @@ class ScheduleViewModel extends GetxController {
     if (isFormValid) {
       try {
         storedSchedule = _editingSchedule.value;
-        await _updateScheduleUseCase.updateSchedule(storedSchedule);
+        await _updateScheduleUseCase.execute(storedSchedule);
         await getSchedules();
       } catch (e) {
         print('Failed to update schedule: $e');
@@ -208,11 +223,28 @@ class ScheduleViewModel extends GetxController {
     }
   }
 
-  /* -- Delete -- */
+  void updateSelectedDateSchedules() {
+    // 선택된 날짜에 해당하는 일정들을 필터링
+    _selectedDateSchedules.value = _schedules
+        .where((schedule) =>
+    (schedule.from.year <= _selectedDate.value.year &&
+        schedule.from.month <= _selectedDate.value.month &&
+        schedule.from.day <= _selectedDate.value.day) &&
+        (schedule.to.year >= _selectedDate.value.year &&
+            schedule.to.month >= _selectedDate.value.month &&
+            schedule.to.day >= _selectedDate.value.day))
+        .toList();
+    update();
+  }
+
+  /* ------------------------------------------------------ */
+  /* Delete ----------------------------------------------- */
+  /* ------------------------------------------------------ */
+
   Future<void> deleteSchedule() async {
     try {
       storedSchedule = _editingSchedule.value;
-      _deleteScheduleUseCase.deleteSchedule(storedSchedule);
+      _deleteScheduleUseCase.execute(storedSchedule);
       await getSchedules();
     } catch (e) {
       print('Failed to delete schedule: $e');
@@ -264,14 +296,10 @@ class ScheduleViewModel extends GetxController {
       if (details.appointments != null && details.appointments!.isNotEmpty) {
         final Schedule tappedSchedule = details.appointments![0];
         updateEditingSchedule(tappedSchedule);
-        navigateToEditScreen();
       }
     }
   }
 
-  void navigateToEditScreen() {
-    Get.toNamed(Routes.STUDY + Routes.SCHEDULE + Routes.EDITSCHEDULE);
-  }
 
   void onLongPress(CalendarLongPressDetails details) {
     if (details.targetElement == CalendarElement.calendarCell) {

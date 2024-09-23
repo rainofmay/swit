@@ -37,7 +37,7 @@ class MateViewModel extends GetxController {
   // 파생된 옵저버블 속성들
   String get email => _user.value?.email ?? '';
   String get uid => _user.value?.uid ?? '';
-  String get username => _user.value?.username ?? '테스트';
+  String get username => _user.value?.username ?? '';
   String get profileUrl => _user.value?.profileUrl ?? '';
   OnlineStatus get onlineStatus => _user.value?.onlineStatus ?? OnlineStatus.offline;
 
@@ -61,7 +61,7 @@ class MateViewModel extends GetxController {
   /* -- get -- */
   // 내 프로필 가져오기(업데이트)
   Future<void> loadUserProfile() async {
-      final User userProfile = await _getUserProfileUseCase.getUserProfile();
+      final User userProfile = await _getUserProfileUseCase.execute();
       _user.value = userProfile;
   }
 

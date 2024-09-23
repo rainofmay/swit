@@ -54,9 +54,6 @@ class MyApp extends StatelessWidget {
         Get.put(BgSettingViewModel());
         Get.put(HomeViewModel());
         // Get.put(LoginService());
-        MateBinding().dependencies();
-        final audioHandler = await initAudioService();
-        Get.put<AudioHandler>(audioHandler, permanent: true);
         }),
 
       initialRoute: AppPages.INITIAL,

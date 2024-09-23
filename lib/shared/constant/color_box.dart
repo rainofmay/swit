@@ -120,4 +120,22 @@ abstract class ColorBox {
     },
   );
   static const int _redValue = 0xFFFF2E2B;
+
+  /// Neutral Color
+  static MaterialColor neutral = const MaterialColor(
+    _neutralValue,
+    <int, Color>{
+      900: Color(0xFF1C1C4F),
+      800: Color(0xFF2E2E5F),
+      700: Color(0xFF494976),
+      600: Color(0xFF6A6A8D),
+      500: Color(0xFF9292A5),
+      400: Color(0xFFB7B7C9),
+      300: Color(0xFFD4D4E3),
+      200: Color(0xFFEAEAF6),
+      100: Color(0xFFF5F5FF),
+      50: Color(0xFFFAFAFF),
+    },
+  );
+  static const int _neutralValue = 0xFF9292A5;
 }

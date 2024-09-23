@@ -12,6 +12,7 @@ class MateTab extends GetView<MateViewModel> {
 
   @override
   Widget build(BuildContext context) {
+
     return Column(children: [
       SizedBox(
         height: 100,
@@ -21,6 +22,7 @@ class MateTab extends GetView<MateViewModel> {
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+
               // 내 프로필 이미지
               Obx(
                 () => GestureDetector(
@@ -77,7 +79,7 @@ class MateTab extends GetView<MateViewModel> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         if (controller.username.isEmpty)
-                          Text('로그인 해주세요.',
+                          Text('로그인을 해주세요.',
                               style: FontBox.B1
                                   .copyWith(color: ColorBox.grey))
                         else if (controller.username.trim().isEmpty)

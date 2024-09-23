@@ -5,7 +5,7 @@ class GetScheduleUseCase {
   final ScheduleRepository repository;
   GetScheduleUseCase(this.repository);
 
-  Future<List<Schedule>> getSchedules() async {
+  Future<List<Schedule>> execute() async {
     return await repository.getSchedules();
   }
 }

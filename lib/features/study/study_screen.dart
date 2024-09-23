@@ -1,6 +1,8 @@
+import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:swit/core/router/app_pages.dart';
+import 'package:swit/core/utils/audio/my_audio_handler.dart';
 import 'package:swit/features/study/schedule/presentation/view/schedule_screen.dart';
 import 'package:swit/features/study/schedule/presentation/widgets/calendar.dart';
 import 'package:swit/shared/constant/color_box.dart';
@@ -21,8 +23,11 @@ class StudyScreen extends GetView<BgSettingViewModel> {
         actions: [
           ActionIconButton(
               svgAsset: 'assets/icons/headset.svg',
-              onTap: () {
+              onTap: () async {
                 Get.toNamed(Routes.STUDY + Routes.AUDIO);
+
+                final audioHandler = await initAudioService();
+                Get.put<AudioHandler>(audioHandler, permanent: true);
               }),
           // const CustomGap(8),
           // const Icon(Icons.notifications_none_rounded),
