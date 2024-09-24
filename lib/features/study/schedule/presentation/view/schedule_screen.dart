@@ -27,7 +27,7 @@ class ScheduleScreen extends GetView<ScheduleViewModel> {
               icon: const Icon(Icons.add))
         ],
       ),
-      body: Column(
+      body:  Column(
         children: [
           Calendar(),
           ScheduleList(),

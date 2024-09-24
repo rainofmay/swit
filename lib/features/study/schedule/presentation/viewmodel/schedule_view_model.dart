@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:swit/core/router/app_pages.dart';
 import 'package:swit/core/utils/schedule/schedule_service.dart';
+import 'package:swit/features/study/schedule/domain/entities/event.dart';
 import 'package:swit/features/study/schedule/domain/entities/schedule.dart';
 import 'package:swit/features/study/schedule/domain/usecases/create_schedule_use_case.dart';
 import 'package:swit/features/study/schedule/domain/usecases/delete_schedule_use_case.dart';
@@ -40,7 +41,7 @@ class ScheduleViewModel extends GetxController {
   final RxList<DateTime> _selectedDateRange = <DateTime>[].obs;
   List<DateTime> get selectedDateRange => _selectedDateRange;
 
-  late RxList<Schedule> _schedules = <Schedule>[].obs;
+  late final RxList<Schedule> _schedules = <Schedule>[].obs;
   List<Schedule> get schedules => _schedules;
   final RxList<Schedule> _selectedDateSchedules = <Schedule>[].obs;
   List get selectedDateSchedules => _selectedDateSchedules;
@@ -68,8 +69,8 @@ class ScheduleViewModel extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    getSchedules();
-    updateSelectedDateSchedules();
+    getSchedules().then((onValue) => updateSelectedDate(_selectedDate.value));
+
     print('schedules $schedules');
 
   }
@@ -129,6 +130,8 @@ class ScheduleViewModel extends GetxController {
       await _createScheduleUseCase.execute(storedSchedule);
       await getSchedules();
       initNewSchedule();
+      updateSelectedDateSchedules();
+      update();
     }
   }
 
@@ -136,17 +139,55 @@ class ScheduleViewModel extends GetxController {
   /* Get -------------------------------------------------- */
   /* ------------------------------------------------------ */
 
+  /* -- Schedule -- */
   Future<void> getSchedules() async {
     try {
       _isSchedulesLoaded.value = false;
       final List<Schedule> data = await _getScheduleUseCase.execute();
-      _schedules.value = data;
+      _schedules.assignAll(data);
       _isSchedulesLoaded.value = true;
       update();
       print('Schedules after mapping: ${_schedules}');
     } catch(e) {
       _isSchedulesLoaded.value = false;
     }
+  }
+
+  /* -- Events -- */
+  List<dynamic> initEvents(DateTime day) {
+    return _schedules.where((schedule) {
+      DateTime scheduleStart = DateTime(schedule.from.year, schedule.from.month, schedule.from.day);
+      DateTime scheduleEnd = DateTime(schedule.to.year, schedule.to.month, schedule.to.day);
+      DateTime dayStart = DateTime(day.year, day.month, day.day);
+
+      return !scheduleEnd.isBefore(dayStart) && !scheduleStart.isAfter(dayStart);
+    }).map((schedule) => [
+      schedule.from,
+      schedule.to,
+      schedule.id,
+      schedule.sectionColor,
+    ]).toList();
+  }
+
+  List<Event> getEvents(DateTime day) {
+    return _schedules.where((schedule) {
+      DateTime scheduleStart = DateTime(schedule.from.year, schedule.from.month, schedule.from.day);
+      DateTime scheduleEnd = DateTime(schedule.to.year, schedule.to.month, schedule.to.day);
+      DateTime dayStart = DateTime(day.year, day.month, day.day);
+
+      return !scheduleEnd.isBefore(dayStart) && !scheduleStart.isAfter(dayStart);
+    }).map((schedule) => Event(schedule.id)).toList();
+  }
+
+  Map<String, Color> getEventsColor(DateTime day) {
+    Map<String, Color> idColorData = {};
+    List data = initEvents(day);
+
+    for (int i = 0; i < data.length; i++) {
+      idColorData.addAll({data[i][2]: data[i][3]});
+    }
+    print('idColorData $idColorData');
+    return idColorData;
   }
 
 
@@ -221,6 +262,7 @@ class ScheduleViewModel extends GetxController {
         await _updateScheduleUseCase.execute(storedSchedule);
         await getSchedules();
         initNewSchedule();
+        updateSelectedDateSchedules();
       } catch (e) {
         print('ViewModel failed to update schedule: $e');
       }
@@ -252,12 +294,15 @@ class ScheduleViewModel extends GetxController {
       storedSchedule = _editingSchedule.value;
       _deleteScheduleUseCase.execute(storedSchedule);
       await getSchedules();
+      updateSelectedDateSchedules();
     } catch (e) {
       print('Failed to delete schedule: $e');
     }
   }
 
-  /* -- TextForm Validity -- */
+  /* ------------------------------------------------------ */
+  /* TextForm Validity ------------------------------------ */
+  /* ------------------------------------------------------ */
   void checkFormValidity() {
     bool validity = _titleController().text.isNotEmpty &&
         _titleController().text.length <= 60;

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:swit/features/mate/presentation/viewmodel/mate_view_model.dart';
+import 'package:swit/features/study/schedule/domain/entities/event.dart';
 import 'package:swit/features/study/schedule/presentation/viewmodel/schedule_view_model.dart';
 import 'package:swit/features/study/schedule/presentation/widgets/pick_month_year.dart';
 import 'package:swit/shared/constant/color_box.dart';
@@ -41,10 +42,6 @@ class Calendar extends GetView<ScheduleViewModel> {
         // 기본 날짜 스타일
           defaultBuilder: (context, day, focusedDay) {
             return Container(
-              // decoration: BoxDecoration(
-              //   border: Border.all(color: Colors.grey.shade300, width: 0.5),
-              //   color: ColorBox.white,
-              // ),
                 child: Align(
                     alignment: Alignment.center,
                     child: Padding(
@@ -54,7 +51,7 @@ class Calendar extends GetView<ScheduleViewModel> {
           },
           // 해당 주, 또는 월에서 벗어나는 날짜
           outsideBuilder: (context, day, focusedDay) {
-            return Container(
+            return SizedBox(
               child: Align(
                   alignment: Alignment.center,
                   child: Padding(
@@ -98,54 +95,32 @@ class Calendar extends GetView<ScheduleViewModel> {
 
           // 이벤트 표시
           markerBuilder: (context, day, events) {
-            // if (viewModel.getEvents(day).isEmpty) {
-            //   null;
-            // } else if (viewModel.getEvents(day).isNotEmpty && viewModel.getEvents(day).length < 5) {
-            //   return ListView.builder(
-            //       shrinkWrap: true,
-            //       scrollDirection: Axis.horizontal,
-            //       itemCount: events.length,
-            //       itemBuilder: (context, index) {
-            //         Event event = events[index] as Event;
-            //         int colorIndex = viewModel.getEventsColor(day)[event.id] ?? 0;
-            //         Color eventColor = sectionColors[colorIndex];
-            //         return Container(
-            //           margin: const EdgeInsets.only(top: 35),
-            //           child: Icon(
-            //             size: 8,
-            //             Icons.circle,
-            //             color: eventColor,
-            //           ),
-            //         );
-            //       });
-            // } else if (viewModel.getEvents(day).length >= 5) {
-            //   return Row(
-            //     mainAxisAlignment: MainAxisAlignment.end,
-            //     children: [
-            //       Padding(
-            //         padding: const EdgeInsets.only(right: 2.0),
-            //         child: Container(
-            //           width: 18,
-            //           height: 15,
-            //           decoration: BoxDecoration(
-            //             borderRadius: BorderRadius.circular(3),
-            //             color: DARK_BACKGROUND,
-            //           ),
-            //           child: Text(
-            //             '${viewModel.getEvents(day).length}',
-            //             style: const TextStyle(fontSize: 9, color: PRIMARY_LIGHT),
-            //             textAlign: TextAlign.center,
-            //           ),
-            //         ),
-            //       )
-            //     ],
-            //   );
-            // }
-            // return null;
+            if (controller.getEvents(day).isEmpty) {
+              null;
+            } else {
+              return ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: events.length,
+                  itemBuilder: (context, index) {
+                    Event event = events[index] as Event;
+                    Color? eventColor = controller.getEventsColor(day)[event.id];
+                    return Container(
+                      margin: const EdgeInsets.only(top: 35),
+                      child: Icon(
+                        size: 6,
+                        Icons.circle,
+                        color: eventColor,
+                      ),
+                    );
+                  });
+            }
+            return null;
           }),
 
-      // 달력에 이벤트 업로드
-      // eventLoader: viewModel.getEvents,
+      eventLoader: (day) {
+        return controller.getEvents(day);
+      },
 
       headerStyle: const HeaderStyle(
         headerPadding: EdgeInsets.only(left: 16, bottom: 16),
@@ -173,9 +148,6 @@ class Calendar extends GetView<ScheduleViewModel> {
         markersMaxCount: 5,
         markerSize: 6,
       ),
-
-      // 날짜가 선택됐을 때 실행할 함수
-      onPageChanged: (DateTime focusedDay) {},
 
       // 기간 선택 모드
       rangeSelectionMode: RangeSelectionMode.toggledOff,

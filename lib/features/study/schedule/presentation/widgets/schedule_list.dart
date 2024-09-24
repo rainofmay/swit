@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:swit/app/config/app_config.dart';
 import 'package:swit/core/router/app_pages.dart';
 import 'package:swit/features/study/schedule/domain/entities/schedule.dart';
 import 'package:swit/features/study/schedule/presentation/viewmodel/schedule_view_model.dart';
@@ -111,40 +112,45 @@ class ScheduleList extends GetView<ScheduleViewModel> {
         controller.updateEditingSchedule(schedule);
         Get.toNamed(Routes.STUDY + Routes.SCHEDULE + Routes.EDITSCHEDULE);
       },
-      child: Container(
-        decoration: BoxDecoration(
-          color: schedule.sectionColor
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(4.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(schedule.scheduleName, style: FontBox.B1.copyWith(color: ColorBox.white), overflow: TextOverflow.ellipsis),
-              const CustomGap(8),
-              Text(
-                !schedule.isAllDay
-                    ? schedule.from.day !=
-                    schedule
-                        .to.day // 시간 설정 있고, 기간일 때
-                    ? schedule.from.year ==
-                    schedule.to.year
-                    ? '${schedule.from.year}/${schedule.from.month}/${schedule.from.day} ~ ${schedule.to.month}/${schedule.to.day}'
-                    : '${schedule.from.year}/${schedule.from.month}/${schedule.from.day} ~ ${schedule.to.year}/${schedule.to.month}/${schedule.to.day}'
-                    : '${DateFormat('hh:mm a').format(schedule.from)}~${DateFormat('hh:mm a').format(schedule.to)}' // 하루일 때
+      child: Padding(
+        padding: const EdgeInsets.only(bottom:8.0),
+        child: Container(
+          margin: const EdgeInsets.only(right:4),
+          decoration: BoxDecoration(
+            color: schedule.sectionColor,
+                borderRadius: BorderRadius.circular(4)
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(schedule.scheduleName, style: FontBox.B1.copyWith(color: ColorBox.white), overflow: TextOverflow.ellipsis),
+                const CustomGap(6),
+                Text(
+                  !schedule.isAllDay
+                      ? schedule.from.day !=
+                      schedule
+                          .to.day // 시간 설정 있고, 기간일 때
+                      ? schedule.from.year ==
+                      schedule.to.year
+                      ? '${schedule.from.year}/${schedule.from.month}/${schedule.from.day} ~ ${schedule.to.month}/${schedule.to.day}'
+                      : '${schedule.from.year}/${schedule.from.month}/${schedule.from.day} ~ ${schedule.to.year}/${schedule.to.month}/${schedule.to.day}'
+                      : '${DateFormat('hh:mm a').format(schedule.from)}~${DateFormat('hh:mm a').format(schedule.to)}' // 하루일 때
 
-                    : schedule.from.day !=
-                    schedule
-                        .to.day // 시간 설정 없고 기간일 때,
-                    ? schedule.from.year ==
-                    schedule.to.year
-                    ? '${schedule.from.year}/${schedule.from.month}/${schedule.from.day} ~ ${schedule.to.month}/${schedule.to.day}'
-                    : '${schedule.from.year}/${schedule.from.month}/${schedule.from.day} ~ ${schedule.to.year}/${schedule.to.month}/${schedule.to.day}'
-                    : '${schedule.from.year}/${schedule.from.month}/${schedule.from.day}',
-                style: FontBox.B3.copyWith(color: ColorBox.white),
-              ),
-            ],
+                      : schedule.from.day !=
+                      schedule
+                          .to.day // 시간 설정 없고 기간일 때,
+                      ? schedule.from.year ==
+                      schedule.to.year
+                      ? '${schedule.from.year}/${schedule.from.month}/${schedule.from.day} ~ ${schedule.to.month}/${schedule.to.day}'
+                      : '${schedule.from.year}/${schedule.from.month}/${schedule.from.day} ~ ${schedule.to.year}/${schedule.to.month}/${schedule.to.day}'
+                      : '${schedule.from.year}/${schedule.from.month}/${schedule.from.day}',
+                  style: FontBox.B3.copyWith(color: ColorBox.white, fontFamily: AppConfig.SECOND_FONT_STYLE),
+                ),
+              ],
+            ),
           ),
         ),
       ),
