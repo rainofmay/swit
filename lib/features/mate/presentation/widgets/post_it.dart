@@ -8,7 +8,7 @@ class PostIt extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Calendar(),
+        MateCalendar(),
       ],
     );
   }

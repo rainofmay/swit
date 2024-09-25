@@ -5,8 +5,9 @@ class User {
   final String email;
   final String username;
   final String profileUrl;
+  final String? introduction;
   final OnlineStatus? onlineStatus;
   // 기타 필요한 사용자 정보
 
-  User({required this.profileUrl, this.onlineStatus, required this.uid, required this.email, required this.username});
+  User({required this.uid, required this.email, required this.username, required this.profileUrl, this.introduction, this.onlineStatus});
 }

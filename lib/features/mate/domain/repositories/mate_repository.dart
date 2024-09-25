@@ -10,7 +10,7 @@ abstract class MateRepository {
 
   Future<void> sendMateRequestByEmail(String email);
 
-  Future<List<User>> searchMatesByEmail(String email);
+  Future<List<User>> searchMate(String email);
 
   Future<void> acceptMateRequest(String requestId);
 

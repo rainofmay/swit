@@ -43,7 +43,7 @@ class MateRemoteDataSource {
   }
 
   // 메이트 찾기
-  Future searchUsersByEmail(String email) async {
+  Future searchMate(String email) async {
     try {
       final response = await supabase
           .rpc('find_similar_emails', params: {'search_email': email});
@@ -55,7 +55,7 @@ class MateRemoteDataSource {
       print(response);
       return response;
     } catch (e) {
-      print('Error searching users: $e');
+      print('Remote Data source Error searching mate: $e');
       return [] ;
     }
   }

@@ -94,9 +94,9 @@ class MateRepositoryImpl implements MateRepository {
   }
 
   @override
-  Future<List<User>> searchMatesByEmail(String email) async {
+  Future<List<User>> searchMate(String email) async {
     try {
-      final response = await _mateRemoteDataSource.searchUsersByEmail(email);
+      final response = await _mateRemoteDataSource.searchMate(email);
       if (response.error != null) {
         throw response.error!;
       }
@@ -116,7 +116,7 @@ class MateRepositoryImpl implements MateRepository {
       return users;
 
     } catch (e) {
-      print('Error searching users: $e');
+      print('Mate RepositoryImpl Error searching users: $e');
       return [];
     }
   }

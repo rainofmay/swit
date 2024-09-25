@@ -27,6 +27,7 @@ class CustomTextFormField extends StatelessWidget {
   final bool hasError;
   final bool autofocus;
   final GestureTapCallback? onTap;
+  final void Function(String)? onFieldSubmitted;
   final Widget? titleIcon;
   final TextStyle? hintStyle;
   final TextStyle? textStyle;
@@ -56,6 +57,7 @@ class CustomTextFormField extends StatelessWidget {
         this.maxLength,
         this.autofocus = false,
         this.onTap,
+        this.onFieldSubmitted,
         this.titleIcon,
         this.hintStyle,
         this.inputBorder,
@@ -68,6 +70,7 @@ class CustomTextFormField extends StatelessWidget {
       width: fieldWidth,
       child: TextFormField(
         onTap: onTap,
+        onFieldSubmitted : onFieldSubmitted,
         style: textStyle,
         initialValue: defaultText,
         maxLength: maxLength,

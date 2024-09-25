@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:swit/features/mate/presentation/viewmodel/mate_view_model.dart';
+import 'package:swit/features/mate/presentation/viewmodel/post_tab_view_model.dart';
 import 'package:swit/features/mate/presentation/widgets/post_it.dart';
 import 'package:swit/shared/constant/color_box.dart';
 import 'package:swit/shared/widgets/custom_back_appbar.dart';
@@ -10,7 +11,7 @@ import 'package:swit/shared/widgets/custom_gap.dart';
 import 'package:swit/shared/widgets/custom_scaffold.dart';
 import 'package:swit/shared/widgets/custom_text_form_field.dart';
 
-class CreatePostItScreen extends GetView<MateViewModel> {
+class CreatePostItScreen extends GetView<PostTabViewModel> {
   const CreatePostItScreen({super.key});
 
   @override

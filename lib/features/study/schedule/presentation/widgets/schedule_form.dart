@@ -160,7 +160,7 @@ class ScheduleForm extends GetView<ScheduleViewModel> {
                     ),
               ],
             ),
-            CustomGap(8),
+            const CustomGap(8),
 
             /* -- 시간 설정 -- */
             Padding(
@@ -194,8 +194,8 @@ class ScheduleForm extends GetView<ScheduleViewModel> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 8, left: 16, bottom: 8, right: 16),
+                const Padding(
+                  padding: EdgeInsets.only(top: 8, left: 16, bottom: 8, right: 16),
                   child: Icon(Icons.sticky_note_2_outlined, size: IconSize.md),
                 ),
                 // IconButton(onPressed: (){}, icon: Icon(Icons.sticky_note_2_outlined,  size: IconSize.md,)),

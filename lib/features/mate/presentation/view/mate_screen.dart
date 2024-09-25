@@ -23,7 +23,6 @@ class MateScreen extends GetView<MateViewModel> {
 
   @override
   Widget build(BuildContext context) {
-
     return DefaultTabController(
         length: 4,
         child: Builder(builder: (BuildContext context) {
@@ -35,7 +34,13 @@ class MateScreen extends GetView<MateViewModel> {
           return SafeArea(
               child: Obx(
             () => CustomScaffold(
-              appBar: CustomAppBar(appbarTitle: '메이트'),
+              appBar: CustomAppBar(appbarTitle: '메이트', actions: [
+                IconButton(
+                    onPressed: () {
+                      Get.toNamed(Routes.MATE + Routes.MATEADD);
+                    },
+                    icon: Icon(Icons.person_add_alt_1))
+              ]),
               floatingActionButton: controller.tabIndex == 1
                   ? FloatingActionButton.small(
                       onPressed: () {

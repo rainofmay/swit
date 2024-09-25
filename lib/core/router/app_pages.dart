@@ -9,6 +9,7 @@ import 'package:swit/core/di/swit_setting_binding.dart';
 import 'package:swit/core/middleware/login_middleware.dart';
 import 'package:swit/features/home/presentations/view/home_screen.dart';
 import 'package:swit/features/mate/presentation/view/create_post_it_screen.dart';
+import 'package:swit/features/mate/presentation/view/mate_add_screen.dart';
 import 'package:swit/features/mate/presentation/view/mate_screen.dart';
 import 'package:swit/features/more/presentation/view/more.screen.dart';
 import 'package:swit/features/more/presentation/view/user_info_screen.dart';
@@ -83,7 +84,11 @@ class AppPages {
       children: [
         GetPage(
             name: Routes.CREATEPOSTIT,
-            page: () => const CreatePostItScreen())
+            page: () => const CreatePostItScreen()),
+
+        GetPage(
+            name: Routes.MATEADD,
+            page: () => const MateAddScreen())
       ]
     ),
     GetPage(

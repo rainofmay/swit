@@ -3,13 +3,14 @@ import 'package:swit/core/utils/user/login_service.dart';
 import 'package:swit/features/mate/data/datasources/mate_remote_data_source.dart';
 import 'package:swit/features/mate/data/repsoitories/mate_repository_impl.dart';
 import 'package:swit/features/mate/domain/repositories/mate_repository.dart';
+import 'package:swit/features/mate/domain/usecases/get_mates_list_use_case.dart';
 import 'package:swit/features/mate/domain/usecases/get_user_profile_use_case.dart';
+import 'package:swit/features/mate/domain/usecases/search_mate_use_case.dart';
 import 'package:swit/features/mate/presentation/viewmodel/mate_view_model.dart';
 
 class MateBinding extends Bindings {
   @override
   void dependencies() {
-
     /* -- LoginService -- */
     Get.lazyPut<LoginService>(() => LoginService());
 
@@ -18,15 +19,23 @@ class MateBinding extends Bindings {
 
     /* -- MateRepository -- */
     Get.lazyPut<MateRepository>(() => MateRepositoryImpl(
-      Get.find<MateRemoteDataSource>(),
-      Get.find<LoginService>(),
-    ));
+          Get.find<MateRemoteDataSource>(),
+          Get.find<LoginService>(),
+        ));
 
     /* -- Use Case -- */
     Get.lazyPut<GetUserProfileUseCase>(
-            () => GetUserProfileUseCase(Get.find<MateRepository>()));
+        () => GetUserProfileUseCase(Get.find<MateRepository>()));
+    Get.lazyPut<GetMatesListUseCase>(
+        () => GetMatesListUseCase(Get.find<MateRepository>()));
+    Get.lazyPut<SearchMateUseCase>(
+            () => SearchMateUseCase(Get.find<MateRepository>()));
 
     /* -- ViewModel -- */
-    Get.lazyPut(() => MateViewModel(Get.find<GetUserProfileUseCase>()));
+    Get.lazyPut(() => MateViewModel(
+        getUserProfileUseCase: Get.find<GetUserProfileUseCase>(),
+        getMatesListUseCase: Get.find<GetMatesListUseCase>(),
+        searchMateUseCase: Get.find<SearchMateUseCase>(),
+    ));
   }
 }

@@ -1,13 +1,12 @@
 import 'package:swit/features/user/domain/entities/user.dart';
 import 'package:swit/features/mate/domain/repositories/mate_repository.dart';
 
-class GetUserProfileUseCase {
+class SearchMateUseCase {
   final MateRepository _mateRepository;
 
-  GetUserProfileUseCase(this._mateRepository);
+  SearchMateUseCase(this._mateRepository);
 
-  Future<User> execute() async {
-    return await _mateRepository.fetchUserProfile();
+  Future<List<User>> execute(String email) async {
+    return await _mateRepository.searchMate(email);
   }
-
 }

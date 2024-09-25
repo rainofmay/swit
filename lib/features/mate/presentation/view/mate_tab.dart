@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:swit/features/mate/presentation/viewmodel/mate_view_model.dart';
+import 'package:swit/features/mate/presentation/widgets/profile_card.dart';
 import 'package:swit/shared/constant/color_box.dart';
 import 'package:swit/shared/constant/font_box.dart';
 import 'package:swit/shared/widgets/custom_circular_indicator.dart';
@@ -110,7 +111,7 @@ class MateTab extends GetView<MateViewModel> {
           ),
         ),
       ),
-      const SizedBox(height: 16),
+      const CustomGap(16),
       Padding(
             padding: const EdgeInsets.only(left: 16),
             child: Row(
@@ -126,53 +127,38 @@ class MateTab extends GetView<MateViewModel> {
               ],
             ),
           ),
-      const SizedBox(height: 15),
+      const CustomGap(16),
       // profileList(context),
     ]);
   }
 
-  // Widget friendsWidget(BuildContext context, MateViewModel vm) {
-  //   return CustomScrollView(
-  //     slivers: [
-  //       if (vm.mateProfiles.isEmpty)
-  //         SliverFillRemaining(
-  //           child: Center(
-  //             child: GestureDetector(
-  //               onTap: () {
-  //                 // Get.to(() => MateRequestsScreen(), preventDuplicates: true);
-  //               },
-  //               child: Container(
-  //                 width: 120,
-  //                 height: 50,
-  //                 decoration: BoxDecoration(
-  //                   borderRadius: BorderRadius.circular(10),
-  //                   color: ColorBox.dark,
-  //                 ),
-  //                 child: Center(
-  //                   child: Text('메이트 찾기',
-  //                       style: TextStyle(color: ColorBox.primaryColor),
-  //                       textAlign: TextAlign.center),
-  //                 ),
-  //               ),
-  //             ),
-  //           ),
-  //         )
-  //       else
-  //         SliverList(
-  //           delegate: SliverChildBuilderDelegate(
-  //             (context, index) {
-  //               return Padding(
-  //                 padding: const EdgeInsets.only(left: 16.0),
-  //                 child: ProfileCard(
-  //                   profile: vm.mateProfiles[index].value,
-  //                   viewModel: vm,
-  //                 ),
-  //               );
-  //             },
-  //             childCount: vm.mateProfiles.length,
-  //           ),
-  //         ),
-  //     ],
-  //   );
-  // }
+  Widget profileList(BuildContext context) {
+    return Expanded(
+      child: Obx(() => RefreshIndicator(
+        backgroundColor: ColorBox.white,
+        color: ColorBox.primaryColor,
+        onRefresh: () async {
+          // await viewModel.updateMyProfile();
+          // await viewModel.getMyMate();
+        },
+        child: CustomScrollView(
+          slivers: [
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                    (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(left: 16.0),
+                    child: ProfileCard(
+                      profile: controller.mateProfiles[index],
+                    ),
+                  );
+                },
+                childCount: controller.mateProfiles.length,
+              ),
+            ),
+          ],
+        ),
+      )),
+    );
+  }
 }
