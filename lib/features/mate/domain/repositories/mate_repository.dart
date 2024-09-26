@@ -14,6 +14,10 @@ abstract class MateRepository {
 
   Future<void> acceptMateRequest(String requestId);
 
+  Future<void> followMate(String followedId);
+
+  Future<List<User>> fetchFollowingList();
+
   Future<void> rejectMateRequest(String requestId);
 
   Future<void> deleteMate(String deleteUid);

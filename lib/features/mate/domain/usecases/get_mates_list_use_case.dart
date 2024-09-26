@@ -9,5 +9,4 @@ class GetMatesListUseCase {
   Future<List<User>> execute() async {
     return await _mateRepository.fetchMatesList();
   }
-
 }

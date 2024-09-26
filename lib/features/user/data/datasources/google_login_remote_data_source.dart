@@ -100,7 +100,7 @@ class GoogleLoginRemoteDataSource {
       );
 
       // 사용자 정보 저장
-      await supabase.from('user').insert({
+      await supabase.from('users').insert({
         // 'id': response.user!.id,
         'email': email,
         'username': name,
@@ -116,7 +116,7 @@ class GoogleLoginRemoteDataSource {
   Future<bool> checkUserExists(String email) async {
     try {
       final response = await supabase
-          .from('user')
+          .from('users')
           .select()
           .eq('email', email)
           .single();

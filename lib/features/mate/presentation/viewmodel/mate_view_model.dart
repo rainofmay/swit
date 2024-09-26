@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:swit/app/enums/online_status.dart';
+import 'package:swit/features/mate/domain/usecases/follow_mate_use_case.dart';
+import 'package:swit/features/mate/domain/usecases/get_following_list_use_case.dart';
 import 'package:swit/features/mate/domain/usecases/get_mates_list_use_case.dart';
 import 'package:swit/features/mate/domain/usecases/get_user_profile_use_case.dart';
 import 'package:swit/features/mate/domain/usecases/search_mate_use_case.dart';
@@ -11,13 +13,21 @@ class MateViewModel extends GetxController {
   final GetUserProfileUseCase _getUserProfileUseCase;
   final GetMatesListUseCase _getMatesListUseCase;
   final SearchMateUseCase _searchMateUseCase;
+  final FollowMateUseCase _followMateUseCase;
+  final GetFollowingListUseCase _getFollowingListUseCase;
   MateViewModel(
       {required GetUserProfileUseCase getUserProfileUseCase,
       required GetMatesListUseCase getMatesListUseCase,
-      required SearchMateUseCase searchMateUseCase})
+      required SearchMateUseCase searchMateUseCase,
+      required GetFollowingListUseCase getFollowingListUseCase,
+        required FollowMateUseCase followMateUseCase,
+      })
       : _getUserProfileUseCase = getUserProfileUseCase,
         _getMatesListUseCase = getMatesListUseCase,
-        _searchMateUseCase = searchMateUseCase;
+        _searchMateUseCase = searchMateUseCase,
+        _getFollowingListUseCase = getFollowingListUseCase,
+        _followMateUseCase = followMateUseCase
+  ;
 
   /* ------------------------------------------------------ */
   /* Tab Fields ------------------------------------------- */
@@ -28,8 +38,6 @@ class MateViewModel extends GetxController {
   /* ------------------------------------------------------ */
   /* Mate Fields ------------------------------------------ */
   /* ------------------------------------------------------ */
-  final Rx<User?> _user = Rx<User?>(null);
-  User? get user => _user.value;
 
   late final RxList<User> _pendingMateProfiles = <User>[].obs;
   late final RxList<User> _mateProfiles = <User>[].obs;
@@ -37,7 +45,14 @@ class MateViewModel extends GetxController {
   List<User> get mateProfiles => _mateProfiles;
   // Methods for updating profile data are simplified
   // late final RxList<User> searchingProfiles = <User>[].obs;
+  late final Rx<User?> _searchedMate = Rx<User?>(null);
+  User? get searchedMate => _searchedMate.value;
+  late final Rx<TextEditingController> _searchController = TextEditingController().obs;
+  TextEditingController get searchController => _searchController.value;
 
+  // 사용자 본인
+  final Rx<User?> _user = Rx<User?>(null);
+  User? get user => _user.value;
   // 파생된 옵저버블 속성들
   String get email => _user.value?.email ?? '';
   String get uid => _user.value?.uid ?? '';
@@ -47,17 +62,21 @@ class MateViewModel extends GetxController {
   OnlineStatus get onlineStatus =>
       _user.value?.onlineStatus ?? OnlineStatus.offline;
 
-  late final Rx<TextEditingController> _searchController = TextEditingController().obs;
-  TextEditingController get searchController => _searchController.value;
+  // 내가 팔로잉하고 있는 메이트 리스트
+  late final RxList<User> _followingList = <User>[].obs;
+  List<User> get followingList => _followingList;
+
 
   @override
   void onInit() {
     super.onInit();
     loadUserProfile();
+    getFollowingList();
   }
 
   @override
   void onClose() {
+    _searchController.value.clear();
     _searchController.value.dispose();
     super.onClose();
   }
@@ -84,15 +103,42 @@ class MateViewModel extends GetxController {
     }
   }
 
-  searchMate() async {
+  Future<void> searchMate() async {
     try {
-      final getData = await _searchMateUseCase.execute(_searchController.value.text);
-      print('getData $getData');
-
+      final searchedData = await _searchMateUseCase.execute(_searchController.value.text);
+      if (searchedData.isNotEmpty) {
+        _searchedMate.value = searchedData.first;
+      } else {
+        _searchedMate.value = null; // 검색 결과가 없을 때 null로 설정
+      }
       update();
     } catch (e) {
       print('ViewModel Error searching mate : $e');
+      _searchedMate.value = null; // 에러 발생 시에도 null로 설정
+      update();
     }
+  }
+
+  void initSearch() {
+    _searchedMate.value = null;
+    _searchController.value.text = '';
+  }
+
+  Future<void> getFollowingList() async {
+    try {
+      final following = await _getFollowingListUseCase.execute();
+      _followingList.value = following;
+      update();
+    } catch (e) {
+      print('Mate ViewModel Error get following list: $e');
+    }
+  }
+
+  /* ------------------------------------------------------ */
+  /* Create Fields ---------------------------------------- */
+  /* ------------------------------------------------------ */
+  Future<void> followMate() async {
+   _followMateUseCase.execute(_searchedMate.value!.uid);
   }
 
   /* ------------------------------------------------------ */
@@ -104,7 +150,7 @@ class MateViewModel extends GetxController {
 
   // 프로필 업데이트 메서드 (필요시 구현)
   Future<void> updateProfile(
-      {String? newUsername, String? newEmail, String? newProfileUrl}) async {
+      {String? newUsername, String? newEmail, String? newProfileUrl, String? newIntroduction}) async {
     if (_user.value == null) return;
 
     try {
@@ -115,6 +161,7 @@ class MateViewModel extends GetxController {
         username: newUsername ?? _user.value!.username,
         email: newEmail ?? _user.value!.email,
         profileUrl: newProfileUrl ?? _user.value!.profileUrl,
+        introduction: newIntroduction ?? _user.value!.introduction,
         onlineStatus: _user.value!.onlineStatus,
       );
 

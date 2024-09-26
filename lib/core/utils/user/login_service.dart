@@ -36,7 +36,7 @@ class LoginService {
     final userEmail = getCurrentUserEmail();
     if (userEmail != null) {
       final response = await _supabase
-          .from('user')
+          .from('users')
           .select('uid')
           .eq('email', userEmail)
           .single();
@@ -51,7 +51,7 @@ class LoginService {
   Future<String> getUsernameById(String userId) async {
     try {
       final response = await _supabase
-          .from('user')
+          .from('users')
           .select('username')
           .eq('uid', userId)
           .single();
@@ -66,7 +66,7 @@ class LoginService {
   Future<Map<String, dynamic>> getUserById(String userId) async {
     try {
         final userData = await _supabase
-            .from('user')
+            .from('users')
             .select()
             .eq('uid', userId)
             .single();
@@ -82,7 +82,7 @@ class LoginService {
        final List<Map<String, dynamic>> userResponse = [];
        for (var mateId in mateIds) {
          final userData = await _supabase
-             .from('user')
+             .from('users')
              .select()
              .eq('uid', mateId)
              .single();
@@ -100,7 +100,7 @@ class LoginService {
   Future<String?> getUserIdByEmail(String email) async {
      try {
        final response = await _supabase
-           .from('user')
+           .from('users')
            .select('uid')
            .eq('email', email)
            .single(); // 단일 결과 반환

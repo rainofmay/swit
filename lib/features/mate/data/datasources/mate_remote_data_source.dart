@@ -18,7 +18,7 @@ class MateRemoteDataSource {
   // 내가 아직 수락하지 않은 메이트 요청 목록
   Future<List<Map<String, dynamic>>> getPendingRequests(String userEmail) async {
     final userId = await supabase
-        .from('user')
+        .from('users')
         .select('uid')
         .eq('email', userEmail)
         .single()
@@ -32,6 +32,7 @@ class MateRemoteDataSource {
         .order('created_at');
   }
 
+
   // 내 메이트 리스트
   Future<List<Map<String, dynamic>>> getMatesList(String userId) async {
     return await supabase
@@ -43,24 +44,67 @@ class MateRemoteDataSource {
   }
 
   // 메이트 찾기
-  Future searchMate(String email) async {
+  Future<List<Map<String, dynamic>>> searchMate(String email) async {
     try {
       final response = await supabase
-          .rpc('find_similar_emails', params: {'search_email': email});
+          .from('users')
+          .select()
+          .ilike('email', '%$email%');
 
-      if (response.error != null) {
-        print(response.error);
-        throw response.error!;
-      }
-      print(response);
       return response;
     } catch (e) {
-      print('Remote Data source Error searching mate: $e');
-      return [] ;
+      print('Remote data source, Error searching mate: $e');
+      return [];
+    }
+  }
+
+  // 나를 팔로잉 하는 사람
+  Future<List<Map<String, dynamic>>> getFollowingList(String userId) async {
+    try {
+      final response = await supabase
+          .from('follows')
+          .select('followed_id, body, users!follows_followed_id_fkey(*)')
+          .eq('follower_id', userId)
+          .order('created_at', ascending: false);
+
+      return response;
+    } catch (e) {
+      print('Mate Remote Error fetching following list: $e');
+      return [];
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getFollowersList(String userId) async {
+    try {
+      final response = await supabase
+          .from('follows')
+          .select('follower_id, users!inner(*)')
+          .eq('followed_id', userId)
+          .order('created_at', ascending: false);
+
+      return response;
+    } catch (e) {
+      print('Error fetching followers list: $e');
+      return [];
     }
   }
 
   /* -- Post -- */
+
+  // 메이트 팔로우 하기
+  Future<void> followMate(String followedUid, String message) async {
+    try {
+      await supabase.rpc('follow_user', params: {
+        'follower_uid': supabase.auth.currentUser!.id,
+        'followed_uid': followedUid,
+        'follow_message': message
+      });
+      // 성공 처리
+    } catch (error) {
+      print('Mate remote followUser error : $error');
+    }
+  }
+
 
   // 메이트 요청 보내기
   Future<void> sendMateRequest(String senderId, String receiverId) async {
@@ -138,5 +182,18 @@ class MateRemoteDataSource {
     final isExisting = existingRequest.isNotEmpty;
 
     return isExisting;
+  }
+
+  // 메이트 언팔로우 하기
+  Future<void> unfollowMate(String followedUid) async {
+    try {
+      await supabase.rpc('unfollow_user', params: {
+        'follower_uid': supabase.auth.currentUser!.id,
+        'followed_uid': followedUid
+      });
+      // 성공 처리
+    } catch (error) {
+      // 에러 처리
+    }
   }
 }

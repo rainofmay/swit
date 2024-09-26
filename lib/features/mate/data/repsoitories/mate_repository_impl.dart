@@ -97,26 +97,48 @@ class MateRepositoryImpl implements MateRepository {
   Future<List<User>> searchMate(String email) async {
     try {
       final response = await _mateRemoteDataSource.searchMate(email);
-      if (response.error != null) {
-        throw response.error!;
-      }
 
+      // response가 List<Map<String, dynamic>>이므로 직접 매핑합니다.
       List<User> users = response.map((userData) {
-        // 'similarity' 필드를 제거
-        Map<String, dynamic> userMap = Map<String, dynamic>.from(userData);
-        userMap.remove('similarity');
-
         // UserDTO 생성
-        UserDTO userDTO = UserDTO.fromJson(userMap);
+        UserDTO userDTO = UserDTO.fromJson(userData);
 
         // UserDTO를 User 엔티티로 변환
         return UserMapper.toEntity(userDTO);
       }).toList();
 
       return users;
-
     } catch (e) {
       print('Mate RepositoryImpl Error searching users: $e');
+      return [];
+    }
+  }
+
+  @override
+  Future<void> followMate(String followedId) async {
+    try {
+      final follower = await _loginService.getMyId();
+      if (follower != null) {
+        await _mateRemoteDataSource.followMate(followedId, "팔로우 메시지");
+      } else {
+        throw Exception('현재 사용자 ID를 가져올 수 없습니다.');
+      }
+    } catch (e) {
+      print('Mate RepositoryImpl Error follow mate: $e');
+      rethrow;
+    }
+  }
+
+  Future<List<User>> fetchFollowingList() async {
+    try {
+      final userId = await _loginService.getMyId();
+      final response = await _mateRemoteDataSource.getFollowingList(userId!);
+
+      return response.map((userData) {
+        return UserMapper.toEntity(UserDTO.fromJson(userData['users']));
+      }).toList();
+    } catch (e) {
+      print('Error fetching following list: $e');
       return [];
     }
   }
