@@ -6,6 +6,7 @@ import 'package:swit/features/mate/domain/usecases/get_following_list_use_case.d
 import 'package:swit/features/mate/domain/usecases/get_mates_list_use_case.dart';
 import 'package:swit/features/mate/domain/usecases/get_user_profile_use_case.dart';
 import 'package:swit/features/mate/domain/usecases/search_mate_use_case.dart';
+import 'package:swit/features/mate/domain/usecases/unfollow_mate_use_case.dart';
 import 'package:swit/features/user/domain/entities/user.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -15,18 +16,22 @@ class MateViewModel extends GetxController {
   final SearchMateUseCase _searchMateUseCase;
   final FollowMateUseCase _followMateUseCase;
   final GetFollowingListUseCase _getFollowingListUseCase;
+  final UnfollowMateUseCase _unfollowMateUseCase;
+
   MateViewModel(
       {required GetUserProfileUseCase getUserProfileUseCase,
       required GetMatesListUseCase getMatesListUseCase,
       required SearchMateUseCase searchMateUseCase,
       required GetFollowingListUseCase getFollowingListUseCase,
-        required FollowMateUseCase followMateUseCase,
+      required FollowMateUseCase followMateUseCase,
+      required UnfollowMateUseCase unfollowMateUseCase,
       })
       : _getUserProfileUseCase = getUserProfileUseCase,
         _getMatesListUseCase = getMatesListUseCase,
         _searchMateUseCase = searchMateUseCase,
         _getFollowingListUseCase = getFollowingListUseCase,
-        _followMateUseCase = followMateUseCase
+        _followMateUseCase = followMateUseCase,
+        _unfollowMateUseCase = unfollowMateUseCase
   ;
 
   /* ------------------------------------------------------ */
@@ -141,6 +146,17 @@ class MateViewModel extends GetxController {
    _followMateUseCase.execute(_searchedMate.value!.uid);
   }
 
+  Future<void> unfollowMate(String unfollowedId) async {
+    try {
+      await _unfollowMateUseCase.execute(unfollowedId);
+      // 팔로잉 목록에서 해당 사용자 제거
+      _followingList.removeWhere((user) => user.uid == unfollowedId);
+    } catch (e) {
+      print('Error unfollowing mate: $e');
+      // 에러 처리 (예: 스낵바 표시)
+    }
+  }
+
   /* ------------------------------------------------------ */
   /* Update Fields ---------------------------------------- */
   /* ------------------------------------------------------ */
@@ -174,4 +190,7 @@ class MateViewModel extends GetxController {
       // 에러 처리 로직
     }
   }
+
+
+
 }

@@ -65,7 +65,7 @@ class MateAddScreen extends GetView<MateViewModel> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Expanded(child: ProfileCard(profile: controller.searchedMate!)),
+                        Expanded(child: ProfileCard(user: controller.searchedMate!)),
                         TextButton(onPressed: () async {
                           await controller.followMate();
                         }, child: Text('🩵Follow'))

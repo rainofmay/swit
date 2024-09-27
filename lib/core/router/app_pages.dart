@@ -22,6 +22,7 @@ import 'package:swit/features/study/swit/presentation/view/bg_setting_screen.dar
 import 'package:swit/features/study/swit/presentation/view/swit_screen.dart';
 import 'package:swit/features/study/swit/presentation/view/swit_setting_screen.dart';
 import 'package:swit/features/user/presentation/view/login_screen.dart';
+
 // 다른 필요한 import 추가
 part 'app_routes.dart';
 
@@ -78,31 +79,32 @@ class AppPages {
       ],
     ),
     GetPage(
-      name: Routes.MATE,
-      page: () => MateScreen(),
-      binding: MateBinding(),
-      children: [
-        GetPage(
+        name: Routes.MATE,
+        page: () => MateScreen(),
+        binding: MateBinding(),
+        children: [
+          GetPage(
             name: Routes.CREATEPOSTIT,
-            page: () => const CreatePostItScreen()),
-
-        GetPage(
-            name: Routes.MATEADD,
-            page: () => const MateAddScreen())
-      ]
-    ),
+            page: () => const CreatePostItScreen(),
+            middlewares: [LoginMiddleware()],
+          ),
+          GetPage(
+              name: Routes.MATEADD,
+              page: () => const MateAddScreen(),
+              middlewares: [LoginMiddleware()],
+          )
+        ]),
     GetPage(
         name: Routes.MORE,
         page: () => MoreScreen(),
         binding: LoginBinding(),
         children: [
           GetPage(
-              name: Routes.USERINFO,
-              page: () => const UserInfoScreen(),
-              binding: LoginBinding(),
+            name: Routes.USERINFO,
+            page: () => const UserInfoScreen(),
+            binding: LoginBinding(),
           )
-        ]
-    ),
+        ]),
     GetPage(
       name: Routes.LOGIN,
       page: () => LoginScreen(),

@@ -4,9 +4,9 @@ import 'package:swit/features/mate/presentation/viewmodel/mate_view_model.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class PostTabViewModel extends GetxController {
-  final MateViewModel mateViewModel;
+  final MateViewModel _mateViewModel;
 
-  PostTabViewModel(this.mateViewModel);
+  PostTabViewModel({required MateViewModel mateViewModel}) : _mateViewModel = mateViewModel ;
 
 
   late final Rx<TextEditingController> _postItController = TextEditingController().obs;

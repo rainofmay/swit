@@ -22,8 +22,8 @@ class UserInfoScreen extends GetView<LoginViewModel> {
             TapRow(widget: Icon(CupertinoIcons.person_circle), title: '프로필 편집', onTap: (){}),
             const CustomGap(40),
             TapRow(widget: Icon(Icons.logout_rounded), title: '로그아웃', onTap: () async {
-              await controller.signOutWithGoogle();
               Get.back();
+              await controller.signOutWithGoogle();
             }),
             const CustomGap(40),
             TapRow(widget: Icon(Icons.phonelink_erase_rounded), title: 'Swit 탈퇴', onTap: (){

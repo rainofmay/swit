@@ -61,14 +61,14 @@ class MoreScreen extends GetView<LoginViewModel> {
                     title: 'Swit에 제안하기',
                     onTap: () {}),
                 const CustomGap(32),
-                _loginService.isLoggedIn()
+                Obx(() => _loginService.isLoggedIn
                     ? const SizedBox()
                     : TapRow(
-                        widget: Icon(Icons.login_rounded, size: IconSize.md),
-                        title: '로그인',
-                        onTap: () {
-                          Get.toNamed(Routes.LOGIN);
-                        }),
+                    widget: Icon(Icons.login_rounded, size: IconSize.md),
+                    title: '로그인',
+                    onTap: () {
+                      Get.toNamed(Routes.LOGIN);
+                    }),)
               ],
             ),
           )

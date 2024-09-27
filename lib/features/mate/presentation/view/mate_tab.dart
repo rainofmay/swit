@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:swit/core/utils/user/login_service.dart';
 import 'package:swit/features/mate/presentation/viewmodel/mate_view_model.dart';
 import 'package:swit/features/mate/presentation/widgets/profile_card.dart';
 import 'package:swit/shared/constant/color_box.dart';
@@ -10,7 +11,8 @@ import 'package:swit/shared/widgets/custom_circular_indicator.dart';
 import 'package:swit/shared/widgets/custom_gap.dart';
 
 class MateTab extends GetView<MateViewModel> {
-  const MateTab({super.key});
+  MateTab({super.key});
+  final _loginService = Get.find<LoginService>();
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +83,7 @@ class MateTab extends GetView<MateViewModel> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            if (controller.username.isEmpty)
+                            if (_loginService.isLoggedIn == false)
                               Text('로그인을 해주세요.',
                                   style: FontBox.B1
                                       .copyWith(color: ColorBox.grey))
@@ -123,10 +125,9 @@ class MateTab extends GetView<MateViewModel> {
           children: [
             Text('Mates',
                 style: FontBox.B2.copyWith(color: ColorBox.dark)),
-            const SizedBox(width: 10),
             // Text('(${viewModel.mateProfiles.length})',
             //     style: FontBox.B2.copyWith(color: ColorBox.dark)),
-            const SizedBox(width: 16),
+            const CustomGap(16),
             Expanded(
                 child: Container(
                     color: ColorBox.grey.withOpacity(0.3), height: 1))
@@ -153,21 +154,10 @@ class MateTab extends GetView<MateViewModel> {
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
                         (context, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          showDialog(context: context, builder: (context) {
-                            return CustomAlertDialog(
-                                title: controller.followingList[index].username,
-                                width: 160,
-                                height: 80,
-                                actionWidget: const SizedBox());
-                          });
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 16.0),
-                          child: ProfileCard(
-                            profile: controller.followingList[index],
-                          ),
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 16.0),
+                        child: ProfileCard(
+                          user: controller.followingList[index],
                         ),
                       );
                     },

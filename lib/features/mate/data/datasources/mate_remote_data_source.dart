@@ -193,7 +193,7 @@ class MateRemoteDataSource {
       });
       // 성공 처리
     } catch (error) {
-      // 에러 처리
+      print('Mate remote unfollowUser error : $error');
     }
   }
 }

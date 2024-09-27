@@ -4,7 +4,9 @@ import 'package:get/get.dart';
 import 'package:swit/core/router/app_pages.dart';
 import 'package:swit/features/mate/presentation/view/create_post_it_screen.dart';
 import 'package:swit/features/mate/presentation/view/mate_tab.dart';
+import 'package:swit/features/mate/presentation/view/notification_tab.dart';
 import 'package:swit/features/mate/presentation/view/post_tab.dart';
+import 'package:swit/features/mate/presentation/view/setting_tab.dart';
 import 'package:swit/features/mate/presentation/viewmodel/mate_view_model.dart';
 import 'package:swit/shared/constant/color_box.dart';
 import 'package:swit/shared/constant/icon_size.dart';
@@ -18,7 +20,7 @@ class MateScreen extends GetView<MateViewModel> {
     Icons.person_2_rounded,
     Icons.local_post_office_outlined,
     Icons.notifications_active_outlined,
-    Icons.notifications_active_outlined,
+    Icons.settings,
   ];
 
   @override
@@ -66,10 +68,10 @@ class MateScreen extends GetView<MateViewModel> {
                   Expanded(
                     child: TabBarView(
                       children: [
-                        const MateTab(),
+                        MateTab(),
                         const PostTab(),
-                        const PostTab(),
-                        const PostTab(),
+                        const NotificationTab(),
+                        const SettingTab(),
                       ],
                     ),
                   ),

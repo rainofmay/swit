@@ -129,6 +129,17 @@ class MateRepositoryImpl implements MateRepository {
     }
   }
 
+  @override
+  Future<void> unfollowMate(String unfollowedId) async {
+    try {
+      await _mateRemoteDataSource.unfollowMate(unfollowedId);
+    } catch (e) {
+      print('Mate RepositoryImpl Error unfollow mate: $e');
+      rethrow;
+    }
+  }
+
+  @override
   Future<List<User>> fetchFollowingList() async {
     try {
       final userId = await _loginService.getMyId();
@@ -138,7 +149,7 @@ class MateRepositoryImpl implements MateRepository {
         return UserMapper.toEntity(UserDTO.fromJson(userData['users']));
       }).toList();
     } catch (e) {
-      print('Error fetching following list: $e');
+      print('RepositoryImpl Error fetching following list: $e');
       return [];
     }
   }
