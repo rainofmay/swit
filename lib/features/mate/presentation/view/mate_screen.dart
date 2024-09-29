@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:swit/core/router/app_pages.dart';
-import 'package:swit/features/mate/presentation/view/create_post_it_screen.dart';
 import 'package:swit/features/mate/presentation/view/mate_tab.dart';
 import 'package:swit/features/mate/presentation/view/notification_tab.dart';
 import 'package:swit/features/mate/presentation/view/post_tab.dart';

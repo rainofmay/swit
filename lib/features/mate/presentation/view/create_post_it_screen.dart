@@ -2,9 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:swit/features/mate/presentation/viewmodel/mate_view_model.dart';
 import 'package:swit/features/mate/presentation/viewmodel/post_tab_view_model.dart';
-import 'package:swit/features/mate/presentation/widgets/post_it.dart';
 import 'package:swit/shared/constant/color_box.dart';
 import 'package:swit/shared/widgets/custom_back_appbar.dart';
 import 'package:swit/shared/widgets/custom_gap.dart';
@@ -19,7 +17,7 @@ class CreatePostItScreen extends GetView<PostTabViewModel> {
     return SafeArea(
         child: CustomScaffold(
       appBar: CustomBackAppBar(
-        appbarTitle: '오늘 우리',
+        appbarTitle: '서로에게 한 마디',
         isLeading: true,
         isCenterTitle: true,
         actions: [
