@@ -22,9 +22,13 @@ class MateAddScreen extends GetView<MateViewModel> {
             Get.back();
             controller.initSearch();
           },
-          actions: [TextButton(onPressed: () async {
-            await controller.searchMate();
-          }, child: const Text('검색'))]),
+          actions: [
+            TextButton(
+                onPressed: () async {
+                  await controller.searchMate();
+                },
+                child: const Text('검색'))
+          ]),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
@@ -54,31 +58,55 @@ class MateAddScreen extends GetView<MateViewModel> {
               const CustomGap(16),
               Obx(() => controller.searchedMate != null
                   ? Container(
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  height: 80,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(6),
-                    color: ColorBox.secondColor,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(child: ProfileCard(user: controller.searchedMate!)),
-                        TextButton(onPressed: () async {
-                          await controller.followMate();
-                        }, child: Text('🩵Follow'))
-                      ],
-                    ),
-                  ))
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      height: 80,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6),
+                        color: ColorBox.secondColor,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                                child: ProfileCard(
+                                    user: controller.searchedMate!)),
+
+                            // 내가 아닌 다른 사람일 경우에만 follow 버튼 보이기
+                            if (!controller
+                                .isCurrentUser(controller.searchedMate))
+
+                              Obx(() => controller.isFollowing(controller.searchedMate)
+                                  ? _unfollowButton(controller.searchedMate!.uid)
+                                  : _followButton()
+                              )
+                          ],
+                        ),
+                      ))
                   : SizedBox(
-                child: Text('검색 결과가 없습니다.'),
-              ))
+                      child: Text('검색 결과가 없습니다.'),
+                    ))
             ],
           ),
         ),
       ),
     );
+  }
+
+  Widget _followButton() {
+    return TextButton(
+        onPressed: () async {
+          await controller.followMate();
+        },
+        child: Text('🩵Follow'));
+  }
+
+  Widget _unfollowButton(String mateId) {
+    return TextButton(
+        onPressed: () async {
+          await controller.unfollowMate(mateId);
+        },
+        child: Text('💔Unfollow'));
   }
 }
