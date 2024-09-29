@@ -3,6 +3,7 @@ import 'package:swit/core/di/home_binding.dart';
 import 'package:swit/core/di/audio_binding.dart';
 import 'package:swit/core/di/login_binding.dart';
 import 'package:swit/core/di/mate_binding.dart';
+import 'package:swit/core/di/record_binding.dart';
 import 'package:swit/core/di/schedule_binding.dart';
 import 'package:swit/core/di/setting_binding.dart';
 import 'package:swit/core/di/swit_setting_binding.dart';
@@ -13,6 +14,8 @@ import 'package:swit/features/mate/presentation/view/mate_add_screen.dart';
 import 'package:swit/features/mate/presentation/view/mate_screen.dart';
 import 'package:swit/features/more/presentation/view/more.screen.dart';
 import 'package:swit/features/more/presentation/view/user_info_screen.dart';
+import 'package:swit/features/record/presentation/view/add_record_screen.dart';
+import 'package:swit/features/record/presentation/view/record_screen.dart';
 import 'package:swit/features/study/audio/presentation/view/audio_screen.dart';
 import 'package:swit/features/study/schedule/presentation/view/create_schedule_screen.dart';
 import 'package:swit/features/study/schedule/presentation/view/edit_schedule_screen.dart';
@@ -92,6 +95,17 @@ class AppPages {
               name: Routes.MATEADD,
               page: () => const MateAddScreen(),
               middlewares: [LoginMiddleware()],
+          )
+        ]),
+    GetPage(
+        name: Routes.RECORD,
+        page: () => const RecordScreen(),
+        binding: RecordBinding(),
+        children: [
+          GetPage(
+            name: Routes.RECORDADD,
+            page: () => const AddRecordScreen(),
+            middlewares: [LoginMiddleware()],
           )
         ]),
     GetPage(

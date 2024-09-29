@@ -1,14 +1,14 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 
-class StopWatchScreen extends StatefulWidget {
-  const StopWatchScreen({super.key});
+class StopWatchTab extends StatefulWidget {
+  const StopWatchTab({super.key});
 
   @override
-  State<StopWatchScreen> createState() => _StopWatchScreenState();
+  State<StopWatchTab> createState() => _StopWatchSTabState();
 }
 
-class _StopWatchScreenState extends State<StopWatchScreen> {
+class _StopWatchSTabState extends State<StopWatchTab> {
   late Stopwatch stopWatch;
   late Timer timer;
 

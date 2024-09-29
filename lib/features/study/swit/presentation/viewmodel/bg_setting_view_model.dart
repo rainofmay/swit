@@ -10,7 +10,7 @@ class BgSettingViewModel extends GetxController {
 
 
   final RxMap<BgTheme, String> _bgThemeMap = {
-    BgTheme.day: 'assets/images/day_photo.jpg',
+    BgTheme.day: 'assets/images/day_photo.png',
     BgTheme.night: 'assets/images/night_photo.jpg',
     BgTheme.custom: '',
   }.obs;

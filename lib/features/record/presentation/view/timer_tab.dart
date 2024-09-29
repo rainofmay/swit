@@ -1,14 +1,14 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 
-class TimerScreen extends StatefulWidget {
-  const TimerScreen({super.key});
+class TimerTab extends StatefulWidget {
+  const TimerTab({super.key});
 
   @override
-  State<TimerScreen> createState() => _TimerScreenState();
+  State<TimerTab> createState() => _TimerTabState();
 }
 
-class _TimerScreenState extends State<TimerScreen> {
+class _TimerTabState extends State<TimerTab> {
   late Timer myTimer;
   Duration myDuration = const Duration();
 
