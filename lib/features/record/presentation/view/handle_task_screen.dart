@@ -19,23 +19,24 @@ class HandleTaskScreen extends GetView<RecordViewModel> {
       child: CustomScaffold(
         backgroundColor: ColorBox.white,
         appBar: CustomBackAppBar(
-          appbarTitle: '과제',
+          backgroundColor: controller.editingTask.color,
+          appbarTitle: '',
           isLeading: true,
           isCenterTitle: false,
           actions: [
             Obx(() => TextButton(
                   onPressed: () async {
-                    // controller.isFormValid
-                    //     ? await controller.onSavePressed()
-                    //     : null;
+                    controller.isFormValid
+                        ? await controller.onSavePressed()
+                        : null;
                     Get.back();
                   },
                   child: Text(
                     '저장',
-                    // style: FontBox.B1.copyWith(
-                    //     color: controller.isFormValid
-                    //         ? ColorBox.white
-                    //         : ColorBox.grey[300]),
+                    style: FontBox.B1.copyWith(
+                        color: controller.isFormValid
+                            ? ColorBox.white
+                            : ColorBox.grey[300]),
                   ),
                 ))
           ],
@@ -47,6 +48,7 @@ class HandleTaskScreen extends GetView<RecordViewModel> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Obx(() => CustomTextFormField(
+                  controller: controller.taskTitleController,
                   titleIcon: IconButton(
                       icon: Icon(CupertinoIcons.circle_filled,
                           color: controller.editingTask.color),
@@ -69,7 +71,7 @@ class HandleTaskScreen extends GetView<RecordViewModel> {
                   hintText: '과제 이름을 입력해 주세요.',
                   textStyle: FontBox.H4,
                   onChanged: (value) {
-                    // controller.checkFormValidity();
+                    controller.checkFormValidity();
                     // controller.updateScheduleName(value);
                   },
                   fieldWidth: MediaQuery.of(context).size.width * 0.7,

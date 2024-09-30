@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:swit/core/router/app_pages.dart';
-import 'package:swit/features/mate/presentation/widgets/record_card.dart';
 import 'package:swit/features/mate/presentation/widgets/study_journal_card.dart';
 import 'package:swit/features/record/presentation/viewmodel/record_view_model.dart';
 import 'package:swit/shared/constant/color_box.dart';

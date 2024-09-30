@@ -39,11 +39,12 @@ class TaskListWidget extends StatelessWidget {
               shrinkWrap: true,
               itemCount: controller.tasks.length,
               itemBuilder: (context, index) {
+                final task = controller.tasks[index];
                 return ListTile(
-                  title: Text(controller.tasks[index]),
+                  title: Text(task.title),
                   trailing: IconButton(
                     icon: Icon(Icons.delete),
-                    onPressed: () => controller.removeTask(index),
+                    onPressed: () => controller.deleteTask(task),
                   ),
                 );
               },

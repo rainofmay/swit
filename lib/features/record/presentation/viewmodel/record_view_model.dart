@@ -40,17 +40,13 @@ class RecordViewModel extends GetxController {
   /* ------------------------------------------------------ */
   /* Record Fields ---------------------------------------- */
   /* ------------------------------------------------------ */
-  late final RxList<String> _tasks = <String>[].obs;
-
-  List<String> get tasks => _tasks;
+  late final RxList<Task> _tasks = <Task>[].obs;
+  List<Task> get tasks => _tasks;
 
   late final Rx<Task> _editingTask = createInitTask().obs;
-
   Task get editingTask => _editingTask.value;
 
-  late final Rx<
-      TextEditingController> _taskTitleController = TextEditingController().obs;
-
+  late final Rx<TextEditingController> _taskTitleController = TextEditingController().obs;
   TextEditingController get taskTitleController => _taskTitleController.value;
 
   late final RxBool _isFormValid = false.obs;
@@ -68,25 +64,61 @@ class RecordViewModel extends GetxController {
     );
   }
 
-  Future<void> addTask(String task) async {
-    _tasks.add(task);
-  }
-
-  Future<void> removeTask(int index) async {
-    _tasks.removeAt(index);
-  }
 
   Future<void> onSavePressed() async {
     if (isFormValid) {
-      await _createTaskUseCase.execute(_editingTask.value);
+      final taskToSave = Task(
+        id: _editingTask.value.id,
+        title: _taskTitleController.value.text,
+        color: _editingTask.value.color,
+      );
+      await _createTaskUseCase.execute(taskToSave);
+      await getTasks();  // 저장 후 목록 새로고침
+
+
+      // text controller 초기화하기
+      _taskTitleController.value.text = '';
       update();
     }
   }
 
+  Future<void> getTasks() async {
+    try {
+      final List<Task> data = await  _getTaskUseCase.execute();
+      _tasks.assignAll(data);
+      update();
+
+    } catch(e) {
+      print('Record ViewModel get task Error $e');
+    }
+  }
+
+  Future<void> deleteTask(Task task) async {
+    try {
+      await _deleteTaskUseCase.execute(task);
+      getTasks();
+      update();
+
+    } catch(e) {
+      print('Record ViewModel delete task Error $e');
+    }
+  }
+
+  void updateEditingTask(String title) {
+    _editingTask.value = Task(
+      id: _editingTask.value.id,
+      title: title,
+      color: _editingTask.value.color,
+    );
+  }
+
   void checkFormValidity() {
     bool validity = _taskTitleController.value.text.isNotEmpty &&
-        _taskTitleController.value.text.length <= 60;
+        _taskTitleController.value.text.length <= 20;
     _isFormValid.value = validity;
+    if (validity) {
+      updateEditingTask(_taskTitleController.value.text);
+    }
   }
 
 
@@ -96,7 +128,9 @@ class RecordViewModel extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    // getSchedules().then((onValue) => updateSelectedDate(_selectedDate.value));
+    _taskTitleController.value.addListener(() {
+      checkFormValidity();
+    });
   }
 
   @override

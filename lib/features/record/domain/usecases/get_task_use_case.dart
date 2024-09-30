@@ -5,7 +5,7 @@ class GetTaskUseCase {
   final TaskRepository repository;
   GetTaskUseCase(this.repository);
 
-  Future execute() async {
-    await repository.getTasks();
+  Future<List<Task>> execute() async {
+    return await repository.getTasks();
   }
 }
