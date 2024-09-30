@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-abstract class ScheduleColor {
+abstract class ThemeColor {
   static Color color1 = const Color(0xff8FB8EE);
   static Color color2 = const Color(0xFF005FDA);
   static Color color3 = const Color(0xff1d3f88);

@@ -27,7 +27,7 @@ class RecordScreen extends GetView<RecordViewModel> {
                 'assets/icons/log_black.svg',
               )),
           body: Column(
-            children: [RecordCard(), EditableStudyJournalCard(
+            children: [EditableStudyJournalCard(
               initialContent: '오늘의 공부 내용을 입력하세요.',
               initialStudyTime: Duration(hours: 2, minutes: 30),
               createdAt: DateTime.now(),

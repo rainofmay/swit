@@ -46,7 +46,7 @@ class _EditableStudyJournalCardState extends State<EditableStudyJournalCard> {
     return Card(
       elevation: 5,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      color: Color(0xFFFFF9C4),
+      color: Color(0xFFFAF6E1),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:swit/features/study/schedule/presentation/viewmodel/schedule_view_model.dart';
 import 'package:swit/shared/constant/color_box.dart';
-import 'package:swit/shared/constant/schedule_color.dart';
+import 'package:swit/shared/constant/theme_color.dart';
 
 class ColorSelection extends StatelessWidget {
   ColorSelection({super.key});
@@ -20,7 +20,7 @@ class ColorSelection extends StatelessWidget {
         physics: NeverScrollableScrollPhysics(), // 터치 스크롤현상 없애는 것.
         // scrollDirection: Axis.vertical,
         // shrinkWrap: true,
-        itemCount: ScheduleColor.colorList.length,
+        itemCount: ThemeColor.colorList.length,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 4,
           //1 개의 행에 보여줄 item 개수
@@ -32,11 +32,11 @@ class ColorSelection extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           return Obx(() => GestureDetector(
             onTap: () {
-              vm.updateScheduleColor(ScheduleColor.colorList[index]);
+              vm.updateScheduleColor(ThemeColor.colorList[index]);
             },
             child: CircleAvatar(
-                backgroundColor: ScheduleColor.colorList[index],
-                child: vm.editingSchedule.sectionColor == ScheduleColor.colorList[index]
+                backgroundColor: ThemeColor.colorList[index],
+                child: vm.editingSchedule.sectionColor == ThemeColor.colorList[index]
                     ? Icon(
                   Icons.check_rounded,
                   color: ColorBox.white,

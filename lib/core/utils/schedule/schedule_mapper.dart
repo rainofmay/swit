@@ -1,6 +1,6 @@
 import 'package:swit/features/study/schedule/data/models/schedule_dto.dart';
 import 'package:swit/features/study/schedule/domain/entities/schedule.dart';
-import 'package:swit/shared/constant/schedule_color.dart';
+import 'package:swit/shared/constant/theme_color.dart';
 import 'package:uuid/uuid.dart';
 
 class ScheduleMapper {
@@ -13,7 +13,7 @@ class ScheduleMapper {
       to: schedule.to,
       description: schedule.description,
       isAllDay: schedule.isAllDay,
-      sectionColor: ScheduleColor.colorList.indexOf(schedule.sectionColor),
+      sectionColor: ThemeColor.colorList.indexOf(schedule.sectionColor),
     );
   }
 
@@ -26,7 +26,7 @@ class ScheduleMapper {
       to: dto.to,
       description: dto.description,
       isAllDay: dto.isAllDay,
-      sectionColor: ScheduleColor.colorList[dto.sectionColor],
+      sectionColor: ThemeColor.colorList[dto.sectionColor],
     );
   }
 }

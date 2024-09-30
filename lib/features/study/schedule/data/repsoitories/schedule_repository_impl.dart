@@ -3,7 +3,7 @@ import 'package:swit/features/study/schedule/data/datasources/schedule_remote_da
 import 'package:swit/features/study/schedule/data/models/schedule_dto.dart';
 import 'package:swit/features/study/schedule/domain/entities/schedule.dart';
 import 'package:swit/features/study/schedule/domain/repositories/schedule_repository.dart';
-import 'package:swit/shared/constant/schedule_color.dart';
+import 'package:swit/shared/constant/theme_color.dart';
 
 class ScheduleRepositoryImpl implements ScheduleRepository {
   final ScheduleRemoteDataSource remoteDataSource;
@@ -21,7 +21,6 @@ class ScheduleRepositoryImpl implements ScheduleRepository {
           final dto = ScheduleDTO.fromJson(json);
           return ScheduleMapper.toEntity(dto);
         } catch (e) {
-          print('Error parsing Schedule JSON: $json');
           print('Error details: $e');
           return null;
         }

@@ -8,7 +8,7 @@ import 'package:swit/features/study/schedule/domain/usecases/create_schedule_use
 import 'package:swit/features/study/schedule/domain/usecases/delete_schedule_use_case.dart';
 import 'package:swit/features/study/schedule/domain/usecases/get_schedule_use_case.dart';
 import 'package:swit/features/study/schedule/domain/usecases/update_schedule_use_case.dart';
-import 'package:swit/shared/constant/schedule_color.dart';
+import 'package:swit/shared/constant/theme_color.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:uuid/uuid.dart';
 
@@ -70,9 +70,6 @@ class ScheduleViewModel extends GetxController {
   void onInit() {
     super.onInit();
     getSchedules().then((onValue) => updateSelectedDate(_selectedDate.value));
-
-    print('schedules $schedules');
-
   }
 
   @override
@@ -110,7 +107,7 @@ class ScheduleViewModel extends GetxController {
       to: existingSchedule?.to ?? initialEndDate,
       isAllDay: existingSchedule?.isAllDay ?? false,
       description: existingSchedule?.description ?? '',
-      sectionColor: existingSchedule?.sectionColor ?? ScheduleColor.colorList[0],
+      sectionColor: existingSchedule?.sectionColor ?? ThemeColor.colorList[0],
     );
   }
 
@@ -147,7 +144,7 @@ class ScheduleViewModel extends GetxController {
       _schedules.assignAll(data);
       _isSchedulesLoaded.value = true;
       update();
-      print('Schedules after mapping: ${_schedules}');
+
     } catch(e) {
       _isSchedulesLoaded.value = false;
     }
@@ -186,7 +183,7 @@ class ScheduleViewModel extends GetxController {
     for (int i = 0; i < data.length; i++) {
       idColorData.addAll({data[i][2]: data[i][3]});
     }
-    print('idColorData $idColorData');
+
     return idColorData;
   }
 
