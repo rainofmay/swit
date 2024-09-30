@@ -15,6 +15,7 @@ import 'package:swit/features/mate/presentation/view/mate_screen.dart';
 import 'package:swit/features/more/presentation/view/more.screen.dart';
 import 'package:swit/features/more/presentation/view/user_info_screen.dart';
 import 'package:swit/features/record/presentation/view/add_record_screen.dart';
+import 'package:swit/features/record/presentation/view/handle_task_screen.dart';
 import 'package:swit/features/record/presentation/view/record_screen.dart';
 import 'package:swit/features/study/audio/presentation/view/audio_screen.dart';
 import 'package:swit/features/study/schedule/presentation/view/create_schedule_screen.dart';
@@ -106,6 +107,15 @@ class AppPages {
             name: Routes.RECORDADD,
             page: () => const AddRecordScreen(),
             middlewares: [LoginMiddleware()],
+            binding: RecordBinding(),
+            children: [
+              GetPage(
+                name: Routes.HANDLETASK,
+                page: () => const HandleTaskScreen(),
+                middlewares: [LoginMiddleware()],
+                binding: RecordBinding(),
+              )
+            ]
           )
         ]),
     GetPage(

@@ -43,7 +43,7 @@ class StudyScreen extends GetView<BgSettingViewModel> {
       body: Stack(
         children: [
           SizedBox.expand(
-              child: Obx(() => Image.asset(controller.bgThemeMap[controller.editingTheme]!, fit: BoxFit.fill))),
+              child: Obx(() => Image.asset(controller.bgThemeMap[controller.editingTheme]!, fit: BoxFit.cover))),
 
           Positioned(
             top: 50,
