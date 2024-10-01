@@ -41,7 +41,8 @@ class TaskList extends GetView<RecordViewModel> {
                 final task = controller.tasks[index];
                 return GestureDetector(
                   behavior: HitTestBehavior.opaque,
-                  onTap: () async {
+                  onTap: () {
+                    controller.updateEditingTask(task);
                     Get.toNamed(Routes.RECORD + Routes.RECORDADD + Routes.EDITTASK);
                   },
                   child: ListTile(

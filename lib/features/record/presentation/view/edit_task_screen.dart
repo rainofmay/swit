@@ -25,7 +25,7 @@ class EditTaskScreen extends GetView<RecordViewModel> {
             Obx(() => TextButton(
                   onPressed: () async {
                     controller.isFormValid
-                        ? await controller.onSavePressed()
+                        ? await controller.onUpdatePressed()
                         : null;
                     Get.back();
                   },

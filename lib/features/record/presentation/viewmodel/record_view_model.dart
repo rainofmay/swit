@@ -28,14 +28,11 @@ class RecordViewModel extends GetxController {
   /* Calendar Fields -------------------------------------- */
   /* ------------------------------------------------------ */
   late final Rx<DateTime> _selectedDate;
-
   DateTime get selectedDate => _selectedDate.value;
   late final Rx<DateTime> _focusedDate;
-
   DateTime get focusedDate => _focusedDate.value;
 
   late final Rx<CalendarFormat> _calendarFormat;
-
   CalendarFormat get calendarFormat => _calendarFormat.value;
 
   /* ------------------------------------------------------ */
@@ -113,10 +110,44 @@ class RecordViewModel extends GetxController {
     _isFormValid.value = validity;
   }
 
+  void updateTaskTitle(String title) {
+    _editingTask.update((val) {
+      val?.title = title;
+    });
+  }
 
-/* ------------------------------------------------------ */
-/* Init & Dispose --------------------------------------- */
-/* ------------------------------------------------------ */
+  void updateTaskColor(Color color) {
+    _editingTask.update((val) {
+      val?.color = color;
+    });
+  }
+
+  // 수정 페이지로 진입할 때, 수정할 task 인식
+  void updateEditingTask(Task? task) {
+    _editingTask.value = createInitTask(existingTask: task);
+    _taskTitleController.value.text = _editingTask.value.title;
+  }
+
+  Future<void> onUpdatePressed() async {
+    if (isFormValid) {
+      try {
+        // _editingTask.update((val) {
+        //   val?.title = _taskTitleController.value.text;
+        // });
+
+        await _updateTaskUseCase.execute(_editingTask.value);
+        await getTasks();
+      } catch (e) {
+        print('ViewModel failed to update task: $e');
+      }
+    } else {
+      print('ViewModel task Form is not valid');
+    }
+  }
+
+  /* ------------------------------------------------------ */
+  /* Init & Dispose --------------------------------------- */
+  /* ------------------------------------------------------ */
   @override
   void onInit() {
     super.onInit();
