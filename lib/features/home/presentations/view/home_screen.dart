@@ -29,11 +29,11 @@ Widget _buildTabScreen(HomeTab tab) {
   switch (tab) {
     case HomeTab.home:
       return StudyScreen();
-    case HomeTab.record:
-      return RecordScreen();
     case HomeTab.mate:
       MateBinding().dependencies();
       return MateScreen();
+    case HomeTab.record:
+      return RecordScreen();
     case HomeTab.more:
       return MoreScreen();
   }

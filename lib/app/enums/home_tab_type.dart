@@ -1,8 +1,8 @@
 
 enum HomeTab{
   home(label : '홈'),
-  record(label : '기 록'),
   mate(label : '메이트'),
+  record(label : '기 록'),
   more(label : '더보기');
 
   const HomeTab({required this.label});
@@ -15,10 +15,10 @@ extension HomeTabX on HomeTab {
     switch (this) {
       case HomeTab.home:
         return 'assets/icons/home_black.svg';
-      case HomeTab.record:
-        return 'assets/icons/log_black.svg';
       case HomeTab.mate:
         return 'assets/icons/mate_black.svg';
+      case HomeTab.record:
+        return 'assets/icons/log_black.svg';
       case HomeTab.more:
         return 'assets/icons/more_black.svg';
     }
@@ -28,10 +28,10 @@ extension HomeTabX on HomeTab {
     switch (this) {
       case HomeTab.home:
         return 'assets/icons/home_gray.svg';
-      case HomeTab.record:
-        return 'assets/icons/log_gray.svg';
       case HomeTab.mate:
         return 'assets/icons/mate_gray.svg';
+      case HomeTab.record:
+        return 'assets/icons/log_gray.svg';
       case HomeTab.more:
         return 'assets/icons/more_gray.svg';
     }

@@ -6,10 +6,9 @@ import 'package:swit/shared/constant/color_box.dart';
 import 'package:swit/shared/widgets/infinity_horizon_line.dart';
 import 'package:swit/shared/widgets/infinity_vertical_line.dart';
 
-class TaskListWidget extends StatelessWidget {
-  final RecordViewModel controller;
+class TaskList extends GetView<RecordViewModel> {
 
-  const TaskListWidget({super.key, required this.controller});
+  const TaskList({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +20,7 @@ class TaskListWidget extends StatelessWidget {
           color: ColorBox.grey.shade200,
         ),
         TextButton(onPressed: () {
-          Get.toNamed(Routes.RECORD + Routes.RECORDADD + Routes.HANDLETASK);
+          Get.toNamed(Routes.RECORD + Routes.RECORDADD + Routes.ADDTASK);
         },
             style: TextButton.styleFrom(
               foregroundColor: ColorBox.white, // 텍스트 색상
@@ -40,11 +39,17 @@ class TaskListWidget extends StatelessWidget {
               itemCount: controller.tasks.length,
               itemBuilder: (context, index) {
                 final task = controller.tasks[index];
-                return ListTile(
-                  title: Text(task.title),
-                  trailing: IconButton(
-                    icon: Icon(Icons.delete),
-                    onPressed: () => controller.deleteTask(task),
+                return GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () async {
+                    Get.toNamed(Routes.RECORD + Routes.RECORDADD + Routes.EDITTASK);
+                  },
+                  child: ListTile(
+                    title: Text(task.title),
+                    trailing: IconButton(
+                      icon: Icon(Icons.delete),
+                      onPressed: () => controller.deleteTask(task),
+                    ),
                   ),
                 );
               },

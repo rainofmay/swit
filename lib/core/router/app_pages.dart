@@ -15,7 +15,8 @@ import 'package:swit/features/mate/presentation/view/mate_screen.dart';
 import 'package:swit/features/more/presentation/view/more.screen.dart';
 import 'package:swit/features/more/presentation/view/user_info_screen.dart';
 import 'package:swit/features/record/presentation/view/add_record_screen.dart';
-import 'package:swit/features/record/presentation/view/handle_task_screen.dart';
+import 'package:swit/features/record/presentation/view/add_task_screen.dart';
+import 'package:swit/features/record/presentation/view/edit_task_screen.dart';
 import 'package:swit/features/record/presentation/view/record_screen.dart';
 import 'package:swit/features/study/audio/presentation/view/audio_screen.dart';
 import 'package:swit/features/study/schedule/presentation/view/create_schedule_screen.dart';
@@ -110,8 +111,14 @@ class AppPages {
             binding: RecordBinding(),
             children: [
               GetPage(
-                name: Routes.HANDLETASK,
-                page: () => const HandleTaskScreen(),
+                name: Routes.ADDTASK,
+                page: () => const AddTaskScreen(),
+                middlewares: [LoginMiddleware()],
+                binding: RecordBinding(),
+              ),
+              GetPage(
+                name: Routes.EDITTASK,
+                page: () => const EditTaskScreen(),
                 middlewares: [LoginMiddleware()],
                 binding: RecordBinding(),
               )

@@ -23,6 +23,7 @@ class RecordViewModel extends GetxController {
         _createTaskUseCase = createTaskUseCase,
         _updateTaskUseCase = updateTaskUseCase,
         _deleteTaskUseCase = deleteTaskUseCase;
+
   /* ------------------------------------------------------ */
   /* Calendar Fields -------------------------------------- */
   /* ------------------------------------------------------ */
@@ -49,8 +50,9 @@ class RecordViewModel extends GetxController {
   late final Rx<TextEditingController> _taskTitleController = TextEditingController().obs;
   TextEditingController get taskTitleController => _taskTitleController.value;
 
-  late final RxBool _isFormValid = false.obs;
 
+
+  late final RxBool _isFormValid = false.obs;
   bool get isFormValid => _isFormValid.value;
 
   Task createInitTask({Task? existingTask}) {
@@ -104,21 +106,11 @@ class RecordViewModel extends GetxController {
     }
   }
 
-  void updateEditingTask(String title) {
-    _editingTask.value = Task(
-      id: _editingTask.value.id,
-      title: title,
-      color: _editingTask.value.color,
-    );
-  }
 
   void checkFormValidity() {
     bool validity = _taskTitleController.value.text.isNotEmpty &&
         _taskTitleController.value.text.length <= 20;
     _isFormValid.value = validity;
-    if (validity) {
-      updateEditingTask(_taskTitleController.value.text);
-    }
   }
 
 
@@ -131,6 +123,8 @@ class RecordViewModel extends GetxController {
     _taskTitleController.value.addListener(() {
       checkFormValidity();
     });
+
+    getTasks();
   }
 
   @override
