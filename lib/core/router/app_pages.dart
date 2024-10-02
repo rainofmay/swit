@@ -18,6 +18,7 @@ import 'package:swit/features/record/presentation/view/add_record_screen.dart';
 import 'package:swit/features/record/presentation/view/add_task_screen.dart';
 import 'package:swit/features/record/presentation/view/edit_task_screen.dart';
 import 'package:swit/features/record/presentation/view/record_screen.dart';
+import 'package:swit/features/record/presentation/view/time_record_screen.dart';
 import 'package:swit/features/study/audio/presentation/view/audio_screen.dart';
 import 'package:swit/features/study/schedule/presentation/view/create_schedule_screen.dart';
 import 'package:swit/features/study/schedule/presentation/view/edit_schedule_screen.dart';
@@ -110,6 +111,12 @@ class AppPages {
             middlewares: [LoginMiddleware()],
             binding: RecordBinding(),
             children: [
+              GetPage(
+                name: Routes.TIMERECORD,
+                page: () => const TimeRecordScreen(),
+                middlewares: [LoginMiddleware()],
+                binding: RecordBinding(),
+              ),
               GetPage(
                 name: Routes.ADDTASK,
                 page: () => const AddTaskScreen(),

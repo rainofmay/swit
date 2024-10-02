@@ -20,8 +20,9 @@ abstract class Routes {
   /* ------------------------------------------------------ */
   static const RECORD = '/record';
   static const RECORDADD = '/record/recordadd';
-  static const ADDTASK = '/record/addtask';
-  static const EDITTASK = '/record/edittask';
+  static const TIMERECORD = '/record/recordadd/timerecord';
+  static const ADDTASK = '/record/recordadd/addtask';
+  static const EDITTASK = '/record/recordadd/edittask';
   /* ------------------------------------------------------ */
   /* Mate Fields ------------------------------------------ */
   /* ------------------------------------------------------ */

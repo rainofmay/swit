@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swit/features/record/domain/entities/task.dart';
 import 'package:swit/features/record/domain/usecases/create_task_use_case.dart';
 import 'package:swit/features/record/domain/usecases/delete_task_use_case.dart';
@@ -36,7 +39,7 @@ class RecordViewModel extends GetxController {
   CalendarFormat get calendarFormat => _calendarFormat.value;
 
   /* ------------------------------------------------------ */
-  /* Record Fields ---------------------------------------- */
+  /* Task Fields ------------------------------------------ */
   /* ------------------------------------------------------ */
   late final RxList<Task> _tasks = <Task>[].obs;
   List<Task> get tasks => _tasks;
@@ -47,15 +50,82 @@ class RecordViewModel extends GetxController {
   late final Rx<TextEditingController> _taskTitleController = TextEditingController().obs;
   TextEditingController get taskTitleController => _taskTitleController.value;
 
-
-
   late final RxBool _isFormValid = false.obs;
   bool get isFormValid => _isFormValid.value;
+
+  // 디폴트 task 삭제 여부 확인 위함.
+  static const String _defaultTaskKey = 'default_task_deleted_';
+
+  /* ------------------------------------------------------ */
+  /* Record Fields ---------------------------------------- */
+  /* ------------------------------------------------------ */
+  late final RxBool _isRunning = false.obs;
+  bool get isRunning => _isRunning.value;
+
+  late final RxString _result = "00:00:00".obs;
+  String get result => _result.value;
+
+  late final RxList<int> _records = <int>[].obs;
+  List<int> get records => _records;
+
+  late final RxInt _sum = 0.obs;
+  int get sum => _sum.value;
+
+  Stopwatch _stopwatch = Stopwatch();
+  Timer? _timer;
+
+  /* ------------------------------------------------------ */
+  /* Init & Dispose --------------------------------------- */
+  /* ------------------------------------------------------ */
+  @override
+  void onInit() {
+    super.onInit();
+    _initializeTasks();
+    _taskTitleController.value.addListener(() {
+      checkFormValidity();
+    });
+  }
+
+  @override
+  void onClose() {
+    _taskTitleController.value.dispose();
+    _timer?.cancel();
+    super.onClose();
+  }
+
+  /* ------------------------------------------------------ */
+  /* Task functions --------------------------------------- */
+  /* ------------------------------------------------------ */
+
+  // 과제를 가져오는데, 없으면 디폴트과제 생성
+  Future<void> _initializeTasks() async {
+    await getTasks();
+    final prefs = await SharedPreferences.getInstance();
+    final defaultTaskDeleted = prefs.getBool(_defaultTaskKey) ?? false;
+
+    if (!defaultTaskDeleted) {
+      print('defaultTaskDeleted $defaultTaskDeleted');
+      await _createDefaultTaskForFirstTime();
+    }
+  }
+
+  Future<void> _createDefaultTaskForFirstTime() async {
+    final defaultTask = Task(
+      id: const Uuid().v4(),
+      title: '스터디',
+      color: ThemeColor.colorList[0],
+      isDefault: true,
+    );
+    await _createTaskUseCase.execute(defaultTask);
+    await getTasks();
+  }
+
 
   Task createInitTask({Task? existingTask}) {
     final id = existingTask?.id ?? const Uuid().v4();
     final title = existingTask?.title ?? '';
     final color = existingTask?.color ?? ThemeColor.colorList[0];
+    final isDefault = existingTask?.isDefault ?? false;
     return Task(
         id: id,
         title: title,
@@ -63,17 +133,16 @@ class RecordViewModel extends GetxController {
     );
   }
 
-
   Future<void> onSavePressed() async {
     if (isFormValid) {
       final taskToSave = Task(
         id: _editingTask.value.id,
         title: _taskTitleController.value.text,
         color: _editingTask.value.color,
+        isDefault: _editingTask.value.isDefault,
       );
       await _createTaskUseCase.execute(taskToSave);
       await getTasks();  // 저장 후 목록 새로고침
-
 
       // text controller 초기화하기
       _taskTitleController.value.text = '';
@@ -95,14 +164,15 @@ class RecordViewModel extends GetxController {
   Future<void> deleteTask(Task task) async {
     try {
       await _deleteTaskUseCase.execute(task);
-      getTasks();
-      update();
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setBool(_defaultTaskKey, true);
 
-    } catch(e) {
+      await getTasks();
+      update();
+    } catch (e) {
       print('Record ViewModel delete task Error $e');
     }
   }
-
 
   void checkFormValidity() {
     bool validity = _taskTitleController.value.text.isNotEmpty &&
@@ -131,10 +201,6 @@ class RecordViewModel extends GetxController {
   Future<void> onUpdatePressed() async {
     if (isFormValid) {
       try {
-        // _editingTask.update((val) {
-        //   val?.title = _taskTitleController.value.text;
-        // });
-
         await _updateTaskUseCase.execute(_editingTask.value);
         await getTasks();
       } catch (e) {
@@ -146,21 +212,57 @@ class RecordViewModel extends GetxController {
   }
 
   /* ------------------------------------------------------ */
-  /* Init & Dispose --------------------------------------- */
+  /* Record functions-------------------------------------- */
   /* ------------------------------------------------------ */
-  @override
-  void onInit() {
-    super.onInit();
-    _taskTitleController.value.addListener(() {
-      checkFormValidity();
-    });
-
-    getTasks();
+  void toggleTimer() {
+    if (_isRunning.value) {
+      pauseTimer();
+    } else {
+      startTimer();
+    }
+    _isRunning.toggle();
   }
 
-  @override
-  void onClose() {
-    _taskTitleController.value.dispose();
-    super.onClose();
+  void startTimer() {
+    _stopwatch.start();
+    _timer = Timer.periodic(Duration(milliseconds: 30), (timer) {
+      _result.value = formatTime(_stopwatch.elapsedMilliseconds);
+    });
+  }
+
+  void pauseTimer() {
+    _stopwatch.stop();
+    _timer?.cancel();
+  }
+
+  void resetTimer() {
+    _stopwatch.reset();
+    _timer?.cancel();
+    _result.value = "00:00:00";
+    _isRunning.value = false;
+  }
+
+  void recordTime() {
+    if (!_stopwatch.isRunning) {
+      _records.add(_stopwatch.elapsedMilliseconds);
+      _updateSum();
+    }
+  }
+
+  void _updateSum() {
+    _sum.value = _records.fold(0, (prev, curr) => prev + curr);
+  }
+
+  String formatTime(int milliseconds) {
+    int hundreds = (milliseconds / 10).truncate();
+    int seconds = (hundreds / 100).truncate();
+    int minutes = (seconds / 60).truncate();
+    int hours = (minutes / 60).truncate();
+
+    String hoursStr = (hours % 60).toString().padLeft(2, '0');
+    String minutesStr = (minutes % 60).toString().padLeft(2, '0');
+    String secondsStr = (seconds % 60).toString().padLeft(2, '0');
+
+    return "$hoursStr:$minutesStr:$secondsStr";
   }
 }

@@ -6,6 +6,7 @@ import 'package:swit/features/user/domain/entities/user.dart';
 import 'package:swit/shared/constant/color_box.dart';
 import 'package:swit/shared/constant/font_box.dart';
 import 'package:swit/shared/widgets/custom_alert_dialog.dart';
+import 'package:swit/shared/widgets/custom_gap.dart';
 
 class ProfileCard extends GetView<MateViewModel> {
   final User user;
@@ -18,7 +19,7 @@ class ProfileCard extends GetView<MateViewModel> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 0.0, bottom: 0.0),
+      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
       child: GestureDetector(
           behavior: HitTestBehavior.opaque,
           onLongPress: () {
@@ -32,15 +33,15 @@ class ProfileCard extends GetView<MateViewModel> {
                       contents: TextButton(onPressed: () async {
                         await controller.unfollowMate(user.uid);
                         Get.back();
-                      }, child: Text('메이트 해제')),
+                      }, child: const Text('메이트 해제')),
                       actionWidget: const SizedBox());
                 });
           },
           child: Row(
             children: [
               Container(
-                width: width ?? 40, // 원하는 너비
-                height: height ?? 40, // 원하는 높이
+                width: width ?? 36, // 원하는 너비
+                height: height ?? 36, // 원하는 높이
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(14), // 모서리 둥글기 조절
                   color: ColorBox.grey.withOpacity(0.5),
@@ -56,14 +57,14 @@ class ProfileCard extends GetView<MateViewModel> {
                       : Icon(Icons.person, size: 30, color: ColorBox.white),
                 ),
               ),
-              const SizedBox(width: 10),
+              const CustomGap(10),
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(user.username ?? '이름이 없습니다.',
-                        style: FontBox.B1.copyWith(color: ColorBox.black)),
+                        style: FontBox.B2.copyWith(color: ColorBox.black)),
                     user.introduction?.isEmpty == false
                         ? Text(
                       user.introduction!,

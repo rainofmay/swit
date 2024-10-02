@@ -13,38 +13,36 @@ class EditTaskScreen extends GetView<RecordViewModel> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: CustomScaffold(
-        backgroundColor: ColorBox.white,
-        appBar: CustomBackAppBar(
-          backgroundColor: controller.editingTask.color,
-          appbarTitle: '',
-          isLeading: true,
-          isCenterTitle: false,
-          actions: [
-            Obx(() => TextButton(
-                  onPressed: () async {
-                    controller.isFormValid
-                        ? await controller.onUpdatePressed()
-                        : null;
-                    Get.back();
-                  },
-                  child: Text(
-                    '수정',
-                    style: FontBox.B1.copyWith(
-                        color: controller.isFormValid
-                            ? ColorBox.white
-                            : ColorBox.grey[300]),
-                  ),
-                )),
-            TextButton(
-                onPressed: () async {},
-                child: Text('삭제',
-                    style: FontBox.B1.copyWith(color: ColorBox.red))),
-          ],
-        ),
-        body: HandleTaskForm(),
+    return Obx(() => CustomScaffold(
+      backgroundColor: ColorBox.white,
+      appBar: CustomBackAppBar(
+        backgroundColor: controller.editingTask.color,
+        appbarTitle: '',
+        isLeading: true,
+        isCenterTitle: false,
+        actions: [
+          Obx(() => TextButton(
+            onPressed: () async {
+              controller.isFormValid
+                  ? await controller.onUpdatePressed()
+                  : null;
+              Get.back();
+            },
+            child: Text(
+              '수정',
+              style: FontBox.B1.copyWith(
+                  color: controller.isFormValid
+                      ? ColorBox.white
+                      : ColorBox.grey[300]),
+            ),
+          )),
+          TextButton(
+              onPressed: () async {},
+              child: Text('삭제',
+                  style: FontBox.B1.copyWith(color: ColorBox.red))),
+        ],
       ),
-    );
+      body: const HandleTaskForm(),
+    ));
   }
 }

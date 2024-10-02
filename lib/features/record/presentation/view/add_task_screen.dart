@@ -13,34 +13,32 @@ class AddTaskScreen extends GetView<RecordViewModel> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: CustomScaffold(
-        backgroundColor: ColorBox.white,
-        appBar: CustomBackAppBar(
-          backgroundColor: controller.editingTask.color,
-          appbarTitle: '',
-          isLeading: true,
-          isCenterTitle: false,
-          actions: [
-            Obx(() => TextButton(
-                  onPressed: () async {
-                    controller.isFormValid
-                        ? await controller.onSavePressed()
-                        : null;
-                    Get.back();
-                  },
-                  child: Text(
-                    '저장',
-                    style: FontBox.B1.copyWith(
-                        color: controller.isFormValid
-                            ? ColorBox.white
-                            : ColorBox.grey[300]),
-                  ),
-                ))
-          ],
-        ),
-        body: const HandleTaskForm(),
+    return Obx(() => CustomScaffold(
+      backgroundColor: ColorBox.white,
+      appBar: CustomBackAppBar(
+        backgroundColor: controller.editingTask.color,
+        appbarTitle: '',
+        isLeading: true,
+        isCenterTitle: false,
+        actions: [
+          Obx(() => TextButton(
+            onPressed: () async {
+              controller.isFormValid
+                  ? await controller.onSavePressed()
+                  : null;
+              Get.back();
+            },
+            child: Text(
+              '저장',
+              style: FontBox.B1.copyWith(
+                  color: controller.isFormValid
+                      ? ColorBox.white
+                      : ColorBox.grey[300]),
+            ),
+          ))
+        ],
       ),
-    );
+      body: const HandleTaskForm(),
+    ));
   }
 }
