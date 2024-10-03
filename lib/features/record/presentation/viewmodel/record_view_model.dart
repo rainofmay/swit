@@ -17,6 +17,7 @@ class RecordViewModel extends GetxController {
   final CreateTaskUseCase _createTaskUseCase;
   final UpdateTaskUseCase _updateTaskUseCase;
   final DeleteTaskUseCase _deleteTaskUseCase;
+
   RecordViewModel({
     required GetTaskUseCase getTaskUseCase,
     required CreateTaskUseCase createTaskUseCase,
@@ -57,7 +58,7 @@ class RecordViewModel extends GetxController {
   static const String _defaultTaskKey = 'default_task_deleted_';
 
   /* ------------------------------------------------------ */
-  /* Record Fields ---------------------------------------- */
+  /* Timer Widget Fields ---------------------------------- */
   /* ------------------------------------------------------ */
   late final RxBool _isRunning = false.obs;
   bool get isRunning => _isRunning.value;
@@ -71,8 +72,28 @@ class RecordViewModel extends GetxController {
   late final RxInt _sum = 0.obs;
   int get sum => _sum.value;
 
-  Stopwatch _stopwatch = Stopwatch();
+  final Stopwatch _stopwatch = Stopwatch();
   Timer? _timer;
+
+  /* ------------------------------------------------------ */
+  /* Record Task Fields ----------------------------------- */
+  /* ------------------------------------------------------ */
+
+
+  late final RxInt _totalDailyStudyTime = 0.obs;
+  int get totalDailyStudyTime => _totalDailyStudyTime.value;
+
+  String get formattedTotalDailyStudyTime => formatTime(_totalDailyStudyTime.value);
+
+  // 현재 측정 중인 과제
+  late final Rx<Task?> _recordingTask = Rx<Task?>(null);
+  Task? get recordingTask => _recordingTask.value;
+
+  // 현재 타이머 시간 저장
+  late final RxString _currentTaskTime = "00:00:00".obs;
+  String get currentTaskTime => _currentTaskTime.value;
+  late final RxMap<String, Stopwatch> _taskStopwatches = <String, Stopwatch>{}.obs;
+  Map<String, Stopwatch> get taskStopwatches => _taskStopwatches;
 
   /* ------------------------------------------------------ */
   /* Init & Dispose --------------------------------------- */
@@ -84,6 +105,9 @@ class RecordViewModel extends GetxController {
     _taskTitleController.value.addListener(() {
       checkFormValidity();
     });
+    _selectedDate = DateTime.now().obs;
+    _focusedDate = DateTime.now().obs;
+    _calendarFormat = CalendarFormat.month.obs;
   }
 
   @override
@@ -101,10 +125,7 @@ class RecordViewModel extends GetxController {
   Future<void> _initializeTasks() async {
     await getTasks();
     final prefs = await SharedPreferences.getInstance();
-    final defaultTaskDeleted = prefs.getBool(_defaultTaskKey) ?? false;
-
-    if (!defaultTaskDeleted) {
-      print('defaultTaskDeleted $defaultTaskDeleted');
+    if (!(prefs.getBool(_defaultTaskKey) ?? false)) {
       await _createDefaultTaskForFirstTime();
     }
   }
@@ -120,16 +141,17 @@ class RecordViewModel extends GetxController {
     await getTasks();
   }
 
-
   Task createInitTask({Task? existingTask}) {
     final id = existingTask?.id ?? const Uuid().v4();
     final title = existingTask?.title ?? '';
     final color = existingTask?.color ?? ThemeColor.colorList[0];
     final isDefault = existingTask?.isDefault ?? false;
     return Task(
-        id: id,
-        title: title,
-        color: color,
+      id: id,
+      title: title,
+      color: color,
+      isDefault: isDefault,
+      dailyStudyTime: existingTask?.dailyStudyTime ?? 0,
     );
   }
 
@@ -140,6 +162,7 @@ class RecordViewModel extends GetxController {
         title: _taskTitleController.value.text,
         color: _editingTask.value.color,
         isDefault: _editingTask.value.isDefault,
+        dailyStudyTime: _editingTask.value.dailyStudyTime,
       );
       await _createTaskUseCase.execute(taskToSave);
       await getTasks();  // 저장 후 목록 새로고침
@@ -152,10 +175,11 @@ class RecordViewModel extends GetxController {
 
   Future<void> getTasks() async {
     try {
-      final List<Task> data = await  _getTaskUseCase.execute();
+      final List<Task> data = await _getTaskUseCase.execute();
       _tasks.assignAll(data);
-      update();
+      _updateTotalDailyStudyTime();
 
+      update();
     } catch(e) {
       print('Record ViewModel get task Error $e');
     }
@@ -164,8 +188,8 @@ class RecordViewModel extends GetxController {
   Future<void> deleteTask(Task task) async {
     try {
       await _deleteTaskUseCase.execute(task);
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setBool(_defaultTaskKey, true);
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool(_defaultTaskKey, true);
 
       await getTasks();
       update();
@@ -212,26 +236,35 @@ class RecordViewModel extends GetxController {
   }
 
   /* ------------------------------------------------------ */
-  /* Record functions-------------------------------------- */
+  /* Timer functions--------------------------------------- */
   /* ------------------------------------------------------ */
-  void toggleTimer() {
+  void toggleTimer(String taskId) {
     if (_isRunning.value) {
       pauseTimer();
     } else {
-      startTimer();
+      startTimer(taskId);
     }
-    _isRunning.toggle();
   }
 
-  void startTimer() {
-    _stopwatch.start();
-    _timer = Timer.periodic(Duration(milliseconds: 30), (timer) {
-      _result.value = formatTime(_stopwatch.elapsedMilliseconds);
+  void startTimer(String taskId) {
+    final task = _tasks.firstWhere((task) => task.id == taskId);
+    _recordingTask.value = task;
+    _isRunning.value = true;
+
+    _timer = Timer.periodic(Duration(milliseconds: 100), (timer) {
+      _recordingTask.update((val) {
+        if (val != null) {
+          val = val.copyWith(dailyStudyTime: val.dailyStudyTime + 100);
+        }
+      });
+      _updateTotalDailyStudyTime();
+      update();
     });
   }
 
   void pauseTimer() {
-    _stopwatch.stop();
+    // _stopwatch.stop();
+    _isRunning.value = false;
     _timer?.cancel();
   }
 
@@ -264,5 +297,75 @@ class RecordViewModel extends GetxController {
     String secondsStr = (seconds % 60).toString().padLeft(2, '0');
 
     return "$hoursStr:$minutesStr:$secondsStr";
+  }
+
+
+
+  /* ------------------------------------------------------ */
+  /* Record functions ------------------------------------- */
+  /* ------------------------------------------------------ */
+
+  void updateRecordingTask(Task? task) {
+    _recordingTask.value = task;
+  }
+
+  void _updateTotalDailyStudyTime() {
+    _totalDailyStudyTime.value = _tasks.fold(0, (sum, task) => sum + task.dailyStudyTime);
+  }
+
+  void startTaskTimer(String taskId) {
+    final task = _tasks.firstWhere((task) => task.id == taskId);
+    _recordingTask.value = task;
+
+    if (!_taskStopwatches.containsKey(taskId)) {
+      _taskStopwatches[taskId] = Stopwatch();
+    }
+    _taskStopwatches[taskId]!.start();
+    _isRunning.value = true;
+
+    _timer = Timer.periodic(Duration(milliseconds: 100), (timer) {
+      final elapsedMilliseconds = _taskStopwatches[taskId]!.elapsedMilliseconds;
+      _currentTaskTime.value = formatTime(task.dailyStudyTime + elapsedMilliseconds);
+
+      _recordingTask.update((val) {
+        if (val != null) {
+          val = val.copyWith(
+              dailyStudyTime: val.dailyStudyTime + 100
+          );
+        }
+      });
+      _updateTotalDailyStudyTime();
+      update();
+    });
+  }
+
+  void pauseTaskTimer() {
+    if (_recordingTask.value != null) {
+      final taskId = _recordingTask.value!.id;
+      if (_taskStopwatches.containsKey(taskId)) {
+        _taskStopwatches[taskId]!.stop();
+        _isRunning.value = false;
+        _timer?.cancel();
+
+        final elapsedMilliseconds = _taskStopwatches[taskId]!.elapsedMilliseconds;
+        updateTaskTime(taskId, _recordingTask.value!.dailyStudyTime + elapsedMilliseconds);
+        _recordingTask.value = null;
+      }
+    }
+  }
+
+  String getFormattedTaskTime(String taskId) {
+    final task = _tasks.firstWhere((task) => task.id == taskId);
+    return formatTime(task.dailyStudyTime);
+  }
+
+  void updateTaskTime(String taskId, int totalMilliseconds) {
+    final taskIndex = _tasks.indexWhere((task) => task.id == taskId);
+    if (taskIndex != -1) {
+      _tasks[taskIndex] = _tasks[taskIndex].copyWith(dailyStudyTime: totalMilliseconds);
+      _updateTotalDailyStudyTime();
+      _updateTaskUseCase.execute(_tasks[taskIndex]);
+      update();
+    }
   }
 }

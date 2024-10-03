@@ -5,7 +5,7 @@ import 'package:swit/features/mate/presentation/viewmodel/mate_view_model.dart';
 import 'package:swit/features/user/domain/entities/user.dart';
 import 'package:swit/shared/constant/color_box.dart';
 import 'package:swit/shared/constant/font_box.dart';
-import 'package:swit/shared/widgets/custom_alert_dialog.dart';
+import 'package:swit/shared/widgets/custom_dialog.dart';
 import 'package:swit/shared/widgets/custom_gap.dart';
 
 class ProfileCard extends GetView<MateViewModel> {
@@ -23,19 +23,10 @@ class ProfileCard extends GetView<MateViewModel> {
       child: GestureDetector(
           behavior: HitTestBehavior.opaque,
           onLongPress: () {
-            showDialog(
-                context: context,
-                builder: (context) {
-                  return CustomAlertDialog(
-                      title: user.username,
-                      width: 160,
-                      height: 80,
-                      contents: TextButton(onPressed: () async {
-                        await controller.unfollowMate(user.uid);
-                        Get.back();
-                      }, child: const Text('메이트 해제')),
-                      actionWidget: const SizedBox());
-                });
+            customDialog(context, 80, user.username, TextButton(onPressed: () async {
+              await controller.unfollowMate(user.uid);
+              Get.back();
+            }, child: const Text('메이트 해제')), const SizedBox());
           },
           child: Row(
             children: [

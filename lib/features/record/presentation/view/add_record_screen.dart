@@ -22,7 +22,8 @@ class AddRecordScreen extends GetView<RecordViewModel> {
       body: Column(
         children: [
           const CustomGap(16),
-          TimerWidget(),
+          Obx(() => Text('오늘 총 공부 시간: ${controller.formattedTotalDailyStudyTime}')),
+          // TimerWidget(),
           const CustomGap(16),
           Expanded(child: TaskList()),
         ],

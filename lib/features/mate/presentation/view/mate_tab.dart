@@ -6,7 +6,6 @@ import 'package:swit/features/mate/presentation/viewmodel/mate_view_model.dart';
 import 'package:swit/features/mate/presentation/widgets/profile_card.dart';
 import 'package:swit/shared/constant/color_box.dart';
 import 'package:swit/shared/constant/font_box.dart';
-import 'package:swit/shared/widgets/custom_alert_dialog.dart';
 import 'package:swit/shared/widgets/custom_circular_indicator.dart';
 import 'package:swit/shared/widgets/custom_gap.dart';
 
