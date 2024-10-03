@@ -311,6 +311,7 @@ class RecordViewModel extends GetxController {
 
   void _updateTotalDailyStudyTime() {
     _totalDailyStudyTime.value = _tasks.fold(0, (sum, task) => sum + task.dailyStudyTime);
+    update();
   }
 
   void startTaskTimer(String taskId) {
@@ -320,36 +321,65 @@ class RecordViewModel extends GetxController {
     if (!_taskStopwatches.containsKey(taskId)) {
       _taskStopwatches[taskId] = Stopwatch();
     }
+
+    // 이전에 누적된 시간 가져오기
+    final previousAccumulatedTime = task.dailyStudyTime;
+
+    // Stopwatch 시작
     _taskStopwatches[taskId]!.start();
     _isRunning.value = true;
 
     _timer = Timer.periodic(Duration(milliseconds: 100), (timer) {
       final elapsedMilliseconds = _taskStopwatches[taskId]!.elapsedMilliseconds;
-      _currentTaskTime.value = formatTime(task.dailyStudyTime + elapsedMilliseconds);
+      final totalTime = previousAccumulatedTime + elapsedMilliseconds;
 
+      // currentTaskTime 업데이트
+      _currentTaskTime.value = formatTime(totalTime);
+
+      // recordingTask 업데이트 (UI 반영을 위해)
       _recordingTask.update((val) {
         if (val != null) {
-          val = val.copyWith(
-              dailyStudyTime: val.dailyStudyTime + 100
-          );
+          val = val.copyWith(dailyStudyTime: totalTime);
         }
       });
+
+      // 전체 일일 학습 시간 업데이트
       _updateTotalDailyStudyTime();
+
       update();
     });
+
+    print('Task started. Previous accumulated time: ${formatTime(previousAccumulatedTime)}');
   }
 
   void pauseTaskTimer() {
     if (_recordingTask.value != null) {
       final taskId = _recordingTask.value!.id;
       if (_taskStopwatches.containsKey(taskId)) {
+        // 스톱워치 정지
         _taskStopwatches[taskId]!.stop();
         _isRunning.value = false;
         _timer?.cancel();
 
+        // 경과 시간 계산
         final elapsedMilliseconds = _taskStopwatches[taskId]!.elapsedMilliseconds;
-        updateTaskTime(taskId, _recordingTask.value!.dailyStudyTime + elapsedMilliseconds);
+
+        // 누적 시간 업데이트
+        final updatedDailyStudyTime = _recordingTask.value!.dailyStudyTime + elapsedMilliseconds;
+
+        // Task 객체 업데이트
+        updateTaskTime(taskId, updatedDailyStudyTime);
+
+        // currentTaskTime 업데이트
+        _currentTaskTime.value = formatTime(updatedDailyStudyTime);
+
+        // 스톱워치 리셋
+        _taskStopwatches[taskId]!.reset();
+
+        // recordingTask 초기화
         _recordingTask.value = null;
+
+        print('Task paused. Total time: ${formatTime(updatedDailyStudyTime)}');
       }
     }
   }

@@ -6,7 +6,6 @@ import 'package:swit/features/record/presentation/widgets/task_list.dart';
 import 'package:swit/shared/widgets/custom_back_appbar.dart';
 import 'package:swit/shared/widgets/custom_gap.dart';
 import 'package:swit/shared/widgets/custom_scaffold.dart';
-import 'package:swit/features/record/presentation/widgets/timer_widget.dart';
 
 class AddRecordScreen extends GetView<RecordViewModel> {
   const AddRecordScreen({super.key});

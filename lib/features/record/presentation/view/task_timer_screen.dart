@@ -5,6 +5,7 @@ import 'package:swit/features/record/presentation/viewmodel/record_view_model.da
 import 'package:swit/shared/constant/color_box.dart';
 import 'package:swit/shared/constant/font_box.dart';
 import 'package:swit/shared/widgets/custom_back_appbar.dart';
+import 'package:swit/shared/widgets/custom_gap.dart';
 import 'package:swit/shared/widgets/custom_scaffold.dart';
 
 class TaskTimerScreen extends GetView<RecordViewModel> {
@@ -18,38 +19,51 @@ class TaskTimerScreen extends GetView<RecordViewModel> {
         isLeading: true,
         isCenterTitle: true,
         backFunction: _handleBackPress,
+        backgroundColor: controller.recordingTask?.color ?? Colors.white,
+        contentColor: controller.recordingTask!.color.computeLuminance() > 0.5 ? ColorBox.black : ColorBox.white,
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _buildTimerDisplay(),
-            SizedBox(height: 40),
-            _buildControlButton(),
+            _timerDisplay(),
+            const CustomGap(40),
+            _controlButton(),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildTimerDisplay() {
-    return Container(
-      padding: EdgeInsets.all(20),
+  Widget _timerDisplay() {
+    return Obx(() => Container(
+      width: 300,
+      height: 100,
       decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: controller.recordingTask?.color.withOpacity(0.1) ?? Colors.grey.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: ColorBox.primaryColor, width: 1)
       ),
-      child: Obx(() => Text(
-        controller.currentTaskTime,
-        style: FontBox.H1.copyWith(
-          color: controller.recordingTask?.color ?? Colors.grey,
-          fontWeight: FontWeight.bold,
-        ),
-      )),
-    );
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: controller.currentTaskTime.split('').map((char) {
+          return Container(
+            width: char == ':' ? 22 : 34,
+            alignment: Alignment.center,
+            child: Text(
+              char,
+              style: TextStyle(
+                fontSize: 48,
+                fontWeight: FontWeight.bold,
+                color: ColorBox.switchColor,
+              ),
+            ),
+          );
+        }).toList(),
+      ),
+    ));
   }
 
-  Widget _buildControlButton() {
+  Widget _controlButton() {
     return Obx(() => ElevatedButton(
       onPressed: () {
         if (controller.isRunning) {
@@ -59,7 +73,7 @@ class TaskTimerScreen extends GetView<RecordViewModel> {
         }
       },
       style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
       ),
       child: Text(
@@ -70,9 +84,10 @@ class TaskTimerScreen extends GetView<RecordViewModel> {
   }
 
   void _handleBackPress() {
-    Get.back();
     if (controller.isRunning) {
       controller.pauseTaskTimer();
     }
+
+    Get.back();
   }
 }

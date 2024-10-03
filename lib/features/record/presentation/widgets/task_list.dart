@@ -63,6 +63,7 @@ class TaskList extends GetView<RecordViewModel> {
                               children: [
                                 Expanded(
                                     child: Text(task.title,
+                                        overflow: TextOverflow.ellipsis,
                                         style: FontBox.H5.copyWith(
                                             color:
                                                 task.color.computeLuminance() >
