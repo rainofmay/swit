@@ -93,39 +93,53 @@ class TaskList extends GetView<RecordViewModel> {
   }
 
   void _showTaskOptions(BuildContext context, Task task) {
-    customDialog(
-      context,
-      150,
-      task.title,
-      Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          TextButton(
-            child: Text('공부 시간 측정하기', style: FontBox.B1),
-            onPressed: () {
-              controller.updateRecordingTask(task);
-              Get.back(); // Close the dialog
-              Get.to(() => TaskTimerScreen());
-            },
-          ),
-          TextButton(
-            child: Text('과제 수정', style: FontBox.B1),
-            onPressed: () {
-              Get.back(); // Close the dialog
-              controller.updateEditingTask(task);
-              Get.toNamed(Routes.RECORD + Routes.RECORDADD + Routes.EDITTASK);
-            },
-          ),
-          TextButton(
-            child: Text('과제 삭제', style: FontBox.B1),
-            onPressed: () {
-              Get.back(); // Close the dialog
-              controller.deleteTask(task);
-            },
-          ),
-        ],
-      ),
-      null,
-    );
+    if (controller.isRunning && controller.recordingTask != null && controller.recordingTask!.id != task.id) {
+      // 현재 측정 중인 과제가 있고, 선택한 과제가 현재 측정 중인 과제가 아닐 경우
+      customDialog(
+        context,
+        100,
+        '경고',
+        Text('${controller.recordingTask!.title} 과제를 먼저 종료한 뒤, 다시 시도해 주세요.'),
+        TextButton(
+          child: Text('확인', style: FontBox.B1),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+      );
+    } else {
+      customDialog(
+        context,
+        150,
+        task.title,
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextButton(
+              child: Text('공부 시간 측정하기', style: FontBox.B1),
+              onPressed: () {
+                controller.updateRecordingTask(task);
+                Navigator.of(context).pop(); // Close the dialog
+                Get.to(() => TaskTimerScreen());
+              },
+            ),
+            TextButton(
+              child: Text('과제 수정', style: FontBox.B1),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+                controller.updateEditingTask(task);
+                Get.toNamed(Routes.RECORD + Routes.RECORDADD + Routes.EDITTASK);
+              },
+            ),
+            TextButton(
+              child: Text('과제 삭제', style: FontBox.B1),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+                controller.deleteTask(task);
+              },
+            ),
+          ],
+        ),
+        null,
+      );
+    }
   }
 }

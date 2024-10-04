@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:swit/features/record/domain/entities/task.dart';
 import 'package:swit/features/record/presentation/viewmodel/record_view_model.dart';
 import 'package:swit/shared/constant/color_box.dart';
 import 'package:swit/shared/constant/font_box.dart';
@@ -18,15 +17,15 @@ class TaskTimerScreen extends GetView<RecordViewModel> {
         appbarTitle: controller.recordingTask?.title ?? '',
         isLeading: true,
         isCenterTitle: true,
-        backFunction: _handleBackPress,
-        backgroundColor: controller.recordingTask?.color ?? Colors.white,
+        // backFunction: _handleBackPress,
+        backgroundColor: controller.recordingTask?.color ?? ColorBox.white,
         contentColor: controller.recordingTask!.color.computeLuminance() > 0.5 ? ColorBox.black : ColorBox.white,
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _timerDisplay(),
+            _stopWatchDisplay(),
             const CustomGap(40),
             _controlButton(),
           ],
@@ -35,7 +34,7 @@ class TaskTimerScreen extends GetView<RecordViewModel> {
     );
   }
 
-  Widget _timerDisplay() {
+  Widget _stopWatchDisplay() {
     return Obx(() => Container(
       width: 300,
       height: 100,
@@ -47,7 +46,7 @@ class TaskTimerScreen extends GetView<RecordViewModel> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: controller.currentTaskTime.split('').map((char) {
           return Container(
-            width: char == ':' ? 22 : 34,
+            width: char == ':' ? 22 : 34, // 텍스트 간 간격
             alignment: Alignment.center,
             child: Text(
               char,
@@ -69,7 +68,7 @@ class TaskTimerScreen extends GetView<RecordViewModel> {
         if (controller.isRunning) {
           _handleBackPress();
         } else {
-          controller.startTaskTimer(controller.recordingTask!.id);
+          controller.startTaskStopWatch(controller.recordingTask!.id);
         }
       },
       style: ElevatedButton.styleFrom(
@@ -85,7 +84,7 @@ class TaskTimerScreen extends GetView<RecordViewModel> {
 
   void _handleBackPress() {
     if (controller.isRunning) {
-      controller.pauseTaskTimer();
+      controller.pauseTaskStopWatch();
     }
 
     Get.back();

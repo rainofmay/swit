@@ -45,7 +45,7 @@ class RecordViewModel extends GetxController {
   late final RxList<Task> _tasks = <Task>[].obs;
   List<Task> get tasks => _tasks;
 
-  late final Rx<Task> _editingTask = createInitTask().obs;
+  late final Rx<Task> _editingTask = _createInitTask().obs;
   Task get editingTask => _editingTask.value;
 
   late final Rx<TextEditingController> _taskTitleController = TextEditingController().obs;
@@ -58,7 +58,7 @@ class RecordViewModel extends GetxController {
   static const String _defaultTaskKey = 'default_task_deleted_';
 
   /* ------------------------------------------------------ */
-  /* Timer Widget Fields ---------------------------------- */
+  /* StopWatch Fields ------------------------------------- */
   /* ------------------------------------------------------ */
   late final RxBool _isRunning = false.obs;
   bool get isRunning => _isRunning.value;
@@ -72,14 +72,11 @@ class RecordViewModel extends GetxController {
   late final RxInt _sum = 0.obs;
   int get sum => _sum.value;
 
-  final Stopwatch _stopwatch = Stopwatch();
   Timer? _timer;
 
   /* ------------------------------------------------------ */
   /* Record Task Fields ----------------------------------- */
   /* ------------------------------------------------------ */
-
-
   late final RxInt _totalDailyStudyTime = 0.obs;
   int get totalDailyStudyTime => _totalDailyStudyTime.value;
 
@@ -88,6 +85,9 @@ class RecordViewModel extends GetxController {
   // 현재 측정 중인 과제
   late final Rx<Task?> _recordingTask = Rx<Task?>(null);
   Task? get recordingTask => _recordingTask.value;
+
+  // 각 과제별 누적 시간을 저장할 맵 추가
+  late final RxMap<String, int> _taskAccumulatedTimes = <String, int>{}.obs;
 
   // 현재 타이머 시간 저장
   late final RxString _currentTaskTime = "00:00:00".obs;
@@ -121,11 +121,11 @@ class RecordViewModel extends GetxController {
   /* Task functions --------------------------------------- */
   /* ------------------------------------------------------ */
 
-  // 과제를 가져오는데, 없으면 디폴트과제 생성
+  // 과제를 가져오는데, 없으면 디폴트 과제 생성
   Future<void> _initializeTasks() async {
     await getTasks();
     final prefs = await SharedPreferences.getInstance();
-    if (!(prefs.getBool(_defaultTaskKey) ?? false)) {
+    if (!(prefs.getBool(_defaultTaskKey) ?? false) && _tasks.isEmpty) {
       await _createDefaultTaskForFirstTime();
     }
   }
@@ -141,7 +141,7 @@ class RecordViewModel extends GetxController {
     await getTasks();
   }
 
-  Task createInitTask({Task? existingTask}) {
+  Task _createInitTask({Task? existingTask}) {
     final id = existingTask?.id ?? const Uuid().v4();
     final title = existingTask?.title ?? '';
     final color = existingTask?.color ?? ThemeColor.colorList[0];
@@ -155,6 +155,7 @@ class RecordViewModel extends GetxController {
     );
   }
 
+  // Task 새로 생성하는 함수
   Future<void> onSavePressed() async {
     if (isFormValid) {
       final taskToSave = Task(
@@ -198,12 +199,6 @@ class RecordViewModel extends GetxController {
     }
   }
 
-  void checkFormValidity() {
-    bool validity = _taskTitleController.value.text.isNotEmpty &&
-        _taskTitleController.value.text.length <= 20;
-    _isFormValid.value = validity;
-  }
-
   void updateTaskTitle(String title) {
     _editingTask.update((val) {
       val?.title = title;
@@ -218,11 +213,11 @@ class RecordViewModel extends GetxController {
 
   // 수정 페이지로 진입할 때, 수정할 task 인식
   void updateEditingTask(Task? task) {
-    _editingTask.value = createInitTask(existingTask: task);
+    _editingTask.value = _createInitTask(existingTask: task);
     _taskTitleController.value.text = _editingTask.value.title;
   }
 
-  Future<void> onUpdatePressed() async {
+  Future<void> updateTask() async {
     if (isFormValid) {
       try {
         await _updateTaskUseCase.execute(_editingTask.value);
@@ -235,56 +230,15 @@ class RecordViewModel extends GetxController {
     }
   }
 
+  void checkFormValidity() {
+    bool validity = _taskTitleController.value.text.isNotEmpty &&
+        _taskTitleController.value.text.length <= 20;
+    _isFormValid.value = validity;
+  }
+
   /* ------------------------------------------------------ */
-  /* Timer functions--------------------------------------- */
+  /* Time functions---------------------------------------- */
   /* ------------------------------------------------------ */
-  void toggleTimer(String taskId) {
-    if (_isRunning.value) {
-      pauseTimer();
-    } else {
-      startTimer(taskId);
-    }
-  }
-
-  void startTimer(String taskId) {
-    final task = _tasks.firstWhere((task) => task.id == taskId);
-    _recordingTask.value = task;
-    _isRunning.value = true;
-
-    _timer = Timer.periodic(Duration(milliseconds: 100), (timer) {
-      _recordingTask.update((val) {
-        if (val != null) {
-          val = val.copyWith(dailyStudyTime: val.dailyStudyTime + 100);
-        }
-      });
-      _updateTotalDailyStudyTime();
-      update();
-    });
-  }
-
-  void pauseTimer() {
-    // _stopwatch.stop();
-    _isRunning.value = false;
-    _timer?.cancel();
-  }
-
-  void resetTimer() {
-    _stopwatch.reset();
-    _timer?.cancel();
-    _result.value = "00:00:00";
-    _isRunning.value = false;
-  }
-
-  void recordTime() {
-    if (!_stopwatch.isRunning) {
-      _records.add(_stopwatch.elapsedMilliseconds);
-      _updateSum();
-    }
-  }
-
-  void _updateSum() {
-    _sum.value = _records.fold(0, (prev, curr) => prev + curr);
-  }
 
   String formatTime(int milliseconds) {
     int hundreds = (milliseconds / 10).truncate();
@@ -299,22 +253,26 @@ class RecordViewModel extends GetxController {
     return "$hoursStr:$minutesStr:$secondsStr";
   }
 
-
-
   /* ------------------------------------------------------ */
   /* Record functions ------------------------------------- */
   /* ------------------------------------------------------ */
 
   void updateRecordingTask(Task? task) {
     _recordingTask.value = task;
+    if (task != null) {
+      _currentTaskTime.value = getFormattedTaskTime(task.id);
+    } else {
+      _currentTaskTime.value = "00:00:00";
+    }
   }
 
   void _updateTotalDailyStudyTime() {
+    // fold : 컬렉션의 모든 요소를 순회하면서 합산함.
     _totalDailyStudyTime.value = _tasks.fold(0, (sum, task) => sum + task.dailyStudyTime);
     update();
   }
 
-  void startTaskTimer(String taskId) {
+  void startTaskStopWatch(String taskId) {
     final task = _tasks.firstWhere((task) => task.id == taskId);
     _recordingTask.value = task;
 
@@ -322,8 +280,8 @@ class RecordViewModel extends GetxController {
       _taskStopwatches[taskId] = Stopwatch();
     }
 
-    // 이전에 누적된 시간 가져오기
-    final previousAccumulatedTime = task.dailyStudyTime;
+    // 이전에 누적된 시간 가져오기 (새로운 맵 사용)
+    final previousAccumulatedTime = _taskAccumulatedTimes[taskId] ?? 0;
 
     // Stopwatch 시작
     _taskStopwatches[taskId]!.start();
@@ -352,7 +310,7 @@ class RecordViewModel extends GetxController {
     print('Task started. Previous accumulated time: ${formatTime(previousAccumulatedTime)}');
   }
 
-  void pauseTaskTimer() {
+  void pauseTaskStopWatch() {
     if (_recordingTask.value != null) {
       final taskId = _recordingTask.value!.id;
       if (_taskStopwatches.containsKey(taskId)) {
@@ -364,14 +322,16 @@ class RecordViewModel extends GetxController {
         // 경과 시간 계산
         final elapsedMilliseconds = _taskStopwatches[taskId]!.elapsedMilliseconds;
 
-        // 누적 시간 업데이트
-        final updatedDailyStudyTime = _recordingTask.value!.dailyStudyTime + elapsedMilliseconds;
+        // 누적 시간 업데이트 (새로운 맵 사용)
+        final previousAccumulatedTime = _taskAccumulatedTimes[taskId] ?? 0;
+        final updatedAccumulatedTime = previousAccumulatedTime + elapsedMilliseconds;
+        _taskAccumulatedTimes[taskId] = updatedAccumulatedTime;
 
         // Task 객체 업데이트
-        updateTaskTime(taskId, updatedDailyStudyTime);
+        updateTaskTime(taskId, updatedAccumulatedTime);
 
-        // currentTaskTime 업데이트
-        _currentTaskTime.value = formatTime(updatedDailyStudyTime);
+        // currentTaskTime(00:00:00 형태의 String값) 업데이트
+        _currentTaskTime.value = formatTime(updatedAccumulatedTime);
 
         // 스톱워치 리셋
         _taskStopwatches[taskId]!.reset();
@@ -379,18 +339,20 @@ class RecordViewModel extends GetxController {
         // recordingTask 초기화
         _recordingTask.value = null;
 
-        print('Task paused. Total time: ${formatTime(updatedDailyStudyTime)}');
+        print('Task paused. Total time: ${formatTime(updatedAccumulatedTime)}');
       }
     }
   }
 
   String getFormattedTaskTime(String taskId) {
-    final task = _tasks.firstWhere((task) => task.id == taskId);
-    return formatTime(task.dailyStudyTime);
+    final accumulatedTime = _taskAccumulatedTimes[taskId] ?? 0;
+    return formatTime(accumulatedTime);
   }
 
   void updateTaskTime(String taskId, int totalMilliseconds) {
     final taskIndex = _tasks.indexWhere((task) => task.id == taskId);
+
+    // 찾은 인덱스가 유효할 경우, 해당 과제 업데이트
     if (taskIndex != -1) {
       _tasks[taskIndex] = _tasks[taskIndex].copyWith(dailyStudyTime: totalMilliseconds);
       _updateTotalDailyStudyTime();
