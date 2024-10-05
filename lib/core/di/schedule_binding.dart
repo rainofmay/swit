@@ -32,7 +32,6 @@ class ScheduleBinding extends Bindings {
           createScheduleUseCase: Get.find<CreateScheduleUseCase>(),
           updateScheduleUseCase: Get.find<UpdateScheduleUseCase>(),
           deleteScheduleUseCase: Get.find<DeleteScheduleUseCase>(),
-        ),
-        permanent: true);
+        ));
   }
 }

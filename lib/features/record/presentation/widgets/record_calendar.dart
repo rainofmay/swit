@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:swit/features/record/presentation/viewmodel/record_view_model.dart';
 import 'package:swit/features/study/schedule/domain/entities/event.dart';
-import 'package:swit/features/study/schedule/presentation/viewmodel/schedule_view_model.dart';
 import 'package:swit/shared/widgets/pick_month_year.dart';
 import 'package:swit/shared/constant/color_box.dart';
 import 'package:swit/shared/constant/font_box.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class Calendar extends GetView<ScheduleViewModel> {
-  const Calendar({super.key});
+class RecordCalendar extends GetView<RecordViewModel> {
+  const RecordCalendar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -93,36 +93,37 @@ class Calendar extends GetView<ScheduleViewModel> {
           },
 
           // 이벤트 표시
-          markerBuilder: (context, day, events) {
-            if (controller.getEvents(day).isEmpty) {
-              null;
-            } else {
-              return ListView.builder(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: events.length,
-                  itemBuilder: (context, index) {
-                    Event event = events[index] as Event;
-                    Color? eventColor = controller.getEventsColor(day)[event.id];
-                    return Container(
-                      margin: const EdgeInsets.only(top: 35),
-                      child: Icon(
-                        size: 6,
-                        Icons.circle,
-                        color: eventColor,
-                      ),
-                    );
-                  });
-            }
-            return null;
-          }),
+          // markerBuilder: (context, day, events) {
+          //   if (controller.getEvents(day).isEmpty) {
+          //     null;
+          //   } else {
+          //     return ListView.builder(
+          //         shrinkWrap: true,
+          //         scrollDirection: Axis.horizontal,
+          //         itemCount: events.length,
+          //         itemBuilder: (context, index) {
+          //           Event event = events[index] as Event;
+          //           Color? eventColor = controller.getEventsColor(day)[event.id];
+          //           return Container(
+          //             margin: const EdgeInsets.only(top: 35),
+          //             child: Icon(
+          //               size: 6,
+          //               Icons.circle,
+          //               color: eventColor,
+          //             ),
+          //           );
+          //         });
+          //   }
+          //   return null;
+          // }
+          ),
 
-      eventLoader: (day) {
-        return controller.getEvents(day);
-      },
+      // eventLoader: (day) {
+      //   return controller.getEvents(day);
+      // },
 
       headerStyle: const HeaderStyle(
-        headerPadding: EdgeInsets.only(left: 16, bottom: 16),
+        headerPadding: EdgeInsets.only(bottom: 16),
         titleCentered: false,
         formatButtonVisible: false,
         leftChevronVisible: false,

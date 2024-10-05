@@ -33,4 +33,21 @@ class RecordBinding extends Bindings {
             deleteTaskUseCase: Get.find<DeleteTaskUseCase>())
     );
   }
+
+  void dispose() {
+    // ViewModel 제거
+    Get.delete<RecordViewModel>();
+
+    // Use Case 제거
+    Get.delete<GetTaskUseCase>();
+    Get.delete<CreateTaskUseCase>();
+    Get.delete<UpdateTaskUseCase>();
+    Get.delete<DeleteTaskUseCase>();
+
+    // Repository 제거
+    Get.delete<TaskRepository>();
+
+    // DataSource 제거
+    Get.delete<TaskRemoteDataSource>();
+  }
 }

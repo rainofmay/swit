@@ -10,7 +10,7 @@ import 'package:swit/core/router/app_pages.dart';
 import 'package:swit/core/utils/audio/my_audio_handler.dart';
 import 'package:swit/core/utils/user/login_service.dart';
 import 'package:swit/features/home/presentations/view/home_screen.dart';
-import 'package:swit/features/home/presentations/viewmodel/home_viewmodel.dart';
+import 'package:swit/features/home/presentations/viewmodel/home_view_model.dart';
 import 'package:swit/features/mate/presentation/viewmodel/mate_view_model.dart';
 import 'package:swit/features/study/swit/presentation/viewmodel/bg_setting_view_model.dart';
 import 'shared/constant/color_box.dart';

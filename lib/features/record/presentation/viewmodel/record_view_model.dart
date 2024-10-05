@@ -8,6 +8,7 @@ import 'package:swit/features/record/domain/usecases/create_task_use_case.dart';
 import 'package:swit/features/record/domain/usecases/delete_task_use_case.dart';
 import 'package:swit/features/record/domain/usecases/get_task_use_case.dart';
 import 'package:swit/features/record/domain/usecases/update_task_use_case.dart';
+import 'package:swit/features/study/schedule/domain/entities/event.dart';
 import 'package:swit/shared/constant/theme_color.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:uuid/uuid.dart';
@@ -36,7 +37,7 @@ class RecordViewModel extends GetxController {
   late final Rx<DateTime> _focusedDate;
   DateTime get focusedDate => _focusedDate.value;
 
-  late final Rx<CalendarFormat> _calendarFormat;
+  late final Rx<CalendarFormat> _calendarFormat = CalendarFormat.week.obs;
   CalendarFormat get calendarFormat => _calendarFormat.value;
 
   /* ------------------------------------------------------ */
@@ -107,7 +108,6 @@ class RecordViewModel extends GetxController {
     });
     _selectedDate = DateTime.now().obs;
     _focusedDate = DateTime.now().obs;
-    _calendarFormat = CalendarFormat.month.obs;
   }
 
   @override
@@ -116,6 +116,40 @@ class RecordViewModel extends GetxController {
     _timer?.cancel();
     super.onClose();
   }
+
+  /* ------------------------------------------------------ */
+  /* Calendar Functions ----------------------------------- */
+  /* ------------------------------------------------------ */
+  void updateSelectedDate(DateTime selectedDate) {
+    _selectedDate.value = selectedDate;
+
+  }
+
+  void updateFocusedDate(DateTime focusedDate) {
+    _focusedDate.value = focusedDate;
+  }
+
+  // List<Event> getEvents(DateTime day) {
+  //   return _schedules.where((schedule) {
+  //     DateTime scheduleStart = DateTime(schedule.from.year, schedule.from.month, schedule.from.day);
+  //     DateTime scheduleEnd = DateTime(schedule.to.year, schedule.to.month, schedule.to.day);
+  //     DateTime dayStart = DateTime(day.year, day.month, day.day);
+  //
+  //     return !scheduleEnd.isBefore(dayStart) && !scheduleStart.isAfter(dayStart);
+  //   }).map((schedule) => Event(schedule.id)).toList();
+  // }
+  //
+  // Map<String, Color> getEventsColor(DateTime day) {
+  //   Map<String, Color> idColorData = {};
+  //   List data = initEvents(day);
+  //
+  //   for (int i = 0; i < data.length; i++) {
+  //     idColorData.addAll({data[i][2]: data[i][3]});
+  //   }
+  //
+  //   return idColorData;
+  // }
+
 
   /* ------------------------------------------------------ */
   /* Task functions --------------------------------------- */

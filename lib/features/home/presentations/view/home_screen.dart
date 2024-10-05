@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:swit/app/enums/home_tab_type.dart';
 import 'package:swit/core/di/mate_binding.dart';
-import 'package:swit/features/home/presentations/viewmodel/home_viewmodel.dart';
+import 'package:swit/core/di/record_binding.dart';
+import 'package:swit/core/router/app_pages.dart';
+import 'package:swit/features/home/presentations/viewmodel/home_view_model.dart';
 import 'package:swit/features/mate/presentation/view/mate_screen.dart';
 import 'package:swit/features/more/presentation/view/more.screen.dart';
 import 'package:swit/features/record/presentation/view/record_screen.dart';
@@ -30,7 +32,6 @@ Widget _buildTabScreen(HomeTab tab) {
     case HomeTab.home:
       return StudyScreen();
     case HomeTab.mate:
-      MateBinding().dependencies();
       return MateScreen();
     case HomeTab.record:
       return RecordScreen();

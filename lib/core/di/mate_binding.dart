@@ -49,4 +49,23 @@ class MateBinding extends Bindings {
 
     Get.lazyPut(() => PostTabViewModel(mateViewModel : Get.find<MateViewModel>()));
   }
+
+  void dispose() {
+    // ViewModel 제거
+    Get.delete<MateViewModel>();
+    Get.delete<PostTabViewModel>();
+
+    // Use Case 제거
+    Get.delete<GetUserProfileUseCase>();
+    Get.delete<SearchMateUseCase>();
+    Get.delete<GetFollowingListUseCase>();
+    Get.delete<FollowMateUseCase>();
+    Get.delete<UnfollowMateUseCase>();
+
+    // Repository 제거
+    Get.delete<MateRepository>();
+
+    // DataSource 제거
+    Get.delete<MateRemoteDataSource>();
+  }
 }

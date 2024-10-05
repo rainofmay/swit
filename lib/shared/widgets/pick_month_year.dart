@@ -7,8 +7,7 @@ import 'package:swit/features/study/schedule/presentation/viewmodel/schedule_vie
 import 'package:swit/features/study/schedule/presentation/widgets/omni_date_time_picker_theme.dart';
 
 Future<void> pickMonthYear(
-    {required BuildContext context}) async {
-  final vm = Get.find<ScheduleViewModel>();
+    {required BuildContext context, required dynamic vm}) async {
   DateTime? pickerDate = await showOmniDateTimePicker(
     context: context,
     theme: OmniDateTimePickerTheme.theme,

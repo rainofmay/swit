@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:swit/app/enums/home_tab_type.dart';
-import 'package:swit/features/home/presentations/viewmodel/home_viewmodel.dart';
+import 'package:swit/features/home/presentations/viewmodel/home_view_model.dart';
 import 'package:swit/shared/constant/color_box.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
