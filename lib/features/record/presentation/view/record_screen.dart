@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:swit/core/router/app_pages.dart';
-import 'package:swit/features/mate/presentation/widgets/study_journal_card.dart';
+import 'package:swit/features/record/presentation/widgets/study_log_card.dart';
 import 'package:swit/features/record/presentation/viewmodel/record_view_model.dart';
 import 'package:swit/features/record/presentation/widgets/record_calendar.dart';
 import 'package:swit/shared/constant/color_box.dart';
@@ -38,15 +38,18 @@ class RecordScreen extends GetView<RecordViewModel> {
                     itemCount: controller.records.length,
                     itemBuilder: (context, index) {
                       final record = controller.records[index];
-                      return EditableStudyJournalCard(
-                        initialContent: record.contents ?? '내용 없음',
-                        initialStudyTime: Duration(milliseconds: record.recordTime),
-                        createdAt: DateTime.parse(record.date),
-                        onSave: (content, studyTime) {
-                          // TODO: 저장 로직 구현
-                          print('Content: $content');
-                          print('Study Time: $studyTime');
-                        },
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: StudyLogCard(
+                          initialContent: record.contents ?? '내용 없음',
+                          initialStudyTime: Duration(milliseconds: record.recordTime),
+                          createdAt: DateTime.parse(record.date),
+                          onSave: (content, studyTime) {
+                            // TODO: 저장 로직 구현
+                            print('Content: $content');
+                            print('Study Time: $studyTime');
+                          },
+                        ),
                       );
                     },
                   )),

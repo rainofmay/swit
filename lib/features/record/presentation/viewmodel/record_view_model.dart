@@ -332,7 +332,7 @@ class RecordViewModel extends GetxController {
     _taskStopwatches[taskId]!.start();
     _isRunning.value = true;
 
-    _timer = Timer.periodic(Duration(milliseconds: 100), (timer) {
+    _timer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
       final elapsedMilliseconds = _taskStopwatches[taskId]!.elapsedMilliseconds;
       final totalTime = previousAccumulatedTime + elapsedMilliseconds;
 
