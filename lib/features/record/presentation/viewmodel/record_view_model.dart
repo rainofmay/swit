@@ -3,11 +3,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:swit/features/record/domain/entities/record_time.dart';
 import 'package:swit/features/record/domain/entities/task.dart';
-import 'package:swit/features/record/domain/usecases/create_task_use_case.dart';
-import 'package:swit/features/record/domain/usecases/delete_task_use_case.dart';
-import 'package:swit/features/record/domain/usecases/get_task_use_case.dart';
-import 'package:swit/features/record/domain/usecases/update_task_use_case.dart';
+import 'package:swit/features/record/domain/usecases/task/create_task_use_case.dart';
+import 'package:swit/features/record/domain/usecases/task/delete_task_use_case.dart';
+import 'package:swit/features/record/domain/usecases/task/get_task_use_case.dart';
+import 'package:swit/features/record/domain/usecases/task/update_task_use_case.dart';
+import 'package:swit/features/record/domain/usecases/time_record/create_record_use_case.dart';
 import 'package:swit/features/study/schedule/domain/entities/event.dart';
 import 'package:swit/shared/constant/theme_color.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -18,16 +20,18 @@ class RecordViewModel extends GetxController {
   final CreateTaskUseCase _createTaskUseCase;
   final UpdateTaskUseCase _updateTaskUseCase;
   final DeleteTaskUseCase _deleteTaskUseCase;
-
+  final CreateRecordUseCase _createRecordUseCase;
   RecordViewModel({
     required GetTaskUseCase getTaskUseCase,
     required CreateTaskUseCase createTaskUseCase,
     required UpdateTaskUseCase updateTaskUseCase,
     required DeleteTaskUseCase deleteTaskUseCase,
+    required CreateRecordUseCase createRecordUseCase,
   })  : _getTaskUseCase = getTaskUseCase,
         _createTaskUseCase = createTaskUseCase,
         _updateTaskUseCase = updateTaskUseCase,
-        _deleteTaskUseCase = deleteTaskUseCase;
+        _deleteTaskUseCase = deleteTaskUseCase,
+        _createRecordUseCase = createRecordUseCase;
 
   /* ------------------------------------------------------ */
   /* Calendar Fields -------------------------------------- */
@@ -87,7 +91,7 @@ class RecordViewModel extends GetxController {
   late final Rx<Task?> _recordingTask = Rx<Task?>(null);
   Task? get recordingTask => _recordingTask.value;
 
-  // 각 과제별 누적 시간을 저장할 맵 추가
+  // 각 과제별 누적 시간을 저장할 맵 추가 (String은 task_id, int는 시간)
   late final RxMap<String, int> _taskAccumulatedTimes = <String, int>{}.obs;
 
   // 현재 타이머 시간 저장
@@ -344,7 +348,7 @@ class RecordViewModel extends GetxController {
     print('Task started. Previous accumulated time: ${formatTime(previousAccumulatedTime)}');
   }
 
-  void pauseTaskStopWatch() {
+  Future<void> pauseTaskStopWatch() async {
     if (_recordingTask.value != null) {
       final taskId = _recordingTask.value!.id;
       if (_taskStopwatches.containsKey(taskId)) {
@@ -370,6 +374,8 @@ class RecordViewModel extends GetxController {
         // 스톱워치 리셋
         _taskStopwatches[taskId]!.reset();
 
+        await createRecord();
+
         // recordingTask 초기화
         _recordingTask.value = null;
 
@@ -377,6 +383,34 @@ class RecordViewModel extends GetxController {
       }
     }
   }
+
+  // 측정한 기록을 db와 공부 일지에 생성
+  Future<void> createRecord() async {
+    if (_recordingTask.value != null && _taskAccumulatedTimes[_recordingTask.value!.id] != null) {
+      final recordTime = RecordTime(
+        // id: _recordingTask.value!.title + const Uuid().v4(),  // 새로운 고유 ID 생성
+        taskId: _recordingTask.value!.id,
+        recordTime: _taskAccumulatedTimes[_recordingTask.value!.id]!,
+        contents: 'contents 테스트',
+        date: DateTime.now().toUtc().toString().substring(0, 10),
+      );
+
+      try {
+        await _createRecordUseCase.execute(recordTime);
+
+        // UI 업데이트
+        update();
+        print('View model Record created successfully');
+      } catch (e) {
+        print('View model Failed to create record: $e');
+      }
+    } else {
+      print('View model Recording task or accumulated time is null');
+    }
+  }
+
+
+
 
   String getFormattedTaskTime(String taskId) {
     final accumulatedTime = _taskAccumulatedTimes[taskId] ?? 0;

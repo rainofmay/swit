@@ -64,9 +64,10 @@ class TaskTimerScreen extends GetView<RecordViewModel> {
 
   Widget _controlButton() {
     return Obx(() => ElevatedButton(
-      onPressed: () {
+      onPressed: () async {
         if (controller.isRunning) {
-          _handleBackPress();
+          await _handleBackPress();
+
         } else {
           controller.startTaskStopWatch(controller.recordingTask!.id);
         }
@@ -76,15 +77,15 @@ class TaskTimerScreen extends GetView<RecordViewModel> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
       ),
       child: Text(
-        controller.isRunning ? '정지' : '시작',
+        controller.isRunning ? '측정 종료' : '시작',
         style: FontBox.B1.copyWith(color: Colors.white),
       ),
     ));
   }
 
-  void _handleBackPress() {
+  Future<void> _handleBackPress() async {
     if (controller.isRunning) {
-      controller.pauseTaskStopWatch();
+      await controller.pauseTaskStopWatch();
     }
 
     Get.back();

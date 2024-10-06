@@ -51,9 +51,6 @@ class ScheduleViewModel extends GetxController {
   /* Schedule --------------------------------------------- */
   /* ------------------------------------------------------ */
 
-  late final RxBool _isSchedulesLoaded = false.obs;
-  bool get isSchedulesLoaded => _isSchedulesLoaded.value;
-
   late final Rx<Schedule> _editingSchedule = createInitSchedule().obs;
   Schedule get editingSchedule => _editingSchedule.value;
   late Schedule storedSchedule;
@@ -139,14 +136,12 @@ class ScheduleViewModel extends GetxController {
   /* -- Schedule -- */
   Future<void> getSchedules() async {
     try {
-      _isSchedulesLoaded.value = false;
       final List<Schedule> data = await _getScheduleUseCase.execute();
       _schedules.assignAll(data);
-      _isSchedulesLoaded.value = true;
       update();
 
     } catch(e) {
-      _isSchedulesLoaded.value = false;
+      print('viewmodel get schedules error : $e');
     }
   }
 
