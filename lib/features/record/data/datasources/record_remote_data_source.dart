@@ -10,8 +10,27 @@ class RecordRemoteDataSource {
   factory RecordRemoteDataSource() {
     return _instance;
   }
-
   final _supabase = Supabase.instance.client;
+
+
+  Future<List<Map<String, dynamic>>> getRecords() async {
+    try {
+      final response = await _supabase
+          .from('record')
+      // task_id 에 해당하는 title도 가져오기
+          .select('''
+            *,
+            task:task_id (
+              title
+            )
+          ''')
+          .order('created_at', ascending: false);
+      return response;
+    } catch (e) {
+      throw Exception('Remote DataSource Failed to get records: $e');
+    }
+  }
+
 
   Future<void> createRecord(RecordTimeDTO dto) async {
     try {
@@ -46,4 +65,6 @@ class RecordRemoteDataSource {
       throw Exception('Remote DataSource Failed to create record: $e');
     }
   }
+
+
 }

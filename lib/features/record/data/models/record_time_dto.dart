@@ -11,6 +11,7 @@ class RecordTimeDTO with _$RecordTimeDTO {
     required String date,
     required int recordTime,
     String? contents,
+    required String title,
   }) = _RecordTimeDTO;
 
   factory RecordTimeDTO.fromJson(Map<String, dynamic> json) => _$RecordTimeDTOFromJson(json);

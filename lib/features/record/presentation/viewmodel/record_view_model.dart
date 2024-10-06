@@ -10,7 +10,7 @@ import 'package:swit/features/record/domain/usecases/task/delete_task_use_case.d
 import 'package:swit/features/record/domain/usecases/task/get_task_use_case.dart';
 import 'package:swit/features/record/domain/usecases/task/update_task_use_case.dart';
 import 'package:swit/features/record/domain/usecases/time_record/create_record_use_case.dart';
-import 'package:swit/features/study/schedule/domain/entities/event.dart';
+import 'package:swit/features/record/domain/usecases/time_record/get_record_use_case.dart';
 import 'package:swit/shared/constant/theme_color.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:uuid/uuid.dart';
@@ -20,17 +20,22 @@ class RecordViewModel extends GetxController {
   final CreateTaskUseCase _createTaskUseCase;
   final UpdateTaskUseCase _updateTaskUseCase;
   final DeleteTaskUseCase _deleteTaskUseCase;
+  final GetRecordUseCase _getRecordsUseCase;
   final CreateRecordUseCase _createRecordUseCase;
+
   RecordViewModel({
     required GetTaskUseCase getTaskUseCase,
     required CreateTaskUseCase createTaskUseCase,
     required UpdateTaskUseCase updateTaskUseCase,
     required DeleteTaskUseCase deleteTaskUseCase,
+    required GetRecordUseCase getRecordsUseCase,
     required CreateRecordUseCase createRecordUseCase,
+
   })  : _getTaskUseCase = getTaskUseCase,
         _createTaskUseCase = createTaskUseCase,
         _updateTaskUseCase = updateTaskUseCase,
         _deleteTaskUseCase = deleteTaskUseCase,
+        _getRecordsUseCase = getRecordsUseCase,
         _createRecordUseCase = createRecordUseCase;
 
   /* ------------------------------------------------------ */
@@ -71,9 +76,6 @@ class RecordViewModel extends GetxController {
   late final RxString _result = "00:00:00".obs;
   String get result => _result.value;
 
-  late final RxList<int> _records = <int>[].obs;
-  List<int> get records => _records;
-
   late final RxInt _sum = 0.obs;
   int get sum => _sum.value;
 
@@ -100,6 +102,10 @@ class RecordViewModel extends GetxController {
   late final RxMap<String, Stopwatch> _taskStopwatches = <String, Stopwatch>{}.obs;
   Map<String, Stopwatch> get taskStopwatches => _taskStopwatches;
 
+  // 기록 가져오기
+  final RxList<RecordTime> _records = <RecordTime>[].obs;
+  List<RecordTime> get records => _records;
+
   /* ------------------------------------------------------ */
   /* Init & Dispose --------------------------------------- */
   /* ------------------------------------------------------ */
@@ -112,6 +118,7 @@ class RecordViewModel extends GetxController {
     });
     _selectedDate = DateTime.now().obs;
     _focusedDate = DateTime.now().obs;
+    getRecords();
   }
 
   @override
@@ -384,11 +391,22 @@ class RecordViewModel extends GetxController {
     }
   }
 
+  // 공부 기록들 가져오기
+  Future<void> getRecords() async {
+    try {
+      final fetchedRecords = await _getRecordsUseCase.execute();
+      _records.assignAll(fetchedRecords);
+    } catch (e) {
+      print('ViewModel Failed to get records: $e');
+    }
+  }
+
   // 측정한 기록을 db와 공부 일지에 생성
   Future<void> createRecord() async {
     if (_recordingTask.value != null && _taskAccumulatedTimes[_recordingTask.value!.id] != null) {
       final recordTime = RecordTime(
         // id: _recordingTask.value!.title + const Uuid().v4(),  // 새로운 고유 ID 생성
+        title: _recordingTask.value!.title,
         taskId: _recordingTask.value!.id,
         recordTime: _taskAccumulatedTimes[_recordingTask.value!.id]!,
         contents: 'contents 테스트',
@@ -397,7 +415,7 @@ class RecordViewModel extends GetxController {
 
       try {
         await _createRecordUseCase.execute(recordTime);
-
+        await getRecords();
         // UI 업데이트
         update();
         print('View model Record created successfully');

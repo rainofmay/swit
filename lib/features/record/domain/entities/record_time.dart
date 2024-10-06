@@ -3,6 +3,7 @@ class RecordTime {
   final String date;
   final String taskId;
   final int recordTime;
+  final String title;
   final String? contents;
 
   RecordTime({
@@ -10,6 +11,7 @@ class RecordTime {
     required this.taskId,
     required String? date,
     required this.recordTime,
+    required this.title,
     this.contents,
   }) : date = date ?? DateTime.now().toUtc().toString().substring(0, 10);
 }

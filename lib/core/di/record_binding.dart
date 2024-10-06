@@ -10,6 +10,7 @@ import 'package:swit/features/record/domain/usecases/task/delete_task_use_case.d
 import 'package:swit/features/record/domain/usecases/task/get_task_use_case.dart';
 import 'package:swit/features/record/domain/usecases/task/update_task_use_case.dart';
 import 'package:swit/features/record/domain/usecases/time_record/create_record_use_case.dart';
+import 'package:swit/features/record/domain/usecases/time_record/get_record_use_case.dart';
 import 'package:swit/features/record/presentation/viewmodel/record_view_model.dart';
 
 class RecordBinding extends Bindings {
@@ -33,6 +34,7 @@ class RecordBinding extends Bindings {
     Get.put(UpdateTaskUseCase(Get.find<TaskRepository>()));
     Get.put(DeleteTaskUseCase(Get.find<TaskRepository>()));
 
+    Get.put(GetRecordUseCase(Get.find<RecordRepository>()));
     Get.put(CreateRecordUseCase(Get.find<RecordRepository>()));
 
     /* -- ViewModel -- */
@@ -41,6 +43,7 @@ class RecordBinding extends Bindings {
             createTaskUseCase: Get.find<CreateTaskUseCase>(),
             updateTaskUseCase: Get.find<UpdateTaskUseCase>(),
             deleteTaskUseCase: Get.find<DeleteTaskUseCase>(),
+            getRecordsUseCase: Get.find<GetRecordUseCase>(),
             createRecordUseCase: Get.find<CreateRecordUseCase>(),
         )
     );
@@ -56,10 +59,14 @@ class RecordBinding extends Bindings {
     Get.delete<UpdateTaskUseCase>();
     Get.delete<DeleteTaskUseCase>();
 
+    Get.delete<GetRecordUseCase>();
+    Get.delete<CreateRecordUseCase>();
+
      /* -- Repository 제거 -- */
     Get.delete<TaskRepository>();
-
+    Get.delete<RecordRepository>();
     /* -- DataSource 제거 -- */
+    Get.delete<TaskRemoteDataSource>();
     Get.delete<TaskRemoteDataSource>();
   }
 }

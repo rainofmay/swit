@@ -12,6 +12,7 @@ _$RecordTimeDTOImpl _$$RecordTimeDTOImplFromJson(Map<String, dynamic> json) =>
       date: json['date'] as String,
       recordTime: (json['recordTime'] as num).toInt(),
       contents: json['contents'] as String?,
+      title: json['title'] as String,
     );
 
 Map<String, dynamic> _$$RecordTimeDTOImplToJson(_$RecordTimeDTOImpl instance) =>
@@ -20,4 +21,5 @@ Map<String, dynamic> _$$RecordTimeDTOImplToJson(_$RecordTimeDTOImpl instance) =>
       'date': instance.date,
       'recordTime': instance.recordTime,
       'contents': instance.contents,
+      'title': instance.title,
     };

@@ -33,17 +33,24 @@ class RecordScreen extends GetView<RecordViewModel> {
               children: [
                 RecordCalendar(),
                 const CustomGap(32),
-                EditableStudyJournalCard(
-                initialContent: '오늘의 공부 내용을 입력하세요.',
-                initialStudyTime: Duration(hours: 2, minutes: 30),
-                createdAt: DateTime.now(),
-                onSave: (content, studyTime) {
-                  // 여기서 저장된 내용을 처리합니다.
-                  print('Content: $content');
-                  print('Study Time: $studyTime');
-                  // 예: 데이터베이스에 저장하거나 상태를 업데이트합니다.
-                },
-              ),
+                Expanded(
+                  child: Obx(() => ListView.builder(
+                    itemCount: controller.records.length,
+                    itemBuilder: (context, index) {
+                      final record = controller.records[index];
+                      return EditableStudyJournalCard(
+                        initialContent: record.contents ?? '내용 없음',
+                        initialStudyTime: Duration(milliseconds: record.recordTime),
+                        createdAt: DateTime.parse(record.date),
+                        onSave: (content, studyTime) {
+                          // TODO: 저장 로직 구현
+                          print('Content: $content');
+                          print('Study Time: $studyTime');
+                        },
+                      );
+                    },
+                  )),
+                ),
               ],
             ),
           ),

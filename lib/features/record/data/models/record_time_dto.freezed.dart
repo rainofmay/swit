@@ -25,6 +25,7 @@ mixin _$RecordTimeDTO {
   String get date => throw _privateConstructorUsedError;
   int get recordTime => throw _privateConstructorUsedError;
   String? get contents => throw _privateConstructorUsedError;
+  String get title => throw _privateConstructorUsedError;
 
   /// Serializes this RecordTimeDTO to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -42,7 +43,12 @@ abstract class $RecordTimeDTOCopyWith<$Res> {
           RecordTimeDTO value, $Res Function(RecordTimeDTO) then) =
       _$RecordTimeDTOCopyWithImpl<$Res, RecordTimeDTO>;
   @useResult
-  $Res call({String taskId, String date, int recordTime, String? contents});
+  $Res call(
+      {String taskId,
+      String date,
+      int recordTime,
+      String? contents,
+      String title});
 }
 
 /// @nodoc
@@ -64,6 +70,7 @@ class _$RecordTimeDTOCopyWithImpl<$Res, $Val extends RecordTimeDTO>
     Object? date = null,
     Object? recordTime = null,
     Object? contents = freezed,
+    Object? title = null,
   }) {
     return _then(_value.copyWith(
       taskId: null == taskId
@@ -82,6 +89,10 @@ class _$RecordTimeDTOCopyWithImpl<$Res, $Val extends RecordTimeDTO>
           ? _value.contents
           : contents // ignore: cast_nullable_to_non_nullable
               as String?,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -94,7 +105,12 @@ abstract class _$$RecordTimeDTOImplCopyWith<$Res>
       __$$RecordTimeDTOImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String taskId, String date, int recordTime, String? contents});
+  $Res call(
+      {String taskId,
+      String date,
+      int recordTime,
+      String? contents,
+      String title});
 }
 
 /// @nodoc
@@ -114,6 +130,7 @@ class __$$RecordTimeDTOImplCopyWithImpl<$Res>
     Object? date = null,
     Object? recordTime = null,
     Object? contents = freezed,
+    Object? title = null,
   }) {
     return _then(_$RecordTimeDTOImpl(
       taskId: null == taskId
@@ -132,6 +149,10 @@ class __$$RecordTimeDTOImplCopyWithImpl<$Res>
           ? _value.contents
           : contents // ignore: cast_nullable_to_non_nullable
               as String?,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -143,7 +164,8 @@ class _$RecordTimeDTOImpl implements _RecordTimeDTO {
       {required this.taskId,
       required this.date,
       required this.recordTime,
-      this.contents});
+      this.contents,
+      required this.title});
 
   factory _$RecordTimeDTOImpl.fromJson(Map<String, dynamic> json) =>
       _$$RecordTimeDTOImplFromJson(json);
@@ -157,10 +179,12 @@ class _$RecordTimeDTOImpl implements _RecordTimeDTO {
   final int recordTime;
   @override
   final String? contents;
+  @override
+  final String title;
 
   @override
   String toString() {
-    return 'RecordTimeDTO(taskId: $taskId, date: $date, recordTime: $recordTime, contents: $contents)';
+    return 'RecordTimeDTO(taskId: $taskId, date: $date, recordTime: $recordTime, contents: $contents, title: $title)';
   }
 
   @override
@@ -173,13 +197,14 @@ class _$RecordTimeDTOImpl implements _RecordTimeDTO {
             (identical(other.recordTime, recordTime) ||
                 other.recordTime == recordTime) &&
             (identical(other.contents, contents) ||
-                other.contents == contents));
+                other.contents == contents) &&
+            (identical(other.title, title) || other.title == title));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, taskId, date, recordTime, contents);
+      Object.hash(runtimeType, taskId, date, recordTime, contents, title);
 
   /// Create a copy of RecordTimeDTO
   /// with the given fields replaced by the non-null parameter values.
@@ -202,7 +227,8 @@ abstract class _RecordTimeDTO implements RecordTimeDTO {
       {required final String taskId,
       required final String date,
       required final int recordTime,
-      final String? contents}) = _$RecordTimeDTOImpl;
+      final String? contents,
+      required final String title}) = _$RecordTimeDTOImpl;
 
   factory _RecordTimeDTO.fromJson(Map<String, dynamic> json) =
       _$RecordTimeDTOImpl.fromJson;
@@ -216,6 +242,8 @@ abstract class _RecordTimeDTO implements RecordTimeDTO {
   int get recordTime;
   @override
   String? get contents;
+  @override
+  String get title;
 
   /// Create a copy of RecordTimeDTO
   /// with the given fields replaced by the non-null parameter values.
