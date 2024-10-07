@@ -28,6 +28,7 @@ class HandleTaskForm extends GetView<RecordViewModel> {
               autofocus: true,
               isReadOnly: false,
               hintText: '과제 이름을 입력해 주세요.',
+              maxLength: 15,
               textStyle: FontBox.H4,
               onChanged: (value) {
                 controller.checkFormValidity();

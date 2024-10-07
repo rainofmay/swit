@@ -1,33 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:swit/core/utils/record/time_formatter.dart';
 
-class Task {
-  final String id;
-  String title;
-  Color color;
-  final bool isDefault;
-  int dailyStudyTime; // in milliseconds
+part 'task.freezed.dart';
 
-  Task({
-    required this.id,
-    required this.title,
-    required this.color,
-    this.isDefault = false,
-    this.dailyStudyTime = 0,
-  });
+@freezed
+class Task with _$Task {
+  // freezed class에 메서드 추가 가능하게 하는 코드
+  const Task._();
 
-  Task copyWith({
-    String? id,
-    String? title,
-    Color? color,
-    bool? isDefault,
-    int? dailyStudyTime,
-  }) {
-    return Task(
-      id: id ?? this.id,
-      title: title ?? this.title,
-      color: color ?? this.color,
-      isDefault: isDefault ?? this.isDefault,
-      dailyStudyTime: dailyStudyTime ?? this.dailyStudyTime,
-    );
+
+  const factory Task({
+    required String id,
+    required String title,
+    required Color color,
+    @Default(false) bool isDefault,
+    @Default(0) int dailyStudyTime,
+  }) = _Task;
+
+
+  String getFormattedTaskTime() {
+    return TimeFormatter.formatTime(dailyStudyTime);
+  }
+
+  bool isTitleValid() {
+    return title.isNotEmpty && title.length <= 15;
   }
 }
