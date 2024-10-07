@@ -1,10 +1,11 @@
-import 'package:swit/features/record/data/models/record_time_dto.dart';
-import 'package:swit/features/record/domain/entities/record_time.dart';
+import 'package:swit/features/record/data/models/record_info_dto.dart';
+import 'package:swit/features/record/domain/entities/record_info.dart';
 import 'package:swit/shared/constant/theme_color.dart';
 
 class RecordMapper {
-  static RecordTimeDTO toDTO(RecordTime record) {
-    return RecordTimeDTO(
+  static RecordInfoDTO toDTO(RecordInfo record) {
+    return RecordInfoDTO(
+      id: record.id,
       taskId: record.taskId,
       date: record.date,
       recordTime: record.recordTime,
@@ -13,8 +14,9 @@ class RecordMapper {
     );
   }
 
-  static RecordTime toEntity(RecordTimeDTO dto) {
-    return RecordTime(
+  static RecordInfo toEntity(RecordInfoDTO dto) {
+    return RecordInfo(
+      id: dto.id,
       taskId: dto.taskId,
       date: dto.date,
       recordTime: dto.recordTime,
@@ -23,8 +25,9 @@ class RecordMapper {
     );
   }
 
-  static RecordTimeDTO fromJson(Map<String, dynamic> json) {
-    return RecordTimeDTO(
+  static RecordInfoDTO fromJson(Map<String, dynamic> json) {
+    return RecordInfoDTO(
+      id: json['id'],
       taskId: json['task_id'],
       date: json['date'],
       recordTime: json['record_time'],

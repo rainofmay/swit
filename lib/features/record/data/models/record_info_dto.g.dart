@@ -1,13 +1,14 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'record_time_dto.dart';
+part of 'record_info_dto.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$RecordTimeDTOImpl _$$RecordTimeDTOImplFromJson(Map<String, dynamic> json) =>
-    _$RecordTimeDTOImpl(
+_$RecordInfoDTOImpl _$$RecordInfoDTOImplFromJson(Map<String, dynamic> json) =>
+    _$RecordInfoDTOImpl(
+      id: json['id'] as String,
       taskId: json['taskId'] as String,
       date: json['date'] as String,
       recordTime: (json['recordTime'] as num).toInt(),
@@ -15,8 +16,9 @@ _$RecordTimeDTOImpl _$$RecordTimeDTOImplFromJson(Map<String, dynamic> json) =>
       title: json['title'] as String,
     );
 
-Map<String, dynamic> _$$RecordTimeDTOImplToJson(_$RecordTimeDTOImpl instance) =>
+Map<String, dynamic> _$$RecordInfoDTOImplToJson(_$RecordInfoDTOImpl instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'taskId': instance.taskId,
       'date': instance.date,
       'recordTime': instance.recordTime,

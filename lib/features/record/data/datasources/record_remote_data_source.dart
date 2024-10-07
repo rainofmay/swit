@@ -1,5 +1,5 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:swit/features/record/data/models/record_time_dto.dart';
+import 'package:swit/features/record/data/models/record_info_dto.dart';
 
 class RecordRemoteDataSource {
   RecordRemoteDataSource._internal();
@@ -10,29 +10,27 @@ class RecordRemoteDataSource {
   factory RecordRemoteDataSource() {
     return _instance;
   }
-  final _supabase = Supabase.instance.client;
 
+  final _supabase = Supabase.instance.client;
 
   Future<List<Map<String, dynamic>>> getRecords() async {
     try {
       final response = await _supabase
           .from('record')
-      // task_id 에 해당하는 title도 가져오기
+          // task_id 에 해당하는 title도 가져오기
           .select('''
             *,
             task:task_id (
               title
             )
-          ''')
-          .order('created_at', ascending: false);
+          ''').order('created_at', ascending: false);
       return response;
     } catch (e) {
       throw Exception('Remote DataSource Failed to get records: $e');
     }
   }
 
-
-  Future<void> createRecord(RecordTimeDTO dto) async {
+  Future<void> createRecord(RecordInfoDTO dto) async {
     try {
       // 오늘 날짜의 기록 확인
       final existingRecord = await _supabase
@@ -48,7 +46,7 @@ class RecordRemoteDataSource {
             .from('record')
             .update({
               'record_time': dto.recordTime,
-               'contents': dto.contents,
+              'contents': dto.contents,
             })
             .eq('date', dto.date)
             .eq('task_id', dto.taskId);
@@ -66,5 +64,21 @@ class RecordRemoteDataSource {
     }
   }
 
+  Future<void> updateRecord(String id, String newContents) async {
+    try {
+      await _supabase
+          .from('record')
+          .update({'contents': newContents}).eq('id', id);
+    } catch (e) {
+      throw Exception('Remote DataSource Failed to update record: $e');
+    }
+  }
 
+  Future<void> deleteRecord(String id) async {
+    try {
+      await _supabase.from('record').delete().eq('id', id);
+    } catch (e) {
+      throw Exception('Remote DataSource Failed to delete record: $e');
+    }
+  }
 }

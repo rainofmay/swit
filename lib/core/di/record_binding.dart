@@ -10,32 +10,33 @@ import 'package:swit/features/record/domain/usecases/task/delete_task_use_case.d
 import 'package:swit/features/record/domain/usecases/task/get_task_use_case.dart';
 import 'package:swit/features/record/domain/usecases/task/update_task_use_case.dart';
 import 'package:swit/features/record/domain/usecases/time_record/create_record_use_case.dart';
+import 'package:swit/features/record/domain/usecases/time_record/delete_record_use_case.dart';
 import 'package:swit/features/record/domain/usecases/time_record/get_record_use_case.dart';
+import 'package:swit/features/record/domain/usecases/time_record/update_record_use_case.dart';
 import 'package:swit/features/record/presentation/viewmodel/record_view_model.dart';
 
 class RecordBinding extends Bindings {
   @override
   void dependencies() {
     /* -- DataSource -- */
-    Get.put<TaskRemoteDataSource>(TaskRemoteDataSource());
+    Get.lazyPut<TaskRemoteDataSource>(() => TaskRemoteDataSource());
+    Get.lazyPut<RecordRemoteDataSource>(() => RecordRemoteDataSource());
 
-    Get.put<RecordRemoteDataSource>(RecordRemoteDataSource());
 
     /* -- Repository -- */
-    Get.put<TaskRepository>(
-      TaskRepositoryImpl(Get.find<TaskRemoteDataSource>()));
-
-    Get.put<RecordRepository>(
-      RecordRepositoryImpl(Get.find<RecordRemoteDataSource>()));
+    Get.lazyPut<TaskRepository>(() => TaskRepositoryImpl(Get.find<TaskRemoteDataSource>()));
+    Get.lazyPut<RecordRepository>(() => RecordRepositoryImpl(Get.find<RecordRemoteDataSource>()));
 
     /* -- UseCase -- */
-    Get.put(GetTaskUseCase(Get.find<TaskRepository>()));
-    Get.put(CreateTaskUseCase(Get.find<TaskRepository>()));
-    Get.put(UpdateTaskUseCase(Get.find<TaskRepository>()));
-    Get.put(DeleteTaskUseCase(Get.find<TaskRepository>()));
+    Get.lazyPut(() => GetTaskUseCase(Get.find<TaskRepository>()));
+    Get.lazyPut(() => CreateTaskUseCase(Get.find<TaskRepository>()));
+    Get.lazyPut(() => UpdateTaskUseCase(Get.find<TaskRepository>()));
+    Get.lazyPut(() => DeleteTaskUseCase(Get.find<TaskRepository>()));
 
-    Get.put(GetRecordUseCase(Get.find<RecordRepository>()));
-    Get.put(CreateRecordUseCase(Get.find<RecordRepository>()));
+    Get.lazyPut(() => GetRecordUseCase(Get.find<RecordRepository>()));
+    Get.lazyPut(() => CreateRecordUseCase(Get.find<RecordRepository>()));
+    Get.lazyPut(() => UpdateRecordUseCase(Get.find<RecordRepository>()));
+    Get.lazyPut(() => DeleteRecordUseCase(Get.find<RecordRepository>()));
 
     /* -- ViewModel -- */
     Get.lazyPut(() =>
@@ -45,6 +46,8 @@ class RecordBinding extends Bindings {
             deleteTaskUseCase: Get.find<DeleteTaskUseCase>(),
             getRecordsUseCase: Get.find<GetRecordUseCase>(),
             createRecordUseCase: Get.find<CreateRecordUseCase>(),
+            updateRecordUseCase: Get.find<UpdateRecordUseCase>(),
+          deleteRecordUseCase: Get.find<DeleteRecordUseCase>(),
         )
     );
   }
@@ -61,6 +64,8 @@ class RecordBinding extends Bindings {
 
     Get.delete<GetRecordUseCase>();
     Get.delete<CreateRecordUseCase>();
+    Get.delete<UpdateRecordUseCase>();
+    Get.delete<DeleteRecordUseCase>();
 
      /* -- Repository 제거 -- */
     Get.delete<TaskRepository>();

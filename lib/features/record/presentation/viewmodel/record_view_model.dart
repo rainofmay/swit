@@ -3,14 +3,16 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:swit/features/record/domain/entities/record_time.dart';
+import 'package:swit/features/record/domain/entities/record_info.dart';
 import 'package:swit/features/record/domain/entities/task.dart';
 import 'package:swit/features/record/domain/usecases/task/create_task_use_case.dart';
 import 'package:swit/features/record/domain/usecases/task/delete_task_use_case.dart';
 import 'package:swit/features/record/domain/usecases/task/get_task_use_case.dart';
 import 'package:swit/features/record/domain/usecases/task/update_task_use_case.dart';
 import 'package:swit/features/record/domain/usecases/time_record/create_record_use_case.dart';
+import 'package:swit/features/record/domain/usecases/time_record/delete_record_use_case.dart';
 import 'package:swit/features/record/domain/usecases/time_record/get_record_use_case.dart';
+import 'package:swit/features/record/domain/usecases/time_record/update_record_use_case.dart';
 import 'package:swit/shared/constant/theme_color.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:uuid/uuid.dart';
@@ -22,6 +24,8 @@ class RecordViewModel extends GetxController {
   final DeleteTaskUseCase _deleteTaskUseCase;
   final GetRecordUseCase _getRecordsUseCase;
   final CreateRecordUseCase _createRecordUseCase;
+  final UpdateRecordUseCase _updateRecordUseCase;
+  final DeleteRecordUseCase _deleteRecordUseCase;
 
   RecordViewModel({
     required GetTaskUseCase getTaskUseCase,
@@ -30,13 +34,17 @@ class RecordViewModel extends GetxController {
     required DeleteTaskUseCase deleteTaskUseCase,
     required GetRecordUseCase getRecordsUseCase,
     required CreateRecordUseCase createRecordUseCase,
+    required UpdateRecordUseCase updateRecordUseCase,
+    required DeleteRecordUseCase deleteRecordUseCase,
 
   })  : _getTaskUseCase = getTaskUseCase,
         _createTaskUseCase = createTaskUseCase,
         _updateTaskUseCase = updateTaskUseCase,
         _deleteTaskUseCase = deleteTaskUseCase,
         _getRecordsUseCase = getRecordsUseCase,
-        _createRecordUseCase = createRecordUseCase;
+        _createRecordUseCase = createRecordUseCase,
+        _updateRecordUseCase = updateRecordUseCase,
+        _deleteRecordUseCase = deleteRecordUseCase;
 
   /* ------------------------------------------------------ */
   /* Calendar Fields -------------------------------------- */
@@ -103,8 +111,17 @@ class RecordViewModel extends GetxController {
   Map<String, Stopwatch> get taskStopwatches => _taskStopwatches;
 
   // 기록 가져오기
-  final RxList<RecordTime> _records = <RecordTime>[].obs;
-  List<RecordTime> get records => _records;
+  final RxList<RecordInfo> _records = <RecordInfo>[].obs;
+  List<RecordInfo> get records => _records;
+
+  /* ------------------------------------------------------ */
+  /* Study log card Fields -------------------------------- */
+  /* ------------------------------------------------------ */
+  late final RxBool _isEditing = false.obs;
+  bool get isEditing => _isEditing.value;
+  late final Rx<TextEditingController> _contentsController = TextEditingController().obs;
+  TextEditingController get contentsController => _contentsController.value;
+
 
   /* ------------------------------------------------------ */
   /* Init & Dispose --------------------------------------- */
@@ -126,6 +143,9 @@ class RecordViewModel extends GetxController {
     _taskTitleController.value.dispose();
     _timer?.cancel();
     super.onClose();
+
+    // study log card
+    _contentsController.value.dispose();
   }
 
   /* ------------------------------------------------------ */
@@ -404,12 +424,12 @@ class RecordViewModel extends GetxController {
   // 측정한 기록을 db와 공부 일지에 생성
   Future<void> createRecord() async {
     if (_recordingTask.value != null && _taskAccumulatedTimes[_recordingTask.value!.id] != null) {
-      final recordTime = RecordTime(
-        // id: _recordingTask.value!.title + const Uuid().v4(),  // 새로운 고유 ID 생성
+      final recordTime = RecordInfo(
+        id: const Uuid().v4(),  // 새로운 고유 ID 생성
         title: _recordingTask.value!.title,
         taskId: _recordingTask.value!.id,
         recordTime: _taskAccumulatedTimes[_recordingTask.value!.id]!,
-        contents: 'contents 테스트',
+        contents: '',
         date: DateTime.now().toUtc().toString().substring(0, 10),
       );
 
@@ -427,8 +447,38 @@ class RecordViewModel extends GetxController {
     }
   }
 
+  void toggleEditing() {
+    _isEditing.toggle();
+  }
+
+  void updateContent(String newContent) {
+    _contentsController.value.text = newContent;
+  }
 
 
+  Future<void> updateRecord(String id, String newContents) async {
+    try {
+      await _updateRecordUseCase.execute(id, newContents);
+
+      // 저장 후 편집 모드 종료
+      _isEditing.value = false;
+
+      // 기록 목록 새로고침
+      await getRecords();
+    } catch (e) {
+      print('Failed to save record: $e');
+    }
+  }
+
+  Future<void> deleteRecord(String id) async {
+    try {
+      await _deleteRecordUseCase.execute(id);
+      await getRecords();  // 삭제 후 목록 새로고침
+      update();
+    } catch (e) {
+      print('ViewModel Failed to delete record: $e');
+    }
+  }
 
   String getFormattedTaskTime(String taskId) {
     final accumulatedTime = _taskAccumulatedTimes[taskId] ?? 0;

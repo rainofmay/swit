@@ -35,20 +35,18 @@ class RecordScreen extends GetView<RecordViewModel> {
                 const CustomGap(32),
                 Expanded(
                   child: Obx(() => ListView.builder(
+                    shrinkWrap: true,
                     itemCount: controller.records.length,
                     itemBuilder: (context, index) {
                       final record = controller.records[index];
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
                         child: StudyLogCard(
+                          id: record.id,
+                          initialTitle: record.title,
                           initialContent: record.contents ?? '내용 없음',
                           initialStudyTime: Duration(milliseconds: record.recordTime),
                           createdAt: DateTime.parse(record.date),
-                          onSave: (content, studyTime) {
-                            // TODO: 저장 로직 구현
-                            print('Content: $content');
-                            print('Study Time: $studyTime');
-                          },
                         ),
                       );
                     },
