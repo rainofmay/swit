@@ -23,6 +23,8 @@ class CreateScheduleScreen extends GetView<ScheduleViewModel> {
             Obx(() => TextButton(
               onPressed: () async {
                 controller.isFormValid ? await controller.onSavePressed() : null;
+                // 이벤트 표시 즉시 렌더링을 위해 필요
+
                 Get.back();
               },
               child: Text('저장',

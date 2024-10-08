@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:swit/core/router/app_pages.dart';
-import 'package:swit/core/utils/schedule/schedule_service.dart';
+import 'package:intl/intl.dart';
 import 'package:swit/features/study/schedule/domain/entities/event.dart';
 import 'package:swit/features/study/schedule/domain/entities/schedule.dart';
 import 'package:swit/features/study/schedule/domain/usecases/create_schedule_use_case.dart';
@@ -115,16 +114,22 @@ class ScheduleViewModel extends GetxController {
     // 다른 필드들도 초기화
   }
 
+  Future<void> _refreshScheduleData() async {
+    await getSchedules();
+    updateSelectedDate(_editingSchedule.value.from);
+    updateFocusedDate(_editingSchedule.value.from);
+    _selectedDate.value = _selectedDate.value.add(const Duration(microseconds: 1));
+    update();
+  }
   /* ------------------------------------------------------ */
   /* Create ----------------------------------------------- */
   /* ------------------------------------------------------ */
   Future<void> onSavePressed() async {
     if (isFormValid) {
-      storedSchedule = _editingSchedule.value;
-      await _createScheduleUseCase.execute(storedSchedule);
-      await getSchedules();
+      await _createScheduleUseCase.execute(_editingSchedule.value);
+      await _refreshScheduleData();
       initNewSchedule();
-      updateSelectedDateSchedules();
+
       update();
     }
   }
@@ -139,7 +144,6 @@ class ScheduleViewModel extends GetxController {
       final List<Schedule> data = await _getScheduleUseCase.execute();
       _schedules.assignAll(data);
       update();
-
     } catch(e) {
       print('viewmodel get schedules error : $e');
     }
@@ -147,13 +151,8 @@ class ScheduleViewModel extends GetxController {
 
   /* -- Events -- */
   List<dynamic> initEvents(DateTime day) {
-    return _schedules.where((schedule) {
-      DateTime scheduleStart = DateTime(schedule.from.year, schedule.from.month, schedule.from.day);
-      DateTime scheduleEnd = DateTime(schedule.to.year, schedule.to.month, schedule.to.day);
-      DateTime dayStart = DateTime(day.year, day.month, day.day);
-
-      return !scheduleEnd.isBefore(dayStart) && !scheduleStart.isAfter(dayStart);
-    }).map((schedule) => [
+    return _schedules.where((schedule) => schedule.isOnDay(day))
+        .map((schedule) => [
       schedule.from,
       schedule.to,
       schedule.id,
@@ -162,13 +161,17 @@ class ScheduleViewModel extends GetxController {
   }
 
   List<Event> getEvents(DateTime day) {
-    return _schedules.where((schedule) {
-      DateTime scheduleStart = DateTime(schedule.from.year, schedule.from.month, schedule.from.day);
-      DateTime scheduleEnd = DateTime(schedule.to.year, schedule.to.month, schedule.to.day);
-      DateTime dayStart = DateTime(day.year, day.month, day.day);
+    final formattedDay = DateFormat('yyyyMMdd').format(day);
 
-      return !scheduleEnd.isBefore(dayStart) && !scheduleStart.isAfter(dayStart);
-    }).map((schedule) => Event(schedule.id)).toList();
+    return _schedules.where((schedule) {
+      final scheduleFrom = schedule.formattedFromDate;
+      final scheduleTo = schedule.formattedToDate;
+
+      return formattedDay.compareTo(scheduleFrom) >= 0 &&
+          formattedDay.compareTo(scheduleTo) <= 0;
+    }).map((schedule) {
+      return Event(schedule.id);
+    }).toList();
   }
 
   Map<String, Color> getEventsColor(DateTime day) {
@@ -250,9 +253,8 @@ class ScheduleViewModel extends GetxController {
           val?.scheduleName = _titleController.value.text;
           val?.description = _descriptionController.value.text;
         });
-        storedSchedule = _editingSchedule.value;
-        await _updateScheduleUseCase.execute(storedSchedule);
-        await getSchedules();
+        await _updateScheduleUseCase.execute(_editingSchedule.value);
+        await _refreshScheduleData();
         initNewSchedule();
         updateSelectedDateSchedules();
       } catch (e) {
@@ -266,13 +268,7 @@ class ScheduleViewModel extends GetxController {
   void updateSelectedDateSchedules() {
     // 선택된 날짜에 해당하는 일정들을 필터링
     _selectedDateSchedules.value = _schedules
-        .where((schedule) =>
-    (schedule.from.year <= _selectedDate.value.year &&
-        schedule.from.month <= _selectedDate.value.month &&
-        schedule.from.day <= _selectedDate.value.day) &&
-        (schedule.to.year >= _selectedDate.value.year &&
-            schedule.to.month >= _selectedDate.value.month &&
-            schedule.to.day >= _selectedDate.value.day))
+        .where((schedule) => schedule.isOnDay(_selectedDate.value))
         .toList();
     update();
   }
@@ -283,10 +279,8 @@ class ScheduleViewModel extends GetxController {
 
   Future<void> deleteSchedule() async {
     try {
-      storedSchedule = _editingSchedule.value;
-      _deleteScheduleUseCase.execute(storedSchedule);
-      await getSchedules();
-      updateSelectedDateSchedules();
+      await _deleteScheduleUseCase.execute(_editingSchedule.value);
+      await _refreshScheduleData();
     } catch (e) {
       print('Failed to delete schedule: $e');
     }

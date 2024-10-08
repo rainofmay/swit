@@ -29,6 +29,8 @@ class EditScheduleScreen extends GetView<ScheduleViewModel> {
                     controller.isFormValid
                         ? await controller.onUpdatePressed()
                         : null;
+
+
                     Get.back();
                   },
                   child: Text('수정',
@@ -39,6 +41,8 @@ class EditScheduleScreen extends GetView<ScheduleViewModel> {
               TextButton(
                   onPressed: () async {
                     await controller.deleteSchedule();
+
+
                     Get.back();
                   },
                   child: Text('삭제',
