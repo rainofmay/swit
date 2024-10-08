@@ -114,42 +114,10 @@ class ScheduleViewModel extends GetxController {
     // 다른 필드들도 초기화
   }
 
-  Future<void> _refreshScheduleData() async {
-    await getSchedules();
-    updateSelectedDate(_editingSchedule.value.from);
-    updateFocusedDate(_editingSchedule.value.from);
-    _selectedDate.value = _selectedDate.value.add(const Duration(microseconds: 1));
-    update();
-  }
-  /* ------------------------------------------------------ */
-  /* Create ----------------------------------------------- */
-  /* ------------------------------------------------------ */
-  Future<void> onSavePressed() async {
-    if (isFormValid) {
-      await _createScheduleUseCase.execute(_editingSchedule.value);
-      await _refreshScheduleData();
-      initNewSchedule();
-
-      update();
-    }
-  }
 
   /* ------------------------------------------------------ */
-  /* Get -------------------------------------------------- */
+  /* Calendar Function ------------------------------------ */
   /* ------------------------------------------------------ */
-
-  /* -- Schedule -- */
-  Future<void> getSchedules() async {
-    try {
-      final List<Schedule> data = await _getScheduleUseCase.execute();
-      _schedules.assignAll(data);
-      update();
-    } catch(e) {
-      print('viewmodel get schedules error : $e');
-    }
-  }
-
-  /* -- Events -- */
   List<dynamic> initEvents(DateTime day) {
     return _schedules.where((schedule) => schedule.isOnDay(day))
         .map((schedule) => [
@@ -185,12 +153,39 @@ class ScheduleViewModel extends GetxController {
     return idColorData;
   }
 
-
   /* ------------------------------------------------------ */
-  /* Update ----------------------------------------------- */
+  /* Schedule Function ------------------------------------ */
   /* ------------------------------------------------------ */
+  Future<void> onSavePressed() async {
+    if (isFormValid) {
+      await _createScheduleUseCase.execute(_editingSchedule.value);
+      await _refreshScheduleData();
+      initNewSchedule();
 
-  /* -- Calendar -- */
+      update();
+    }
+  }
+
+  Future<void> _refreshScheduleData() async {
+    await getSchedules();
+    updateSelectedDate(_editingSchedule.value.from);
+    updateFocusedDate(_editingSchedule.value.from);
+    _selectedDate.value = _selectedDate.value.add(const Duration(microseconds: 1));
+    update();
+  }
+
+  /* -- Get -- */
+  Future<void> getSchedules() async {
+    try {
+      final List<Schedule> data = await _getScheduleUseCase.execute();
+      _schedules.assignAll(data);
+      update();
+    } catch(e) {
+      print('viewmodel get schedules error : $e');
+    }
+  }
+
+  /* -- Update -- */
   void updateSelectedDate(DateTime selectedDate) {
     _selectedDate.value = selectedDate;
 
@@ -202,7 +197,6 @@ class ScheduleViewModel extends GetxController {
     _focusedDate.value = focusedDate;
   }
 
-  /* -- Schedule -- */
   void updateScheduleName(String name) {
     _editingSchedule.update((val) {
       val?.scheduleName = name;
@@ -273,10 +267,7 @@ class ScheduleViewModel extends GetxController {
     update();
   }
 
-  /* ------------------------------------------------------ */
-  /* Delete ----------------------------------------------- */
-  /* ------------------------------------------------------ */
-
+  /* -- Delete -- */
   Future<void> deleteSchedule() async {
     try {
       await _deleteScheduleUseCase.execute(_editingSchedule.value);

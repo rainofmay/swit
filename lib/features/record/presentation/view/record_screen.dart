@@ -36,9 +36,9 @@ class RecordScreen extends GetView<RecordViewModel> {
                 Expanded(
                   child: Obx(() => ListView.builder(
                     shrinkWrap: true,
-                    itemCount: controller.records.length,
+                    itemCount: controller.selectedDateRecords.length,
                     itemBuilder: (context, index) {
-                      final record = controller.records[index];
+                      final record = controller.selectedDateRecords[index];
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
                         child: StudyLogCard(

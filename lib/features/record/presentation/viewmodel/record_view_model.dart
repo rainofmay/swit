@@ -1,7 +1,7 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swit/core/utils/record/time_formatter.dart';
 import 'package:swit/features/record/domain/entities/record_info.dart';
@@ -115,6 +115,9 @@ class RecordViewModel extends GetxController {
   final RxList<RecordInfo> _records = <RecordInfo>[].obs;
   List<RecordInfo> get records => _records;
 
+  final RxList<RecordInfo> _selectedDateRecords = <RecordInfo>[].obs;
+  List<RecordInfo> get selectedDateRecords => _selectedDateRecords;
+
   /* ------------------------------------------------------ */
   /* Study log card Fields -------------------------------- */
   /* ------------------------------------------------------ */
@@ -122,7 +125,6 @@ class RecordViewModel extends GetxController {
   bool get isEditing => _isEditing.value;
   late final Rx<TextEditingController> _contentsController = TextEditingController().obs;
   TextEditingController get contentsController => _contentsController.value;
-
 
   /* ------------------------------------------------------ */
   /* Init & Dispose --------------------------------------- */
@@ -154,7 +156,7 @@ class RecordViewModel extends GetxController {
   /* ------------------------------------------------------ */
   void updateSelectedDate(DateTime selectedDate) {
     _selectedDate.value = selectedDate;
-
+    _filterRecordsByDate(selectedDate);
   }
 
   void updateFocusedDate(DateTime focusedDate) {
@@ -399,6 +401,7 @@ class RecordViewModel extends GetxController {
     try {
       final fetchedRecords = await _getRecordsUseCase.execute();
       _records.assignAll(fetchedRecords);
+      _filterRecordsByDate(_selectedDate.value);
     } catch (e) {
       print('ViewModel Failed to get records: $e');
     }
@@ -478,5 +481,11 @@ class RecordViewModel extends GetxController {
       _updateTaskUseCase.execute(_tasks[taskIndex]);
       update();
     }
+  }
+
+  void _filterRecordsByDate(DateTime date) {
+    String formattedDate = DateFormat('yyyy-MM-dd').format(date);
+    _selectedDateRecords.value = _records.where((record) => record.date == formattedDate).toList();
+    update();
   }
 }

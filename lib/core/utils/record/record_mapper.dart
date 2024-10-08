@@ -1,8 +1,11 @@
+import 'package:intl/intl.dart';
 import 'package:swit/features/record/data/models/record_info_dto.dart';
 import 'package:swit/features/record/domain/entities/record_info.dart';
 import 'package:swit/shared/constant/theme_color.dart';
 
 class RecordMapper {
+  static final DateFormat _dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
+
   static RecordInfoDTO toDTO(RecordInfo record) {
     return RecordInfoDTO(
       id: record.id,
