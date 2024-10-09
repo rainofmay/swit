@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:swit/features/record/presentation/viewmodel/record_view_model.dart';
 import 'package:swit/shared/constant/color_box.dart';
@@ -76,6 +77,9 @@ class StudyLogCard extends GetView<RecordViewModel> {
                           ),
                           Row(
                             children: [
+                              SvgPicture.asset(
+                                'assets/icons/record/timer.svg',
+                              ),
                               Icon(CupertinoIcons.clock,
                                   size: IconSize.xs, color: ColorBox.black),
                               const CustomGap(4),
@@ -114,12 +118,14 @@ class StudyLogCard extends GetView<RecordViewModel> {
                                   Text('복구할 수 없습니다.', style: FontBox.B1,),
                                   OkCancelButtons(
                                       okText: '삭제',
-                                      onPressed: () async =>
-                                          controller.deleteRecord(id),
+                                      onPressed: () async {
+                                        await controller.deleteRecord(id);
+                                        Get.back();
+                                      },
                                       cancelText: '취소',
                                       onCancelPressed: () => Get.back()));
                             },
-                            child: Text('삭제'),
+                            child: const Text('삭제'),
                           ),
                         ],
                       )
