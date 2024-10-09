@@ -78,7 +78,9 @@ class StudyLogCard extends GetView<RecordViewModel> {
                           Row(
                             children: [
                               SvgPicture.asset(
-                                'assets/icons/record/timer.svg',
+                                'assets/icons/record/stamp.svg',
+                                width: 30,
+                                height: 30,
                               ),
                               Icon(CupertinoIcons.clock,
                                   size: IconSize.xs, color: ColorBox.black),
