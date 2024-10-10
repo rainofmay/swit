@@ -4,12 +4,11 @@ import 'package:swit/features/record/domain/entities/record_info.dart';
 import 'package:swit/shared/constant/theme_color.dart';
 
 class RecordMapper {
-  static final DateFormat _dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
+  // static final DateFormat _dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
 
   static RecordInfoDTO toDTO(RecordInfo record) {
     return RecordInfoDTO(
       id: record.id,
-      taskId: record.taskId,
       date: record.date,
       recordTime: record.recordTime,
       contents: record.contents,
@@ -20,7 +19,6 @@ class RecordMapper {
   static RecordInfo toEntity(RecordInfoDTO dto) {
     return RecordInfo(
       id: dto.id,
-      taskId: dto.taskId,
       date: dto.date,
       recordTime: dto.recordTime,
       contents: dto.contents,
@@ -31,11 +29,10 @@ class RecordMapper {
   static RecordInfoDTO fromJson(Map<String, dynamic> json) {
     return RecordInfoDTO(
       id: json['id'],
-      taskId: json['task_id'],
       date: json['date'],
       recordTime: json['record_time'],
       contents: json['contents'],
-      title: json['task']['title'],  // 중첩된 JSON 객체에서 title 추출
+      title: json['title'], // 중첩된 JSON 객체에서 title 추출
     );
   }
 }

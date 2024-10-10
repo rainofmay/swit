@@ -84,10 +84,9 @@ class TaskTimerScreen extends GetView<RecordViewModel> {
   }
 
   Future<void> _handleBackPress() async {
+    Get.back();
     if (controller.isRunning) {
       await controller.pauseTaskStopWatch();
     }
-
-    Get.back();
   }
 }

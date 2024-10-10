@@ -17,13 +17,9 @@ class RecordRemoteDataSource {
     try {
       final response = await _supabase
           .from('record')
-          // task_id 에 해당하는 title도 가져오기
-          .select('''
-            *,
-            task:task_id (
-              title
-            )
-          ''').order('created_at', ascending: false);
+          .select('*')
+          .order('created_at', ascending:true);
+
       return response;
     } catch (e) {
       throw Exception('Remote DataSource Failed to get records: $e');
@@ -37,7 +33,7 @@ class RecordRemoteDataSource {
           .from('record')
           .select()
           .eq('date', dto.date)
-          .eq('task_id', dto.taskId)
+          .eq('id', dto.id)
           .maybeSingle();
 
       if (existingRecord != null) {
@@ -49,12 +45,13 @@ class RecordRemoteDataSource {
               'contents': dto.contents,
             })
             .eq('date', dto.date)
-            .eq('task_id', dto.taskId);
+            .eq('id', dto.id);
       } else {
         // 새 레코드 삽입
         await _supabase.from('record').insert({
           'date': dto.date,
-          'task_id': dto.taskId,
+          'id': dto.id,
+          'title': dto.title,
           'record_time': dto.recordTime,
           'contents': dto.contents
         });

@@ -6,7 +6,6 @@ import 'package:swit/features/study/schedule/presentation/widgets/color_section.
 import 'package:swit/shared/constant/color_box.dart';
 import 'package:swit/shared/constant/font_box.dart';
 import 'package:swit/shared/constant/theme_color.dart';
-import 'package:swit/shared/widgets/custom_dialog.dart';
 import 'package:swit/shared/widgets/custom_gap.dart';
 import 'package:swit/shared/widgets/custom_text_form_field.dart';
 
@@ -44,7 +43,7 @@ class HandleTaskForm extends GetView<RecordViewModel> {
               width: double.infinity,
               height: 200,
               child: GridView.builder(
-                physics: NeverScrollableScrollPhysics(), // 터치 스크롤현상 없애는 것.
+                // physics: NeverScrollableScrollPhysics(), // 터치 스크롤현상 없애는 것.
                 // scrollDirection: Axis.vertical,
                 // shrinkWrap: true,
                 itemCount: ThemeColor.colorList.length,

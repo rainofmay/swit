@@ -31,7 +31,22 @@ class RecordScreen extends GetView<RecordViewModel> {
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
             child: Column(
               children: [
-                RecordCalendar(),
+                GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onVerticalDragUpdate: (details) {
+                    final double delta = details.primaryDelta ?? 0;
+                    if (delta > 0) {
+                      controller.updateCalendarFormatToMonth();
+                    } else if (delta < 0) {
+                      controller.updateCalendarFormatToWeek();
+                    }
+                  },
+                  child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 200),
+                      // padding: const EdgeInsets.only(
+                      //     top: 20, left: 30, right: 30),
+                      child: const RecordCalendar()),
+                ),
                 const CustomGap(32),
                 Expanded(
                   child: Obx(() => ListView.builder(
@@ -44,7 +59,7 @@ class RecordScreen extends GetView<RecordViewModel> {
                         child: StudyLogCard(
                           id: record.id,
                           initialTitle: record.title,
-                          initialContent: record.contents ?? '내용 없음',
+                          initialContents: record.contents ?? '내용 없음',
                           initialStudyTime: Duration(milliseconds: record.recordTime),
                           createdAt: DateTime.parse(record.date),
                         ),
