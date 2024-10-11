@@ -17,7 +17,6 @@ class MateScreen extends GetView<MateViewModel> {
 
   final List<IconData> tabIcons = [
     Icons.person_2_rounded,
-    Icons.local_post_office_outlined,
     Icons.notifications_active_outlined,
     Icons.settings,
   ];
@@ -25,7 +24,7 @@ class MateScreen extends GetView<MateViewModel> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 4,
+        length: 3,
         child: Builder(builder: (BuildContext context) {
           final TabController tabController = DefaultTabController.of(context);
           tabController.addListener(() {
@@ -68,7 +67,6 @@ class MateScreen extends GetView<MateViewModel> {
                     child: TabBarView(
                       children: [
                         MateTab(),
-                        const PostTab(),
                         const NotificationTab(),
                         const SettingTab(),
                       ],

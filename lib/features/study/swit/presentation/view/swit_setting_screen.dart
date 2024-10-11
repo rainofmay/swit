@@ -15,7 +15,7 @@ class SwitSettingScreen extends GetView<SwitSettingViewModel> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      appBar: CustomBackAppBar(
+      appBar: const CustomBackAppBar(
           appbarTitle: '설 정', isLeading: true, isCenterTitle: true),
       body: SingleChildScrollView(
         child: Padding(
@@ -33,22 +33,27 @@ class SwitSettingScreen extends GetView<SwitSettingViewModel> {
                   },
                   action: Icon(CupertinoIcons.forward)),
               const CustomGap(40),
-              Obx(() => TapRow(
-                  title: '타이머',
-                  action: CustomSwitch(
-                      value: controller.isTimer,
-                      onChanged: controller.toggleIsTimer,
-                  ))),
+              _buildToggleRow('timer', '타이머'),
               const CustomGap(40),
-              TapRow(title: 'D-day', onTap: () {}),
+              _buildToggleRow('dday', 'D-day'),
               const CustomGap(40),
-              TapRow(title: '문구', onTap: () {}),
+              _buildToggleRow('phrase', '문구'),
               const CustomGap(40),
-              TapRow(title: '알림', onTap: () {}),
+              _buildToggleRow('notification', '알림'),
             ],
           ),
         ),
       ),
     );
+  }
+
+  Widget _buildToggleRow(String key, String title) {
+    return Obx(() => TapRow(
+      title: title,
+      action: CustomSwitch(
+        value: controller.getToggleState(key),
+        onChanged: (bool newValue) => controller.toggleState(key),
+      ),
+    ));
   }
 }
