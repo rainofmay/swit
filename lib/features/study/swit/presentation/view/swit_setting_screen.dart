@@ -39,7 +39,7 @@ class SwitSettingScreen extends GetView<SwitSettingViewModel> {
               const CustomGap(40),
               _buildToggleRow('phrase', '문구'),
               const CustomGap(40),
-              _buildToggleRow('notification', '알림'),
+              _buildToggleRow('notification', '알림')
             ],
           ),
         ),
@@ -49,11 +49,11 @@ class SwitSettingScreen extends GetView<SwitSettingViewModel> {
 
   Widget _buildToggleRow(String key, String title) {
     return Obx(() => TapRow(
-      title: title,
-      action: CustomSwitch(
-        value: controller.getToggleState(key),
-        onChanged: (bool newValue) => controller.toggleState(key),
-      ),
-    ));
+          title: title,
+          action: CustomSwitch(
+            value: controller.getToggleState(key),
+            onChanged: (bool newValue) => controller.toggleState(key),
+          ),
+        ));
   }
 }

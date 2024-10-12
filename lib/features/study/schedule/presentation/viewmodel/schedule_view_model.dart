@@ -118,6 +118,14 @@ class ScheduleViewModel extends GetxController {
   /* ------------------------------------------------------ */
   /* Calendar Function ------------------------------------ */
   /* ------------------------------------------------------ */
+  void updateCalendarFormatToWeek() {
+    _calendarFormat.value = CalendarFormat.week;
+  }
+
+  void updateCalendarFormatToMonth() {
+    _calendarFormat.value = CalendarFormat.month;
+  }
+
   List<dynamic> initEvents(DateTime day) {
     return _schedules.where((schedule) => schedule.isOnDay(day))
         .map((schedule) => [

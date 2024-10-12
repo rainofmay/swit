@@ -27,12 +27,25 @@ class ScheduleScreen extends GetView<ScheduleViewModel> {
               icon: const Icon(Icons.add))
         ],
       ),
-      body:  Padding(
+      body: Padding(
         padding: const EdgeInsets.only(top:16.0),
         child: Column(
           children: [
-            Calendar(),
-            ScheduleList(),
+            GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onVerticalDragUpdate: (details) {
+                final double delta = details.primaryDelta ?? 0;
+                if (delta > 0) {
+                  controller.updateCalendarFormatToMonth();
+                } else if (delta < 0) {
+                  controller.updateCalendarFormatToWeek();
+                }
+              },
+              child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 200),
+                  child: const Calendar()),
+            ),
+            const ScheduleList(),
           ],
         ),
       ),

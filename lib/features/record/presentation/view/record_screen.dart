@@ -16,61 +16,60 @@ class RecordScreen extends GetView<RecordViewModel> {
 
   @override
   Widget build(BuildContext context) {
-      return SafeArea(
-        child: CustomScaffold(
-          appBar: const CustomAppBar(appbarTitle: '기 록'),
-          floatingActionButton: FloatingActionButton.small(
+    return SafeArea(
+      child: CustomScaffold(
+        appBar: const CustomAppBar(appbarTitle: '기 록'),
+        floatingActionButton: FloatingActionButton.small(
             backgroundColor: ColorBox.white,
-              onPressed: () {
-                Get.toNamed(Routes.RECORD + Routes.RECORDADD);
-              },
-              child: SvgPicture.asset(
-                'assets/icons/log_black.svg',
-              )),
-          body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-            child: Column(
-              children: [
-                GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onVerticalDragUpdate: (details) {
-                    final double delta = details.primaryDelta ?? 0;
-                    if (delta > 0) {
-                      controller.updateCalendarFormatToMonth();
-                    } else if (delta < 0) {
-                      controller.updateCalendarFormatToWeek();
-                    }
-                  },
-                  child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 200),
-                      // padding: const EdgeInsets.only(
-                      //     top: 20, left: 30, right: 30),
-                      child: const RecordCalendar()),
-                ),
-                const CustomGap(32),
-                Expanded(
-                  child: Obx(() => ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: controller.selectedDateRecords.length,
-                    itemBuilder: (context, index) {
-                      final record = controller.selectedDateRecords[index];
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: StudyLogCard(
-                          id: record.id,
-                          initialTitle: record.title,
-                          initialContents: record.contents ?? '내용 없음',
-                          initialStudyTime: Duration(milliseconds: record.recordTime),
-                          createdAt: DateTime.parse(record.date),
-                        ),
-                      );
-                    },
-                  )),
-                ),
-              ],
-            ),
+            onPressed: () {
+              Get.toNamed(Routes.RECORD + Routes.RECORDADD);
+            },
+            child: SvgPicture.asset(
+              'assets/icons/log_black.svg',
+            )),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+          child: Column(
+            children: [
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onVerticalDragUpdate: (details) {
+                  final double delta = details.primaryDelta ?? 0;
+                  if (delta > 0) {
+                    controller.updateCalendarFormatToMonth();
+                  } else if (delta < 0) {
+                    controller.updateCalendarFormatToWeek();
+                  }
+                },
+                child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    child: const RecordCalendar()),
+              ),
+              const CustomGap(32),
+              Expanded(
+                child: Obx(() => ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: controller.selectedDateRecords.length,
+                      itemBuilder: (context, index) {
+                        final record = controller.selectedDateRecords[index];
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: StudyLogCard(
+                            id: record.id,
+                            initialTitle: record.title,
+                            initialContents: record.contents ?? '내용 없음',
+                            initialStudyTime:
+                                Duration(milliseconds: record.recordTime),
+                            createdAt: DateTime.parse(record.date),
+                          ),
+                        );
+                      },
+                    )),
+              ),
+            ],
           ),
         ),
+      ),
     );
   }
 }
