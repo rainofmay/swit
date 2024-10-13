@@ -9,6 +9,7 @@ part of 'record_info_dto.dart';
 _$RecordInfoDTOImpl _$$RecordInfoDTOImplFromJson(Map<String, dynamic> json) =>
     _$RecordInfoDTOImpl(
       id: json['id'] as String,
+      taskId: json['taskId'] as String,
       date: json['date'] as String,
       recordTime: (json['recordTime'] as num).toInt(),
       contents: json['contents'] as String?,
@@ -18,6 +19,7 @@ _$RecordInfoDTOImpl _$$RecordInfoDTOImplFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$RecordInfoDTOImplToJson(_$RecordInfoDTOImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'taskId': instance.taskId,
       'date': instance.date,
       'recordTime': instance.recordTime,
       'contents': instance.contents,

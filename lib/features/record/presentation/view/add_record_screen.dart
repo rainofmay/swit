@@ -42,7 +42,7 @@ class AddRecordScreen extends GetView<RecordViewModel> {
                     side: BorderSide(color: ColorBox.switchColor, width: 1)),
               ),
               child: const Text('+ 측정할 새 과제 추가하기')),
-          Expanded(child: TaskList()),
+          const TaskList(),
         ],
       ),
     );

@@ -17,16 +17,9 @@ class RecordScreen extends GetView<RecordViewModel> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: CustomScaffold(
+      child: Obx(() => CustomScaffold(
         appBar: const CustomAppBar(appbarTitle: '기 록'),
-        floatingActionButton: FloatingActionButton.small(
-            backgroundColor: ColorBox.white,
-            onPressed: () {
-              Get.toNamed(Routes.RECORD + Routes.RECORDADD);
-            },
-            child: SvgPicture.asset(
-              'assets/icons/log_black.svg',
-            )),
+        floatingActionButton: _conditionalFAB(),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
           child: Column(
@@ -48,28 +41,52 @@ class RecordScreen extends GetView<RecordViewModel> {
               const CustomGap(32),
               Expanded(
                 child: Obx(() => ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: controller.selectedDateRecords.length,
-                      itemBuilder: (context, index) {
-                        final record = controller.selectedDateRecords[index];
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: StudyLogCard(
-                            id: record.id,
-                            initialTitle: record.title,
-                            initialContents: record.contents ?? '내용 없음',
-                            initialStudyTime:
-                                Duration(milliseconds: record.recordTime),
-                            createdAt: DateTime.parse(record.date),
-                          ),
-                        );
-                      },
-                    )),
+                  shrinkWrap: true,
+                  itemCount: controller.selectedDateRecords.length,
+                  itemBuilder: (context, index) {
+                    final record = controller.selectedDateRecords[index];
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: StudyLogCard(
+                        id: record.id,
+                        initialTitle: record.title,
+                        initialContents: record.contents ?? '내용 없음',
+                        initialStudyTime:
+                        Duration(milliseconds: record.recordTime),
+                        createdAt: DateTime.parse(record.date),
+                      ),
+                    );
+                  },
+                )),
               ),
             ],
           ),
         ),
-      ),
+      )),
     );
+  }
+
+
+  Widget? _conditionalFAB() {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final selectedDate = DateTime(
+      controller.selectedDate.year,
+      controller.selectedDate.month,
+      controller.selectedDate.day,
+    );
+
+    if (selectedDate == today) {
+      return FloatingActionButton.small(
+        backgroundColor: ColorBox.white,
+        onPressed: () {
+          Get.toNamed(Routes.RECORD + Routes.RECORDADD);
+        },
+        child: SvgPicture.asset(
+          'assets/icons/log_black.svg',
+        ),
+      );
+    }
+    return null;
   }
 }

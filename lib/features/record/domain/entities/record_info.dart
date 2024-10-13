@@ -1,5 +1,6 @@
 class RecordInfo {
   final String id;
+  final String taskId;
   final String date;
   final int recordTime;
   final String title;
@@ -7,6 +8,7 @@ class RecordInfo {
 
   RecordInfo({
     required this.id,
+    required this.taskId,
     required String? date,
     required this.recordTime,
     required this.title,

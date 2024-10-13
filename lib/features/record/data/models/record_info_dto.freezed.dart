@@ -21,6 +21,7 @@ RecordInfoDTO _$RecordInfoDTOFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$RecordInfoDTO {
   String get id => throw _privateConstructorUsedError;
+  String get taskId => throw _privateConstructorUsedError;
   String get date => throw _privateConstructorUsedError;
   int get recordTime => throw _privateConstructorUsedError;
   String? get contents => throw _privateConstructorUsedError;
@@ -43,7 +44,12 @@ abstract class $RecordInfoDTOCopyWith<$Res> {
       _$RecordInfoDTOCopyWithImpl<$Res, RecordInfoDTO>;
   @useResult
   $Res call(
-      {String id, String date, int recordTime, String? contents, String title});
+      {String id,
+      String taskId,
+      String date,
+      int recordTime,
+      String? contents,
+      String title});
 }
 
 /// @nodoc
@@ -62,6 +68,7 @@ class _$RecordInfoDTOCopyWithImpl<$Res, $Val extends RecordInfoDTO>
   @override
   $Res call({
     Object? id = null,
+    Object? taskId = null,
     Object? date = null,
     Object? recordTime = null,
     Object? contents = freezed,
@@ -71,6 +78,10 @@ class _$RecordInfoDTOCopyWithImpl<$Res, $Val extends RecordInfoDTO>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      taskId: null == taskId
+          ? _value.taskId
+          : taskId // ignore: cast_nullable_to_non_nullable
               as String,
       date: null == date
           ? _value.date
@@ -101,7 +112,12 @@ abstract class _$$RecordInfoDTOImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String id, String date, int recordTime, String? contents, String title});
+      {String id,
+      String taskId,
+      String date,
+      int recordTime,
+      String? contents,
+      String title});
 }
 
 /// @nodoc
@@ -118,6 +134,7 @@ class __$$RecordInfoDTOImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
+    Object? taskId = null,
     Object? date = null,
     Object? recordTime = null,
     Object? contents = freezed,
@@ -127,6 +144,10 @@ class __$$RecordInfoDTOImplCopyWithImpl<$Res>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      taskId: null == taskId
+          ? _value.taskId
+          : taskId // ignore: cast_nullable_to_non_nullable
               as String,
       date: null == date
           ? _value.date
@@ -153,6 +174,7 @@ class __$$RecordInfoDTOImplCopyWithImpl<$Res>
 class _$RecordInfoDTOImpl implements _RecordInfoDTO {
   const _$RecordInfoDTOImpl(
       {required this.id,
+      required this.taskId,
       required this.date,
       required this.recordTime,
       this.contents,
@@ -164,6 +186,8 @@ class _$RecordInfoDTOImpl implements _RecordInfoDTO {
   @override
   final String id;
   @override
+  final String taskId;
+  @override
   final String date;
   @override
   final int recordTime;
@@ -174,7 +198,7 @@ class _$RecordInfoDTOImpl implements _RecordInfoDTO {
 
   @override
   String toString() {
-    return 'RecordInfoDTO(id: $id, date: $date, recordTime: $recordTime, contents: $contents, title: $title)';
+    return 'RecordInfoDTO(id: $id, taskId: $taskId, date: $date, recordTime: $recordTime, contents: $contents, title: $title)';
   }
 
   @override
@@ -183,6 +207,7 @@ class _$RecordInfoDTOImpl implements _RecordInfoDTO {
         (other.runtimeType == runtimeType &&
             other is _$RecordInfoDTOImpl &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.taskId, taskId) || other.taskId == taskId) &&
             (identical(other.date, date) || other.date == date) &&
             (identical(other.recordTime, recordTime) ||
                 other.recordTime == recordTime) &&
@@ -194,7 +219,7 @@ class _$RecordInfoDTOImpl implements _RecordInfoDTO {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, id, date, recordTime, contents, title);
+      Object.hash(runtimeType, id, taskId, date, recordTime, contents, title);
 
   /// Create a copy of RecordInfoDTO
   /// with the given fields replaced by the non-null parameter values.
@@ -215,6 +240,7 @@ class _$RecordInfoDTOImpl implements _RecordInfoDTO {
 abstract class _RecordInfoDTO implements RecordInfoDTO {
   const factory _RecordInfoDTO(
       {required final String id,
+      required final String taskId,
       required final String date,
       required final int recordTime,
       final String? contents,
@@ -225,6 +251,8 @@ abstract class _RecordInfoDTO implements RecordInfoDTO {
 
   @override
   String get id;
+  @override
+  String get taskId;
   @override
   String get date;
   @override

@@ -33,7 +33,7 @@ class RecordRemoteDataSource {
           .from('record')
           .select()
           .eq('date', dto.date)
-          .eq('id', dto.id)
+          .eq('task_id', dto.taskId)
           .maybeSingle();
 
       if (existingRecord != null) {
@@ -45,12 +45,13 @@ class RecordRemoteDataSource {
               'contents': dto.contents,
             })
             .eq('date', dto.date)
-            .eq('id', dto.id);
+            .eq('task_id', dto.taskId);
       } else {
         // 새 레코드 삽입
         await _supabase.from('record').insert({
           'date': dto.date,
           'id': dto.id,
+          'task_id': dto.taskId,
           'title': dto.title,
           'record_time': dto.recordTime,
           'contents': dto.contents

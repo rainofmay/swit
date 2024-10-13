@@ -15,58 +15,56 @@ class TaskList extends GetView<RecordViewModel> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Expanded(
-        child: Obx(
-          () => ListView.builder(
-            shrinkWrap: true,
-            itemCount: controller.tasks.length,
-            itemBuilder: (context, index) {
-              final task = controller.tasks[index];
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Card(
-                  elevation: 2,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(8),
-                    onTap: () => _showTaskOptions(context, task),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: task.color,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                                child: Text(task.title,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: FontBox.H5.copyWith(
-                                        color:
-                                            task.color.computeLuminance() >
-                                                    0.5
-                                                ? ColorBox.black
-                                                : ColorBox.white))),
-                            Obx(() => Text(
-                                controller.getFormattedTaskTime(task.id),
-                                style: FontBox.B2.copyWith(
-                                    color:
-                                        task.color.computeLuminance() > 0.5
-                                            ? ColorBox.black
-                                            : ColorBox.white)))
-                          ],
-                        ),
+      child: Obx(
+        () => ListView.builder(
+          shrinkWrap: true,
+          itemCount: controller.tasks.length,
+          itemBuilder: (context, index) {
+            final task = controller.tasks[index];
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Card(
+                elevation: 2,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(8),
+                  onTap: () => _showTaskOptions(context, task),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: task.color,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                              child: Text(task.title,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: FontBox.H5.copyWith(
+                                      color:
+                                          task.color.computeLuminance() >
+                                                  0.5
+                                              ? ColorBox.black
+                                              : ColorBox.white))),
+                          Obx(() => Text(
+                              controller.getFormattedTaskTime(task.id),
+                              style: FontBox.B2.copyWith(
+                                  color:
+                                      task.color.computeLuminance() > 0.5
+                                          ? ColorBox.black
+                                          : ColorBox.white)))
+                        ],
                       ),
                     ),
                   ),
                 ),
-              );
-            },
-          ),
+              ),
+            );
+          },
         ),
       ),
     );

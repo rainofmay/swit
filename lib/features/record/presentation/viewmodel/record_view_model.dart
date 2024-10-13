@@ -337,11 +337,10 @@ class RecordViewModel extends GetxController {
 
       _currentTaskTime.value = TimeFormatter.formatTime(totalTime);
 
-      _todayStudyTimes[taskId] = totalTime;
+      // 여기서는 _todayStudyTimes를 업데이트하지 않음
 
       update();
     });
-
   }
 
   Future<void> pauseTaskStopWatch() async {
@@ -362,7 +361,8 @@ class RecordViewModel extends GetxController {
         _taskStopwatches[taskId]!.reset();
 
         await createRecord();
-
+        await getRecords();  // 데이터 새로고침
+        _filterRecordsByDate(DateTime.now());  // 오늘 날짜로 필터링
         _recordingTask.value = null;
 
         print('Task paused. Total time: ${TimeFormatter.formatTime(updatedAccumulatedTime)}');
@@ -389,7 +389,7 @@ class RecordViewModel extends GetxController {
 
     _todayStudyTimes.clear();
     for (var record in _selectedDateRecords) {
-      _todayStudyTimes[record.id] = (_todayStudyTimes[record.id] ?? 0) + record.recordTime;
+      _todayStudyTimes[record.taskId] = (_todayStudyTimes[record.taskId] ?? 0) + record.recordTime;
     }
 
     update();
@@ -403,7 +403,8 @@ class RecordViewModel extends GetxController {
 
       final today = DateFormat('yyyy-MM-dd').format(DateTime.now());
       final recordTime = RecordInfo(
-        id: taskId,
+        id: const Uuid().v4(),
+        taskId: taskId,
         title: _recordingTask.value!.title,
         recordTime: studyTime,
         contents: '',
@@ -413,6 +414,7 @@ class RecordViewModel extends GetxController {
       try {
         await _createRecordUseCase.execute(recordTime);
         await getRecords();
+        _filterRecordsByDate(DateTime.now());  // 오늘 날짜로 필터링
         update();
         print('View model Record created successfully');
       } catch (e) {
