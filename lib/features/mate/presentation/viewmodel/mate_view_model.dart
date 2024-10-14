@@ -33,7 +33,7 @@ class MateViewModel extends GetxController {
   /* ------------------------------------------------------ */
   /* Tab Fields ------------------------------------------- */
   /* ------------------------------------------------------ */
-  late final RxInt _tabIndex = 0.obs;
+  final RxInt _tabIndex = 0.obs;
   int get tabIndex => _tabIndex.value;
 
   /* ------------------------------------------------------ */

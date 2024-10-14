@@ -15,9 +15,9 @@ class PostTabViewModel extends GetxController {
   String get postIt => _postIt.value;
 
   /* -- Calendar -- */
-  late final Rx<DateTime> _selectedDate = DateTime.now().obs;
+ final Rx<DateTime> _selectedDate = DateTime.now().obs;
   DateTime get selectedDate => _selectedDate.value;
-  late final Rx<DateTime> _focusedDate = DateTime.now().obs;
+ final Rx<DateTime> _focusedDate = DateTime.now().obs;
   DateTime get focusedDate => _focusedDate.value;
 
   final Rx<CalendarFormat> _calendarFormat = CalendarFormat.month.obs;

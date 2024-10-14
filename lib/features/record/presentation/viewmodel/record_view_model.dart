@@ -51,12 +51,12 @@ class RecordViewModel extends GetxController {
   /* ------------------------------------------------------ */
   /* Calendar Fields -------------------------------------- */
   /* ------------------------------------------------------ */
-  late final Rx<DateTime> _selectedDate;
+  final Rx<DateTime> _selectedDate = DateTime.now().obs;
   DateTime get selectedDate => _selectedDate.value;
-  late final Rx<DateTime> _focusedDate;
+  final Rx<DateTime> _focusedDate = DateTime.now().obs;
   DateTime get focusedDate => _focusedDate.value;
 
-  late final Rx<CalendarFormat> _calendarFormat = CalendarFormat.week.obs;
+  final Rx<CalendarFormat> _calendarFormat = CalendarFormat.week.obs;
   CalendarFormat get calendarFormat => _calendarFormat.value;
 
   final RxMap<String, int> _heatmapData = <String, int>{}.obs;
@@ -74,7 +74,7 @@ class RecordViewModel extends GetxController {
   late final Rx<TextEditingController> _taskTitleController = TextEditingController().obs;
   TextEditingController get taskTitleController => _taskTitleController.value;
 
-  late final RxBool _isFormValid = false.obs;
+  final RxBool _isFormValid = false.obs;
   bool get isFormValid => _isFormValid.value;
 
   // 디폴트 task 삭제 여부 확인 위함.
@@ -83,7 +83,7 @@ class RecordViewModel extends GetxController {
   /* ------------------------------------------------------ */
   /* StopWatch Fields ------------------------------------- */
   /* ------------------------------------------------------ */
-  late final RxBool _isRunning = false.obs;
+  final RxBool _isRunning = false.obs;
   bool get isRunning => _isRunning.value;
 
   Timer? _timer;
@@ -128,8 +128,6 @@ class RecordViewModel extends GetxController {
     _taskTitleController.value.addListener(() {
       checkFormValidity();
     });
-    _selectedDate = DateTime.now().obs;
-    _focusedDate = DateTime.now().obs;
     getRecords();
     updateHeatmapData();
   }

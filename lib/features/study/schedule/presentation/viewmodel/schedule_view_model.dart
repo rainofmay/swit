@@ -30,19 +30,17 @@ class ScheduleViewModel extends GetxController {
   /* Calendar --------------------------------------------- */
   /* ------------------------------------------------------ */
 
-  late final Rx<DateTime> _selectedDate = DateTime.now().obs;
+  final Rx<DateTime> _selectedDate = DateTime.now().obs;
   DateTime get selectedDate => _selectedDate.value;
-  late final Rx<DateTime> _focusedDate = DateTime.now().obs;
+  final Rx<DateTime> _focusedDate = DateTime.now().obs;
   DateTime get focusedDate => _focusedDate.value;
 
   final Rx<CalendarFormat> _calendarFormat = CalendarFormat.month.obs;
   CalendarFormat get calendarFormat => _calendarFormat.value;
-  final RxList<DateTime> _selectedDateRange = <DateTime>[].obs;
-  List<DateTime> get selectedDateRange => _selectedDateRange;
 
-  late final RxList<Schedule> _schedules = <Schedule>[].obs;
+ final RxList<Schedule> _schedules = <Schedule>[].obs;
   List<Schedule> get schedules => _schedules;
-  final RxList<Schedule> _selectedDateSchedules = <Schedule>[].obs;
+ final RxList<Schedule> _selectedDateSchedules = <Schedule>[].obs;
   List get selectedDateSchedules => _selectedDateSchedules;
 
 
@@ -59,7 +57,7 @@ class ScheduleViewModel extends GetxController {
   late final Rx<TextEditingController> _descriptionController = TextEditingController().obs;
   TextEditingController get descriptionController => _descriptionController.value;
 
-  late final RxBool _isFormValid = false.obs;
+  final RxBool _isFormValid = false.obs;
   bool get isFormValid => _isFormValid.value;
 
   @override
