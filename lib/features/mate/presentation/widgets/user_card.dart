@@ -8,12 +8,12 @@ import 'package:swit/shared/constant/font_box.dart';
 import 'package:swit/shared/widgets/custom_dialog.dart';
 import 'package:swit/shared/widgets/custom_gap.dart';
 
-class ProfileCard extends GetView<MateViewModel> {
+class UserCard extends GetView<MateViewModel> {
   final User user;
   final double? width;
   final double? height;
 
-  const ProfileCard(
+  const UserCard(
       {super.key, required this.user, this.width, this.height,});
 
   @override

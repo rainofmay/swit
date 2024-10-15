@@ -37,7 +37,7 @@ class MateScreen extends GetView<MateViewModel> {
               appBar: CustomAppBar(appbarTitle: '메이트', actions: [
                 IconButton(
                     onPressed: () {
-                      Get.toNamed(Routes.MATE + Routes.MATEADD);
+                      Get.toNamed(Routes.MATE + Routes.ADDMATE);
                     },
                     icon: Icon(Icons.person_add_alt_1))
               ]),

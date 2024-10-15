@@ -106,7 +106,7 @@ class TaskList extends GetView<RecordViewModel> {
               onPressed: () {
                 Get.back(); // 다이얼로그 닫기
                 controller.updateEditingTask(task);
-                Get.toNamed(Routes.RECORD + Routes.RECORDADD + Routes.EDITTASK);
+                Get.toNamed(Routes.RECORD + Routes.ADDRECORD + Routes.EDITTASK);
               },
             ),
             TextButton(

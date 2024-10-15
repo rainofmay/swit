@@ -7,11 +7,13 @@ import 'package:swit/core/di/record_binding.dart';
 import 'package:swit/core/di/schedule_binding.dart';
 import 'package:swit/core/di/setting_binding.dart';
 import 'package:swit/core/di/swit_setting_binding.dart';
+import 'package:swit/core/di/user_binding.dart';
 import 'package:swit/core/middleware/login_middleware.dart';
 import 'package:swit/features/home/presentations/view/home_screen.dart';
 import 'package:swit/features/mate/presentation/view/create_post_it_screen.dart';
 import 'package:swit/features/mate/presentation/view/mate_add_screen.dart';
 import 'package:swit/features/mate/presentation/view/mate_screen.dart';
+import 'package:swit/features/user/presentation/view/profile_edit_screen.dart';
 import 'package:swit/features/more/presentation/view/more.screen.dart';
 import 'package:swit/features/more/presentation/view/user_info_screen.dart';
 import 'package:swit/features/record/presentation/view/add_record_screen.dart';
@@ -43,7 +45,7 @@ class AppPages {
       children: [
         GetPage(
           name: Routes.STUDY,
-          page: () => StudyScreen(),
+          page: () => const StudyScreen(),
           middlewares: [LoginMiddleware()], // 미들웨어 테스트
           children: [
             GetPage(
@@ -90,15 +92,21 @@ class AppPages {
         binding: MateBinding(),
         children: [
           GetPage(
+            name: Routes.ADDMATE,
+            page: () => const MateAddScreen(),
+            middlewares: [LoginMiddleware()],
+          ),
+          GetPage(
+            name: Routes.EDITPROFILE,
+            page: () => ProfileEditScreen(),
+            binding: UserBinding(),
+            middlewares: [LoginMiddleware()],
+          ),
+          GetPage(
             name: Routes.CREATEPOSTIT,
             page: () => const CreatePostItScreen(),
             middlewares: [LoginMiddleware()],
           ),
-          GetPage(
-              name: Routes.MATEADD,
-              page: () => const MateAddScreen(),
-              middlewares: [LoginMiddleware()],
-          )
         ]),
     GetPage(
         name: Routes.RECORD,
@@ -106,7 +114,7 @@ class AppPages {
         binding: RecordBinding(),
         children: [
           GetPage(
-            name: Routes.RECORDADD,
+            name: Routes.ADDRECORD,
             page: () => const AddRecordScreen(),
             middlewares: [LoginMiddleware()],
             binding: RecordBinding(),
@@ -145,7 +153,7 @@ class AppPages {
         ]),
     GetPage(
       name: Routes.LOGIN,
-      page: () => LoginScreen(),
+      page: () => const LoginScreen(),
       binding: LoginBinding(),
     ),
   ];

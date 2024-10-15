@@ -31,7 +31,7 @@ class AddRecordScreen extends GetView<RecordViewModel> {
           TextButton(
               onPressed: () {
                 controller.resetTaskForm();
-                Get.toNamed(Routes.RECORD + Routes.RECORDADD + Routes.ADDTASK);
+                Get.toNamed(Routes.RECORD + Routes.ADDRECORD + Routes.ADDTASK);
               },
               style: TextButton.styleFrom(
                 foregroundColor: ColorBox.white, // 텍스트 색상

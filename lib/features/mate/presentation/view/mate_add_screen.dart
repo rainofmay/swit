@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:swit/features/mate/presentation/viewmodel/mate_view_model.dart';
-import 'package:swit/features/mate/presentation/widgets/profile_card.dart';
+import 'package:swit/features/mate/presentation/widgets/user_card.dart';
 import 'package:swit/shared/constant/color_box.dart';
 import 'package:swit/shared/widgets/custom_back_appbar.dart';
 import 'package:swit/shared/widgets/custom_gap.dart';
@@ -70,7 +70,7 @@ class MateAddScreen extends GetView<MateViewModel> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Expanded(
-                                child: ProfileCard(
+                                child: UserCard(
                                     user: controller.searchedMate!)),
 
                             // 내가 아닌 다른 사람일 경우에만 follow 버튼 보이기

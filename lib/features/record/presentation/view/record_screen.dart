@@ -80,7 +80,7 @@ class RecordScreen extends GetView<RecordViewModel> {
       return FloatingActionButton.small(
         backgroundColor: ColorBox.white,
         onPressed: () {
-          Get.toNamed(Routes.RECORD + Routes.RECORDADD);
+          Get.toNamed(Routes.RECORD + Routes.ADDRECORD);
         },
         child: SvgPicture.asset(
           'assets/icons/log_black.svg',

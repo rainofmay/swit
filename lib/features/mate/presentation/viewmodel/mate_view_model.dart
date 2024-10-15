@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:swit/app/enums/online_status.dart';
@@ -7,7 +8,6 @@ import 'package:swit/features/mate/domain/usecases/get_user_profile_use_case.dar
 import 'package:swit/features/mate/domain/usecases/search_mate_use_case.dart';
 import 'package:swit/features/mate/domain/usecases/unfollow_mate_use_case.dart';
 import 'package:swit/features/user/domain/entities/user.dart';
-import 'package:table_calendar/table_calendar.dart';
 
 class MateViewModel extends GetxController {
   final GetUserProfileUseCase _getUserProfileUseCase;
@@ -52,6 +52,9 @@ class MateViewModel extends GetxController {
   OnlineStatus get onlineStatus =>
       _user.value?.onlineStatus ?? OnlineStatus.offline;
 
+
+  late final Rx<String?> _tempProfileUrl = Rx<String?>(null);
+  String? get tempProfileUrl => _tempProfileUrl.value;
   /* ------------------------------------------------------ */
   /* Mate Fields ------------------------------------------ */
   /* ------------------------------------------------------ */
@@ -106,32 +109,6 @@ class MateViewModel extends GetxController {
     _user.value = userProfile;
   }
 
-  // 프로필 업데이트 메서드 (필요시 구현)
-  Future<void> updateProfile(
-      {String? newUsername, String? newEmail, String? newProfileUrl, String? newIntroduction}) async {
-    if (_user.value == null) return;
-
-    try {
-      // 여기에 실제 프로필 업데이트 로직 구현
-      // 예: API 호출 또는 로컬 데이터베이스 업데이트
-      final updatedUser = User(
-        uid: _user.value!.uid,
-        username: newUsername ?? _user.value!.username,
-        email: newEmail ?? _user.value!.email,
-        profileUrl: newProfileUrl ?? _user.value!.profileUrl,
-        introduction: newIntroduction ?? _user.value!.introduction,
-        onlineStatus: _user.value!.onlineStatus,
-      );
-
-      // 실제로는 여기서 백엔드 API를 호출하여 업데이트를 수행해야 함
-      // 예: await _userRepository.updateUser(updatedUser);
-
-      _user.value = updatedUser;
-    } catch (e) {
-      print('Error updating profile: $e');
-      // 에러 처리 로직
-    }
-  }
 
   /* ------------------------------------------------------ */
   /* Mate Functions --------------------------------------- */

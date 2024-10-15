@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:swit/core/utils/user/login_service.dart';
 
@@ -14,7 +16,9 @@ class MateRemoteDataSource {
   final LoginService loginService = LoginService();
 
 
-  /* -- Get -- */
+/* ------------------------------------------------------ */
+/* Get Fields ------------------------------------------- */
+/* ------------------------------------------------------ */
 
   // 메이트 찾기
   Future<List<Map<String, dynamic>>> searchMate(String email) async {
@@ -62,7 +66,9 @@ class MateRemoteDataSource {
     }
   }
 
-  /* -- Post -- */
+  /* ------------------------------------------------------ */
+  /* Create Fields ---------------------------------------- */
+  /* ------------------------------------------------------ */
 
   // 메이트 팔로우 하기
   Future<void> followMate(String followedUid, String message) async {
@@ -79,7 +85,9 @@ class MateRemoteDataSource {
   }
 
 
-  /* -- Delete -- */
+  /* ------------------------------------------------------ */
+  /* Delete Fields ---------------------------------------- */
+  /* ------------------------------------------------------ */
 
   // 메이트 언팔로우 하기
   Future<void> unfollowMate(String followedUid) async {

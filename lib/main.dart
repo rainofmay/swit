@@ -51,9 +51,7 @@ class MyApp extends StatelessWidget {
 
       debugShowCheckedModeBanner: false,
       initialBinding: BindingsBuilder(() async {
-        Get.put(BgSettingViewModel());
         Get.put(HomeViewModel());
-        // Get.put(LoginService());
         }),
 
       initialRoute: AppPages.INITIAL,
