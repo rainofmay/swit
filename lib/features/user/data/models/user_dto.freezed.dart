@@ -23,6 +23,7 @@ mixin _$UserDTO {
   String get uid => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   String get username => throw _privateConstructorUsedError;
+  String? get introduction => throw _privateConstructorUsedError;
   @JsonKey(name: 'profile_url')
   String get profileUrl => throw _privateConstructorUsedError;
 
@@ -44,6 +45,7 @@ abstract class $UserDTOCopyWith<$Res> {
       {String uid,
       String email,
       String username,
+      String? introduction,
       @JsonKey(name: 'profile_url') String profileUrl});
 }
 
@@ -65,6 +67,7 @@ class _$UserDTOCopyWithImpl<$Res, $Val extends UserDTO>
     Object? uid = null,
     Object? email = null,
     Object? username = null,
+    Object? introduction = freezed,
     Object? profileUrl = null,
   }) {
     return _then(_value.copyWith(
@@ -80,6 +83,10 @@ class _$UserDTOCopyWithImpl<$Res, $Val extends UserDTO>
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
               as String,
+      introduction: freezed == introduction
+          ? _value.introduction
+          : introduction // ignore: cast_nullable_to_non_nullable
+              as String?,
       profileUrl: null == profileUrl
           ? _value.profileUrl
           : profileUrl // ignore: cast_nullable_to_non_nullable
@@ -99,6 +106,7 @@ abstract class _$$UserDTOImplCopyWith<$Res> implements $UserDTOCopyWith<$Res> {
       {String uid,
       String email,
       String username,
+      String? introduction,
       @JsonKey(name: 'profile_url') String profileUrl});
 }
 
@@ -118,6 +126,7 @@ class __$$UserDTOImplCopyWithImpl<$Res>
     Object? uid = null,
     Object? email = null,
     Object? username = null,
+    Object? introduction = freezed,
     Object? profileUrl = null,
   }) {
     return _then(_$UserDTOImpl(
@@ -133,6 +142,10 @@ class __$$UserDTOImplCopyWithImpl<$Res>
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
               as String,
+      introduction: freezed == introduction
+          ? _value.introduction
+          : introduction // ignore: cast_nullable_to_non_nullable
+              as String?,
       profileUrl: null == profileUrl
           ? _value.profileUrl
           : profileUrl // ignore: cast_nullable_to_non_nullable
@@ -148,6 +161,7 @@ class _$UserDTOImpl implements _UserDTO {
       {required this.uid,
       required this.email,
       required this.username,
+      this.introduction,
       @JsonKey(name: 'profile_url') required this.profileUrl});
 
   factory _$UserDTOImpl.fromJson(Map<String, dynamic> json) =>
@@ -160,12 +174,14 @@ class _$UserDTOImpl implements _UserDTO {
   @override
   final String username;
   @override
+  final String? introduction;
+  @override
   @JsonKey(name: 'profile_url')
   final String profileUrl;
 
   @override
   String toString() {
-    return 'UserDTO(uid: $uid, email: $email, username: $username, profileUrl: $profileUrl)';
+    return 'UserDTO(uid: $uid, email: $email, username: $username, introduction: $introduction, profileUrl: $profileUrl)';
   }
 
   @override
@@ -177,6 +193,8 @@ class _$UserDTOImpl implements _UserDTO {
             (identical(other.email, email) || other.email == email) &&
             (identical(other.username, username) ||
                 other.username == username) &&
+            (identical(other.introduction, introduction) ||
+                other.introduction == introduction) &&
             (identical(other.profileUrl, profileUrl) ||
                 other.profileUrl == profileUrl));
   }
@@ -184,7 +202,7 @@ class _$UserDTOImpl implements _UserDTO {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, uid, email, username, profileUrl);
+      Object.hash(runtimeType, uid, email, username, introduction, profileUrl);
 
   /// Create a copy of UserDTO
   /// with the given fields replaced by the non-null parameter values.
@@ -207,6 +225,7 @@ abstract class _UserDTO implements UserDTO {
           {required final String uid,
           required final String email,
           required final String username,
+          final String? introduction,
           @JsonKey(name: 'profile_url') required final String profileUrl}) =
       _$UserDTOImpl;
 
@@ -218,6 +237,8 @@ abstract class _UserDTO implements UserDTO {
   String get email;
   @override
   String get username;
+  @override
+  String? get introduction;
   @override
   @JsonKey(name: 'profile_url')
   String get profileUrl;

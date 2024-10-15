@@ -8,10 +8,7 @@ import 'package:swit/shared/widgets/custom_gap.dart';
 import 'package:swit/shared/widgets/custom_scaffold.dart';
 
 class ProfileEditScreen extends GetView<UserViewModel> {
-  ProfileEditScreen({super.key}) {
-    _usernameController.text = controller.user?.username ?? '';
-    _introductionController.text = controller.user?.introduction ?? '';
-  }
+  ProfileEditScreen({Key? key}) : super(key: key);
 
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _introductionController = TextEditingController();
@@ -25,38 +22,48 @@ class ProfileEditScreen extends GetView<UserViewModel> {
         isCenterTitle: true,
         actions: [
           TextButton(
-            onPressed: _saveProfile,
+            onPressed: () async {
+              Get.back();
+              await _saveProfile();
+            },
             child: const Text('저장'),
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              const CustomGap(16),
-              ProfileImg(
-                onTap: _showImageSourceDialog,
-                width: 90,
-                height: 90,
-              ),
-              const CustomGap(16),
-              TextField(
-                controller: _usernameController,
-                decoration: const InputDecoration(labelText: '사용자 이름'),
-              ),
-              const CustomGap(16),
-              TextField(
-                controller: _introductionController,
-                decoration: const InputDecoration(labelText: '소개'),
-                maxLines: 3,
-              ),
-              const CustomGap(16),
-            ],
+      body: Obx(() {
+        _usernameController.text = controller.username;
+        _introductionController.text = controller.introduction;
+
+        return controller.isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                const CustomGap(16),
+                ProfileImg(
+                  onTap: _showImageSourceDialog,
+                  width: 90,
+                  height: 90,
+                ),
+                const CustomGap(16),
+                TextField(
+                  controller: _usernameController,
+                  decoration: const InputDecoration(labelText: '사용자 이름'),
+                ),
+                const CustomGap(16),
+                TextField(
+                  controller: _introductionController,
+                  decoration: const InputDecoration(labelText: '소개'),
+                  maxLines: 3,
+                ),
+                const CustomGap(16),
+              ],
+            ),
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 
@@ -94,20 +101,24 @@ class ProfileEditScreen extends GetView<UserViewModel> {
     final XFile? image = await picker.pickImage(source: source);
 
     if (image != null) {
-      try {
-        await controller.updateMyProfile(profileUrl: image.path);
-        Get.snackbar('성공', '프로필 이미지가 업데이트되었습니다.');
-      } catch (e) {
-        Get.snackbar('오류', '이미지 업로드에 실패했습니다.');
-      }
+      await controller.updateMyProfile(profileUrl: image.path);
     }
   }
 
   Future<void> _saveProfile() async {
-    await controller.updateMyProfile(
-      username: _usernameController.text,
-      introduction: _introductionController.text,
-    );
-    Get.back();
+    try {
+      final success = await controller.updateMyProfile(
+        username: _usernameController.text,
+        introduction: _introductionController.text,
+      );
+      if (success) {
+         await controller.loadMyProfile();
+
+      } else {
+        Get.snackbar('오류', '프로필 업데이트에 실패했습니다.');
+      }
+    } catch (e) {
+      Get.snackbar('오류', '프로필 업데이트 중 오류가 발생했습니다: $e');
+    }
   }
 }

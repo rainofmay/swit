@@ -8,6 +8,7 @@ class UserMapper {
         uid: user.uid,
         email: user.email,
         username: user.username,
+        introduction: user.introduction,
         profileUrl: user.profileUrl
     );
   }
@@ -16,6 +17,7 @@ class UserMapper {
     return User(
       uid: dto.uid,
       username: dto.username,
+      introduction: dto.introduction,
       email: dto.email,
       profileUrl: dto.profileUrl,
       onlineStatus: OnlineStatus.offline,

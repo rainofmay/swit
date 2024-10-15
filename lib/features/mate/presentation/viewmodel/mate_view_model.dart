@@ -40,21 +40,10 @@ class MateViewModel extends GetxController {
   /* Profile Fields --------------------------------------- */
   /* ------------------------------------------------------ */
 
-  // 사용자 본인
   final Rx<User?> _user = Rx<User?>(null);
   User? get user => _user.value;
-  // 파생된 옵저버블 속성들
-  String get email => _user.value?.email ?? '';
-  String get uid => _user.value?.uid ?? '';
-  String get username => _user.value?.username ?? '';
-  String get profileUrl => _user.value?.profileUrl ?? '';
-  String get introduction => _user.value?.introduction ?? '';
-  OnlineStatus get onlineStatus =>
-      _user.value?.onlineStatus ?? OnlineStatus.offline;
 
 
-  late final Rx<String?> _tempProfileUrl = Rx<String?>(null);
-  String? get tempProfileUrl => _tempProfileUrl.value;
   /* ------------------------------------------------------ */
   /* Mate Fields ------------------------------------------ */
   /* ------------------------------------------------------ */

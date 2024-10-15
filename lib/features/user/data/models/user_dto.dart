@@ -9,6 +9,7 @@ class UserDTO with _$UserDTO {
     required String uid,
     required String email,
     required String username,
+    String? introduction,
     @JsonKey(name: 'profile_url') required String profileUrl,
   }) = _UserDTO;
 

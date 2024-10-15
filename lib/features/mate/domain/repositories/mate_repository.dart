@@ -2,7 +2,7 @@ import 'package:swit/features/user/data/models/user_dto.dart';
 import 'package:swit/features/user/domain/entities/user.dart';
 
 abstract class MateRepository {
-  Future fetchUserProfile();
+  Future<User> fetchUserProfile();
 
   Future<List<User>> searchMate(String email);
 

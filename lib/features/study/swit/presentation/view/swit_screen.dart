@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:swit/core/router/app_pages.dart';
+import 'package:swit/features/mate/presentation/widgets/profile_img.dart';
 import 'package:swit/features/study/schedule/presentation/widgets/calendar.dart';
 import 'package:swit/shared/constant/color_box.dart';
 import 'package:swit/shared/constant/font_box.dart';
@@ -9,7 +10,6 @@ import 'package:swit/shared/widgets/action_icon_button.dart';
 import 'package:swit/shared/widgets/custom_back_appbar.dart';
 import 'package:swit/shared/widgets/custom_gap.dart';
 import 'package:swit/shared/widgets/custom_scaffold.dart';
-import 'package:swit/shared/widgets/profile_img.dart';
 import 'package:swit/shared/widgets/tap_row.dart';
 
 class SwitScreen extends StatelessWidget {
@@ -62,7 +62,7 @@ class SwitScreen extends StatelessWidget {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    ProfileImg(width: 60, height: 60),
+                    ProfileImg(width: 50, height: 50, onTap: null,),
                     const CustomGap(8),
                     Text('User ID', style: FontBox.B3)
                   ],

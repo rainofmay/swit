@@ -16,6 +16,14 @@ class UserRemoteDataSource {
   final supabase = Supabase.instance.client;
 
   /* ------------------------------------------------------ */
+  /* Get Fields ------------------------------------------- */
+  /* ------------------------------------------------------ */
+  Future<Map<String, dynamic>> fetchUserById(String userId) async {
+    final response = await supabase.from('users').select().eq('uid', userId).single();
+    return response;
+  }
+
+  /* ------------------------------------------------------ */
   /* Update Fields ---------------------------------------- */
   /* ------------------------------------------------------ */
   Future<void> updateMyProfile(
@@ -42,17 +50,14 @@ class UserRemoteDataSource {
 
 
       // 사용자 정보 업데이트
-      final response =
-          await supabase.from('users').update(updates).eq('uid', userId);
+      await supabase.from('users').update(updates).eq('uid', userId);
 
-      if (response.error != null) {
-        throw response.error!;
-      }
     } catch (e) {
-      print('Error updating profile: $e');
+      print('User Remote DataSource Error updating profile: $e');
       rethrow;
     }
   }
+
   Future<String> _uploadProfileImage(File imageFile) async {
     try {
       final String fileName = '${Uuid().v4()}${path.extension(imageFile.path)}';
@@ -67,7 +72,7 @@ class UserRemoteDataSource {
       // 업로드된 이미지의 공개 URL 반환
       return supabase.storage.from('profile_images').getPublicUrl(storagePath);
     } catch (e) {
-      print('Error uploading profile image: $e');
+      print('User Remote DataSource Error uploading profile image: $e');
       rethrow;
     }
   }
