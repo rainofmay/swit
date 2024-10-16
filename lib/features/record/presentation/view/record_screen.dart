@@ -24,6 +24,7 @@ class RecordScreen extends GetView<RecordViewModel> {
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
           child: Column(
             children: [
+              // 캘린더 히트맵
               GestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onVerticalDragUpdate: (details) {
@@ -39,6 +40,8 @@ class RecordScreen extends GetView<RecordViewModel> {
                     child: const RecordCalendar()),
               ),
               const CustomGap(32),
+
+              // 공부 일지
               Expanded(
                 child: Obx(() => ListView.builder(
                   shrinkWrap: true,

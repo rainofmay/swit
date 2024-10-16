@@ -10,7 +10,8 @@ class ProfileImg extends GetView<UserViewModel> {
   final void Function()? onTap;
   final double? width;
   final double? height;
-  const ProfileImg({super.key, required this.onTap, this.width, this.height});
+  final Widget? stackIcon;
+  const ProfileImg({super.key, required this.onTap, this.width, this.height, this.stackIcon});
 
   @override
   Widget build(BuildContext context) {
@@ -48,8 +49,7 @@ class ProfileImg extends GetView<UserViewModel> {
               color: ColorBox.dark,
               shape: BoxShape.circle,
             ),
-            child: Icon(Icons.edit_rounded,
-                size: 12, color: ColorBox.primaryColor),
+            child: stackIcon,
           ),
         ),
       ]),

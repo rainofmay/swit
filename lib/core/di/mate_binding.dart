@@ -4,6 +4,7 @@ import 'package:swit/features/mate/data/datasources/mate_remote_data_source.dart
 import 'package:swit/features/mate/data/repsoitories/mate_repository_impl.dart';
 import 'package:swit/features/mate/domain/repositories/mate_repository.dart';
 import 'package:swit/features/mate/domain/usecases/follow_mate_use_case.dart';
+import 'package:swit/features/mate/domain/usecases/get_follower_list_use_case.dart';
 import 'package:swit/features/mate/domain/usecases/get_following_list_use_case.dart';
 import 'package:swit/features/mate/domain/usecases/get_user_profile_use_case.dart';
 import 'package:swit/features/mate/domain/usecases/search_mate_use_case.dart';
@@ -33,6 +34,8 @@ class MateBinding extends Bindings {
             () => SearchMateUseCase(Get.find<MateRepository>()));
     Get.lazyPut<GetFollowingListUseCase>(
             () => GetFollowingListUseCase(Get.find<MateRepository>()));
+    Get.lazyPut<GetFollowerListUseCase>(
+            () => GetFollowerListUseCase(Get.find<MateRepository>()));
     Get.lazyPut<FollowMateUseCase>(
             () => FollowMateUseCase(Get.find<MateRepository>()));
     Get.lazyPut<UnfollowMateUseCase>(
@@ -43,6 +46,7 @@ class MateBinding extends Bindings {
         getUserProfileUseCase: Get.find<GetUserProfileUseCase>(),
         searchMateUseCase: Get.find<SearchMateUseCase>(),
         getFollowingListUseCase: Get.find<GetFollowingListUseCase>(),
+        getFollowerListUseCase: Get.find<GetFollowerListUseCase>(),
         followMateUseCase: Get.find<FollowMateUseCase>(),
         unfollowMateUseCase: Get.find<UnfollowMateUseCase>(),
     ));
@@ -59,6 +63,7 @@ class MateBinding extends Bindings {
     Get.delete<GetUserProfileUseCase>();
     Get.delete<SearchMateUseCase>();
     Get.delete<GetFollowingListUseCase>();
+    Get.delete<GetFollowerListUseCase>();
     Get.delete<FollowMateUseCase>();
     Get.delete<UnfollowMateUseCase>();
 

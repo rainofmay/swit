@@ -35,7 +35,7 @@ class MateRemoteDataSource {
     }
   }
 
-  // 나를 팔로잉 하는 사람
+  // 내가 팔로우 하는 사람 목록
   Future<List<Map<String, dynamic>>> getFollowingList(String userId) async {
     try {
       final response = await supabase
@@ -51,17 +51,18 @@ class MateRemoteDataSource {
     }
   }
 
+  // 나를 팔로우 하는 사람 목록
   Future<List<Map<String, dynamic>>> getFollowersList(String userId) async {
     try {
       final response = await supabase
           .from('follows')
-          .select('follower_id, users!inner(*)')
+          .select('follower_id, users!follows_follower_id_fkey(*)')
           .eq('followed_id', userId)
           .order('created_at', ascending: false);
 
       return response;
     } catch (e) {
-      print('Error fetching followers list: $e');
+      print('Mate Remote Error fetching follower list: $e');
       return [];
     }
   }

@@ -11,4 +11,6 @@ abstract class MateRepository {
   Future<void> unfollowMate(String unfollowedId);
 
   Future<List<User>> fetchFollowingList();
+
+  Future<List<User>> fetchFollowerList();
 }

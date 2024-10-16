@@ -80,8 +80,7 @@ class RecordCalendar extends GetView<RecordViewModel> {
                   decoration: BoxDecoration(
                       color: color,
                       borderRadius: BorderRadius.circular(6.0),
-                      border:
-                          Border.all(color: ColorBox.primaryColor, width: 2)),
+                      border: Border.all(color: ColorBox.primaryColor, width: 1)),
                   child: Center(
                       child: Text('${date.day}',
                           style: FontBox.B3.copyWith(

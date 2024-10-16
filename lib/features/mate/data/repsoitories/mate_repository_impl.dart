@@ -94,6 +94,20 @@ class MateRepositoryImpl implements MateRepository {
     }
   }
 
+  @override
+  Future<List<User>> fetchFollowerList() async {
+    try {
+      final userId = await _loginService.getMyId();
+      final response = await _mateRemoteDataSource.getFollowersList(userId!);
+
+      return response.map((userData) {
+        return UserMapper.toEntity(UserDTO.fromJson(userData['users']));
+      }).toList();
+    } catch (e) {
+      print('RepositoryImpl Error fetching follower list: $e');
+      return [];
+    }
+  }
 
   /* 친구 승인 시 Notification */
   // Future<void> mateAcceptNotification(String requestId) async {

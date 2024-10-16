@@ -43,6 +43,7 @@ abstract class FontBox {
     color: Colors.black,
   );
 
+  //Contents style
   static const TextStyle B1 = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.normal,

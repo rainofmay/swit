@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:swit/features/mate/presentation/widgets/profile_img.dart';
+import 'package:swit/shared/constant/color_box.dart';
+import 'package:swit/shared/constant/font_box.dart';
+import 'package:swit/shared/widgets/custom_text_form_field.dart';
+import 'package:swit/shared/widgets/profile_img.dart';
 import 'package:swit/features/user/presentation/viewmodel/user_view_model.dart';
 import 'package:swit/shared/widgets/custom_back_appbar.dart';
 import 'package:swit/shared/widgets/custom_gap.dart';
 import 'package:swit/shared/widgets/custom_scaffold.dart';
 
 class ProfileEditScreen extends GetView<UserViewModel> {
-  ProfileEditScreen({Key? key}) : super(key: key);
+  ProfileEditScreen({super.key});
 
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _introductionController = TextEditingController();
@@ -38,7 +41,7 @@ class ProfileEditScreen extends GetView<UserViewModel> {
             ? const Center(child: CircularProgressIndicator())
             : SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(32.0),
             child: Column(
               children: [
                 const CustomGap(16),
@@ -46,24 +49,46 @@ class ProfileEditScreen extends GetView<UserViewModel> {
                   onTap: _showImageSourceDialog,
                   width: 90,
                   height: 90,
-                ),
-                const CustomGap(16),
-                TextField(
-                  controller: _usernameController,
-                  decoration: const InputDecoration(labelText: '사용자 이름'),
-                ),
-                const CustomGap(16),
-                TextField(
-                  controller: _introductionController,
-                  decoration: const InputDecoration(labelText: '소개'),
-                  maxLines: 3,
-                ),
+                  stackIcon: Icon(Icons.camera_enhance_rounded,
+                    size: 18, color: ColorBox.grey,
+                )),
+                const CustomGap(32),
+                _buildLabeledTextField('이 름', _usernameController, maxLength: 10),
+                const CustomGap(40),
+                _buildLabeledTextField('소 개', _introductionController, maxLength: 15),
                 const CustomGap(16),
               ],
             ),
           ),
         );
       }),
+    );
+  }
+
+  Widget _buildLabeledTextField(String label, TextEditingController controller, {int maxLength = 10}) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        SizedBox(
+          width: 60, // 레이블의 고정 너비
+          child: Text(label, style: FontBox.B1),
+        ),
+        Expanded(
+          child: CustomTextFormField(
+            controller: controller,
+            maxLength: maxLength,
+            isReadOnly: false,
+            isEnabled: true,
+            inputBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: ColorBox.grey.withOpacity(0.5)),
+            ),
+            textStyle: FontBox.B1,
+            onChanged: (value) {
+              // 필요한 경우 여기에 onChanged 로직
+            },
+          ),
+        ),
+      ],
     );
   }
 

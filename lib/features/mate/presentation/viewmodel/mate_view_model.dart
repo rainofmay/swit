@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:swit/app/enums/online_status.dart';
 import 'package:swit/features/mate/domain/usecases/follow_mate_use_case.dart';
+import 'package:swit/features/mate/domain/usecases/get_follower_list_use_case.dart';
 import 'package:swit/features/mate/domain/usecases/get_following_list_use_case.dart';
 import 'package:swit/features/mate/domain/usecases/get_user_profile_use_case.dart';
 import 'package:swit/features/mate/domain/usecases/search_mate_use_case.dart';
@@ -14,27 +15,25 @@ class MateViewModel extends GetxController {
   final SearchMateUseCase _searchMateUseCase;
   final FollowMateUseCase _followMateUseCase;
   final GetFollowingListUseCase _getFollowingListUseCase;
+  final GetFollowerListUseCase _getFollowerListUseCase;
   final UnfollowMateUseCase _unfollowMateUseCase;
 
   MateViewModel(
       {required GetUserProfileUseCase getUserProfileUseCase,
-      required SearchMateUseCase searchMateUseCase,
-      required GetFollowingListUseCase getFollowingListUseCase,
-      required FollowMateUseCase followMateUseCase,
-      required UnfollowMateUseCase unfollowMateUseCase,
+        required SearchMateUseCase searchMateUseCase,
+        required FollowMateUseCase followMateUseCase,
+        required GetFollowingListUseCase getFollowingListUseCase,
+        required GetFollowerListUseCase getFollowerListUseCase,
+        required UnfollowMateUseCase unfollowMateUseCase,
       })
       : _getUserProfileUseCase = getUserProfileUseCase,
         _searchMateUseCase = searchMateUseCase,
-        _getFollowingListUseCase = getFollowingListUseCase,
         _followMateUseCase = followMateUseCase,
+        _getFollowingListUseCase = getFollowingListUseCase,
+        _getFollowerListUseCase = getFollowerListUseCase,
         _unfollowMateUseCase = unfollowMateUseCase
   ;
 
-  /* ------------------------------------------------------ */
-  /* Tab Fields ------------------------------------------- */
-  /* ------------------------------------------------------ */
-  final RxInt _tabIndex = 0.obs;
-  int get tabIndex => _tabIndex.value;
 
   /* ------------------------------------------------------ */
   /* Profile Fields --------------------------------------- */
@@ -65,6 +64,10 @@ class MateViewModel extends GetxController {
   late final RxList<User> _followingList = <User>[].obs;
   List<User> get followingList => _followingList;
 
+  // 나를 팔로우 하는 메이트 리스트
+  late final RxList<User> _followerList = <User>[].obs;
+  List<User> get followerList => _followerList;
+
 
 
   @override
@@ -72,6 +75,7 @@ class MateViewModel extends GetxController {
     super.onInit();
     loadUserProfile();
     getFollowingList();
+    getFollowerList();
   }
 
   @override
@@ -79,13 +83,6 @@ class MateViewModel extends GetxController {
     _searchController.value.clear();
     _searchController.value.dispose();
     super.onClose();
-  }
-
-  /* ------------------------------------------------------ */
-  /* Tap Functions----------------------------------------- */
-  /* ------------------------------------------------------ */
-  void updateTapIndex(int newIndex) {
-    _tabIndex.value = newIndex;
   }
 
   /* ------------------------------------------------------ */
@@ -131,6 +128,16 @@ class MateViewModel extends GetxController {
       update();
     } catch (e) {
       print('Mate ViewModel Error get following list: $e');
+    }
+  }
+
+  Future<void> getFollowerList() async {
+    try {
+      final followers = await _getFollowerListUseCase.execute();
+      _followingList.value = followers;
+      update();
+    } catch (e) {
+      print('Mate ViewModel Error get follower list: $e');
     }
   }
 
