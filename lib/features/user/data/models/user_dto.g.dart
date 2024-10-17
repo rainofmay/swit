@@ -11,6 +11,8 @@ _$UserDTOImpl _$$UserDTOImplFromJson(Map<String, dynamic> json) =>
       uid: json['uid'] as String,
       email: json['email'] as String,
       username: json['username'] as String,
+      followerCount: (json['follower_count'] as num?)?.toInt(),
+      followingCount: (json['following_count'] as num?)?.toInt(),
       introduction: json['introduction'] as String?,
       profileUrl: json['profile_url'] as String,
     );
@@ -20,6 +22,8 @@ Map<String, dynamic> _$$UserDTOImplToJson(_$UserDTOImpl instance) =>
       'uid': instance.uid,
       'email': instance.email,
       'username': instance.username,
+      'follower_count': instance.followerCount,
+      'following_count': instance.followingCount,
       'introduction': instance.introduction,
       'profile_url': instance.profileUrl,
     };

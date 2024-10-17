@@ -19,8 +19,16 @@ class UserRemoteDataSource {
   /* Get Fields ------------------------------------------- */
   /* ------------------------------------------------------ */
   Future<Map<String, dynamic>> fetchUserById(String userId) async {
-    final response = await supabase.from('users').select().eq('uid', userId).single();
-    return response;
+    try {
+      final response = await supabase.from('users').select().eq('uid', userId).single();
+      if (response == null) {
+        throw Exception('User not found');
+      }
+      return response;
+    } catch (e) {
+      print('Error fetching user: $e');
+      rethrow;
+    }
   }
 
   /* ------------------------------------------------------ */

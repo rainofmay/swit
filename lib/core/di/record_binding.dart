@@ -19,37 +19,35 @@ class RecordBinding extends Bindings {
   @override
   void dependencies() {
     /* -- DataSource -- */
-    Get.lazyPut<TaskRemoteDataSource>(() => TaskRemoteDataSource());
-    Get.lazyPut<RecordRemoteDataSource>(() => RecordRemoteDataSource());
-
+    Get.put(TaskRemoteDataSource());
+    Get.put(RecordRemoteDataSource());
 
     /* -- Repository -- */
-    Get.lazyPut<TaskRepository>(() => TaskRepositoryImpl(Get.find<TaskRemoteDataSource>()));
-    Get.lazyPut<RecordRepository>(() => RecordRepositoryImpl(Get.find<RecordRemoteDataSource>()));
+    Get.put<TaskRepository>(TaskRepositoryImpl(Get.find<TaskRemoteDataSource>()));
+    Get.put<RecordRepository>(RecordRepositoryImpl(Get.find<RecordRemoteDataSource>()));
 
     /* -- UseCase -- */
-    Get.lazyPut(() => GetTaskUseCase(Get.find<TaskRepository>()));
-    Get.lazyPut(() => CreateTaskUseCase(Get.find<TaskRepository>()));
-    Get.lazyPut(() => UpdateTaskUseCase(Get.find<TaskRepository>()));
-    Get.lazyPut(() => DeleteTaskUseCase(Get.find<TaskRepository>()));
+    Get.put(GetTaskUseCase(Get.find<TaskRepository>()));
+    Get.put(CreateTaskUseCase(Get.find<TaskRepository>()));
+    Get.put(UpdateTaskUseCase(Get.find<TaskRepository>()));
+    Get.put(DeleteTaskUseCase(Get.find<TaskRepository>()));
 
-    Get.lazyPut(() => GetRecordUseCase(Get.find<RecordRepository>()));
-    Get.lazyPut(() => CreateRecordUseCase(Get.find<RecordRepository>()));
-    Get.lazyPut(() => UpdateRecordUseCase(Get.find<RecordRepository>()));
-    Get.lazyPut(() => DeleteRecordUseCase(Get.find<RecordRepository>()));
+    Get.put(GetRecordUseCase(Get.find<RecordRepository>()));
+    Get.put(CreateRecordUseCase(Get.find<RecordRepository>()));
+    Get.put(UpdateRecordUseCase(Get.find<RecordRepository>()));
+    Get.put(DeleteRecordUseCase(Get.find<RecordRepository>()));
 
     /* -- ViewModel -- */
-    Get.lazyPut(() =>
-        RecordViewModel(getTaskUseCase: Get.find<GetTaskUseCase>(),
-            createTaskUseCase: Get.find<CreateTaskUseCase>(),
-            updateTaskUseCase: Get.find<UpdateTaskUseCase>(),
-            deleteTaskUseCase: Get.find<DeleteTaskUseCase>(),
-            getRecordsUseCase: Get.find<GetRecordUseCase>(),
-            createRecordUseCase: Get.find<CreateRecordUseCase>(),
-            updateRecordUseCase: Get.find<UpdateRecordUseCase>(),
-          deleteRecordUseCase: Get.find<DeleteRecordUseCase>(),
-        )
-    );
+    Get.put(RecordViewModel(
+      getTaskUseCase: Get.find<GetTaskUseCase>(),
+      createTaskUseCase: Get.find<CreateTaskUseCase>(),
+      updateTaskUseCase: Get.find<UpdateTaskUseCase>(),
+      deleteTaskUseCase: Get.find<DeleteTaskUseCase>(),
+      getRecordsUseCase: Get.find<GetRecordUseCase>(),
+      createRecordUseCase: Get.find<CreateRecordUseCase>(),
+      updateRecordUseCase: Get.find<UpdateRecordUseCase>(),
+      deleteRecordUseCase: Get.find<DeleteRecordUseCase>(),
+    ));
   }
 
   void dispose() {

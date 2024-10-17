@@ -23,6 +23,10 @@ mixin _$UserDTO {
   String get uid => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   String get username => throw _privateConstructorUsedError;
+  @JsonKey(name: 'follower_count')
+  int? get followerCount => throw _privateConstructorUsedError;
+  @JsonKey(name: 'following_count')
+  int? get followingCount => throw _privateConstructorUsedError;
   String? get introduction => throw _privateConstructorUsedError;
   @JsonKey(name: 'profile_url')
   String get profileUrl => throw _privateConstructorUsedError;
@@ -45,6 +49,8 @@ abstract class $UserDTOCopyWith<$Res> {
       {String uid,
       String email,
       String username,
+      @JsonKey(name: 'follower_count') int? followerCount,
+      @JsonKey(name: 'following_count') int? followingCount,
       String? introduction,
       @JsonKey(name: 'profile_url') String profileUrl});
 }
@@ -67,6 +73,8 @@ class _$UserDTOCopyWithImpl<$Res, $Val extends UserDTO>
     Object? uid = null,
     Object? email = null,
     Object? username = null,
+    Object? followerCount = freezed,
+    Object? followingCount = freezed,
     Object? introduction = freezed,
     Object? profileUrl = null,
   }) {
@@ -83,6 +91,14 @@ class _$UserDTOCopyWithImpl<$Res, $Val extends UserDTO>
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
               as String,
+      followerCount: freezed == followerCount
+          ? _value.followerCount
+          : followerCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      followingCount: freezed == followingCount
+          ? _value.followingCount
+          : followingCount // ignore: cast_nullable_to_non_nullable
+              as int?,
       introduction: freezed == introduction
           ? _value.introduction
           : introduction // ignore: cast_nullable_to_non_nullable
@@ -106,6 +122,8 @@ abstract class _$$UserDTOImplCopyWith<$Res> implements $UserDTOCopyWith<$Res> {
       {String uid,
       String email,
       String username,
+      @JsonKey(name: 'follower_count') int? followerCount,
+      @JsonKey(name: 'following_count') int? followingCount,
       String? introduction,
       @JsonKey(name: 'profile_url') String profileUrl});
 }
@@ -126,6 +144,8 @@ class __$$UserDTOImplCopyWithImpl<$Res>
     Object? uid = null,
     Object? email = null,
     Object? username = null,
+    Object? followerCount = freezed,
+    Object? followingCount = freezed,
     Object? introduction = freezed,
     Object? profileUrl = null,
   }) {
@@ -142,6 +162,14 @@ class __$$UserDTOImplCopyWithImpl<$Res>
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
               as String,
+      followerCount: freezed == followerCount
+          ? _value.followerCount
+          : followerCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      followingCount: freezed == followingCount
+          ? _value.followingCount
+          : followingCount // ignore: cast_nullable_to_non_nullable
+              as int?,
       introduction: freezed == introduction
           ? _value.introduction
           : introduction // ignore: cast_nullable_to_non_nullable
@@ -161,6 +189,8 @@ class _$UserDTOImpl implements _UserDTO {
       {required this.uid,
       required this.email,
       required this.username,
+      @JsonKey(name: 'follower_count') required this.followerCount,
+      @JsonKey(name: 'following_count') required this.followingCount,
       this.introduction,
       @JsonKey(name: 'profile_url') required this.profileUrl});
 
@@ -174,6 +204,12 @@ class _$UserDTOImpl implements _UserDTO {
   @override
   final String username;
   @override
+  @JsonKey(name: 'follower_count')
+  final int? followerCount;
+  @override
+  @JsonKey(name: 'following_count')
+  final int? followingCount;
+  @override
   final String? introduction;
   @override
   @JsonKey(name: 'profile_url')
@@ -181,7 +217,7 @@ class _$UserDTOImpl implements _UserDTO {
 
   @override
   String toString() {
-    return 'UserDTO(uid: $uid, email: $email, username: $username, introduction: $introduction, profileUrl: $profileUrl)';
+    return 'UserDTO(uid: $uid, email: $email, username: $username, followerCount: $followerCount, followingCount: $followingCount, introduction: $introduction, profileUrl: $profileUrl)';
   }
 
   @override
@@ -193,6 +229,10 @@ class _$UserDTOImpl implements _UserDTO {
             (identical(other.email, email) || other.email == email) &&
             (identical(other.username, username) ||
                 other.username == username) &&
+            (identical(other.followerCount, followerCount) ||
+                other.followerCount == followerCount) &&
+            (identical(other.followingCount, followingCount) ||
+                other.followingCount == followingCount) &&
             (identical(other.introduction, introduction) ||
                 other.introduction == introduction) &&
             (identical(other.profileUrl, profileUrl) ||
@@ -201,8 +241,8 @@ class _$UserDTOImpl implements _UserDTO {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, uid, email, username, introduction, profileUrl);
+  int get hashCode => Object.hash(runtimeType, uid, email, username,
+      followerCount, followingCount, introduction, profileUrl);
 
   /// Create a copy of UserDTO
   /// with the given fields replaced by the non-null parameter values.
@@ -225,6 +265,8 @@ abstract class _UserDTO implements UserDTO {
           {required final String uid,
           required final String email,
           required final String username,
+          @JsonKey(name: 'follower_count') required final int? followerCount,
+          @JsonKey(name: 'following_count') required final int? followingCount,
           final String? introduction,
           @JsonKey(name: 'profile_url') required final String profileUrl}) =
       _$UserDTOImpl;
@@ -237,6 +279,12 @@ abstract class _UserDTO implements UserDTO {
   String get email;
   @override
   String get username;
+  @override
+  @JsonKey(name: 'follower_count')
+  int? get followerCount;
+  @override
+  @JsonKey(name: 'following_count')
+  int? get followingCount;
   @override
   String? get introduction;
   @override

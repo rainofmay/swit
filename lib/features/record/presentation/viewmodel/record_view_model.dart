@@ -119,17 +119,27 @@ class RecordViewModel extends GetxController {
 
 
   /* ------------------------------------------------------ */
-  /* Init & Dispose --------------------------------------- */
+  /* Life cycle field ------------------------------------- */
   /* ------------------------------------------------------ */
+  final RxBool _isLoading = true.obs;
+  bool get isLoading => _isLoading.value;
+
   @override
   void onInit() {
     super.onInit();
-    _initializeTasks();
     _taskTitleController.value.addListener(() {
       checkFormValidity();
     });
-    getRecords();
+
+    _initializeData();
+  }
+
+  Future<void> _initializeData() async {
+    _isLoading.value = true;
+    await _initializeTasks();
+    await getRecords();
     updateHeatmapData();
+    _isLoading.value = false;
   }
 
   @override

@@ -5,9 +5,20 @@ class User {
   final String email;
   final String username;
   final String profileUrl;
+  final int followerCount;
+  final int followingCount;
   final String? introduction;
   final OnlineStatus? onlineStatus;
+
   // 기타 필요한 사용자 정보
 
-  User({required this.uid, required this.email, required this.username, required this.profileUrl, this.introduction, this.onlineStatus});
+  User({required this.uid,
+    required this.email,
+    required this.username,
+    required this.profileUrl,
+    this.introduction,
+    this.onlineStatus,
+    required this.followerCount,
+    required this.followingCount,
+  });
 }

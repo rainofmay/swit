@@ -9,7 +9,9 @@ class UserMapper {
         email: user.email,
         username: user.username,
         introduction: user.introduction,
-        profileUrl: user.profileUrl
+        profileUrl: user.profileUrl,
+        followerCount: user.followerCount,
+        followingCount: user.followingCount,
     );
   }
 
@@ -21,6 +23,8 @@ class UserMapper {
       email: dto.email,
       profileUrl: dto.profileUrl,
       onlineStatus: OnlineStatus.offline,
+      followerCount: dto.followerCount ?? 0,
+      followingCount: dto.followingCount ?? 0,
     );
   }
 }

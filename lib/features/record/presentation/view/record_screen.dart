@@ -20,7 +20,7 @@ class RecordScreen extends GetView<RecordViewModel> {
       child: Obx(() => CustomScaffold(
         appBar: const CustomAppBar(appbarTitle: '기 록'),
         floatingActionButton: _conditionalFAB(),
-        body: Padding(
+        body: controller.isLoading ? const SizedBox() : Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
           child: Column(
             children: [

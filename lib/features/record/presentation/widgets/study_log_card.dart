@@ -62,7 +62,7 @@ class StudyLogCard extends GetView<RecordViewModel> {
                     autofocus: true,
                     decoration: InputDecoration(
                       labelText: '내용 ',
-                      hintText: '공부한 내용을 입력해 보세요',
+                      hintText: '공부한 내용을 입력해 보세요.',
                       border: OutlineInputBorder(),
                     ),
                   ),

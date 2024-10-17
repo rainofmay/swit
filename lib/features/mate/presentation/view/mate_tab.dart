@@ -69,7 +69,7 @@ class MateTab extends GetView<MateViewModel> {
         backgroundColor: ColorBox.white,
         color: ColorBox.primaryColor,
         onRefresh: () async {
-          await controller.getFollowingList();
+          await controller.refreshFollowingList();
         },
         child: CustomScrollView(
           slivers: [

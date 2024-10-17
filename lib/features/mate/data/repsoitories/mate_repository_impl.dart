@@ -13,27 +13,6 @@ class MateRepositoryImpl implements MateRepository {
   MateRepositoryImpl(this._mateRemoteDataSource, this._loginService);
 
   @override
-  Future<User> fetchUserProfile() async {
-    try {
-      // 현재 사용자의 ID 가져오기
-      final userId = await _loginService.getMyId();
-      // print('userId $userId');
-
-      // 사용자 정보 가져오기
-      final fetchedData = await _loginService.getUserById(userId!);
-
-      UserDTO userDTO = UserDTO.fromJson(fetchedData);
-      // 사용자 정보를 User Entity 객체로 변환
-      User user = UserMapper.toEntity(userDTO);
-
-      return user;
-
-    } catch (e) {
-      throw Exception('Failed to fetch User profile: ${e.toString()}');
-    }
-  }
-
-  @override
   Future<List<User>> searchMate(String email) async {
     try {
       final response = await _mateRemoteDataSource.searchMate(email);

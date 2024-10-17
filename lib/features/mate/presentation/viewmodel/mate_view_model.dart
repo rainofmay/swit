@@ -5,13 +5,13 @@ import 'package:swit/app/enums/online_status.dart';
 import 'package:swit/features/mate/domain/usecases/follow_mate_use_case.dart';
 import 'package:swit/features/mate/domain/usecases/get_follower_list_use_case.dart';
 import 'package:swit/features/mate/domain/usecases/get_following_list_use_case.dart';
-import 'package:swit/features/mate/domain/usecases/get_user_profile_use_case.dart';
 import 'package:swit/features/mate/domain/usecases/search_mate_use_case.dart';
 import 'package:swit/features/mate/domain/usecases/unfollow_mate_use_case.dart';
 import 'package:swit/features/user/domain/entities/user.dart';
+import 'package:swit/features/user/presentation/viewmodel/user_view_model.dart';
 
 class MateViewModel extends GetxController {
-  final GetUserProfileUseCase _getUserProfileUseCase;
+  final UserViewModel _userViewModel;
   final SearchMateUseCase _searchMateUseCase;
   final FollowMateUseCase _followMateUseCase;
   final GetFollowingListUseCase _getFollowingListUseCase;
@@ -19,14 +19,14 @@ class MateViewModel extends GetxController {
   final UnfollowMateUseCase _unfollowMateUseCase;
 
   MateViewModel(
-      {required GetUserProfileUseCase getUserProfileUseCase,
+      {  required UserViewModel userViewModel,
         required SearchMateUseCase searchMateUseCase,
         required FollowMateUseCase followMateUseCase,
         required GetFollowingListUseCase getFollowingListUseCase,
         required GetFollowerListUseCase getFollowerListUseCase,
         required UnfollowMateUseCase unfollowMateUseCase,
       })
-      : _getUserProfileUseCase = getUserProfileUseCase,
+      :  _userViewModel = userViewModel,
         _searchMateUseCase = searchMateUseCase,
         _followMateUseCase = followMateUseCase,
         _getFollowingListUseCase = getFollowingListUseCase,
@@ -34,14 +34,10 @@ class MateViewModel extends GetxController {
         _unfollowMateUseCase = unfollowMateUseCase
   ;
 
-
   /* ------------------------------------------------------ */
-  /* Profile Fields --------------------------------------- */
+  /* My profile Fields ------------------------------------ */
   /* ------------------------------------------------------ */
-
-  final Rx<User?> _user = Rx<User?>(null);
-  User? get user => _user.value;
-
+  User? get user => _userViewModel.user;
 
   /* ------------------------------------------------------ */
   /* Mate Fields ------------------------------------------ */
@@ -53,7 +49,7 @@ class MateViewModel extends GetxController {
   TextEditingController get searchController => _searchController.value;
 
   bool isCurrentUser(User? searchedUser) {
-    return searchedUser != null && searchedUser.uid == _user.value?.uid;
+    return searchedUser != null && searchedUser.uid == user?.uid;
   }
 
   bool isFollowing(User? selectedUser) {
@@ -73,7 +69,6 @@ class MateViewModel extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    loadUserProfile();
     getFollowingList();
     getFollowerList();
   }
@@ -84,17 +79,6 @@ class MateViewModel extends GetxController {
     _searchController.value.dispose();
     super.onClose();
   }
-
-  /* ------------------------------------------------------ */
-  /* Profile Functions ------------------------------------ */
-  /* ------------------------------------------------------ */
-
-  // 내 프로필 가져오기(업데이트)
-  Future<void> loadUserProfile() async {
-    final User userProfile = await _getUserProfileUseCase.execute();
-    _user.value = userProfile;
-  }
-
 
   /* ------------------------------------------------------ */
   /* Mate Functions --------------------------------------- */
@@ -134,8 +118,8 @@ class MateViewModel extends GetxController {
   Future<void> getFollowerList() async {
     try {
       final followers = await _getFollowerListUseCase.execute();
-      _followingList.value = followers;
-      update();
+      _followerList.value = followers;
+
     } catch (e) {
       print('Mate ViewModel Error get follower list: $e');
     }
@@ -149,6 +133,8 @@ class MateViewModel extends GetxController {
      _followingList.add(_searchedMate.value!);
    }
    // 팔로잉 성공 후 실행할 함수
+   await _userViewModel.loadMyProfile();
+
   }
 
   Future<void> unfollowMate(String unfollowedId) async {
@@ -156,11 +142,21 @@ class MateViewModel extends GetxController {
       await _unfollowMateUseCase.execute(unfollowedId);
       // 팔로잉 목록에서 해당 사용자 제거
       _followingList.removeWhere((user) => user.uid == unfollowedId);
-      update();
+
+      // 언팔 성공 후 실행할 함수
+      await _userViewModel.loadMyProfile();
+      // await getFollowingList();
+
     } catch (e) {
       print('Error unfollowing mate: $e');
       // 에러 처리 (예: 스낵바 표시)
     }
+  }
+
+  // 팔로잉 리스트를 새로고침하는 메서드
+  Future<void> refreshFollowingList() async {
+    await getFollowingList();
+    update();
   }
 
 }

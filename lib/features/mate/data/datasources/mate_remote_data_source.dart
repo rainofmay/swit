@@ -40,7 +40,7 @@ class MateRemoteDataSource {
     try {
       final response = await supabase
           .from('follows')
-          .select('followed_id, body, users!follows_followed_id_fkey(*)')
+          .select('followed_id, users!follows_followed_id_fkey(*)')
           .eq('follower_id', userId)
           .order('created_at', ascending: false);
 

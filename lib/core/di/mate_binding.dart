@@ -6,11 +6,11 @@ import 'package:swit/features/mate/domain/repositories/mate_repository.dart';
 import 'package:swit/features/mate/domain/usecases/follow_mate_use_case.dart';
 import 'package:swit/features/mate/domain/usecases/get_follower_list_use_case.dart';
 import 'package:swit/features/mate/domain/usecases/get_following_list_use_case.dart';
-import 'package:swit/features/mate/domain/usecases/get_user_profile_use_case.dart';
 import 'package:swit/features/mate/domain/usecases/search_mate_use_case.dart';
 import 'package:swit/features/mate/domain/usecases/unfollow_mate_use_case.dart';
 import 'package:swit/features/mate/presentation/viewmodel/mate_view_model.dart';
 import 'package:swit/features/mate/presentation/viewmodel/post_tab_view_model.dart';
+import 'package:swit/features/user/presentation/viewmodel/user_view_model.dart';
 
 class MateBinding extends Bindings {
   @override
@@ -28,8 +28,6 @@ class MateBinding extends Bindings {
         ));
 
     /* -- Use Case -- */
-    Get.lazyPut<GetUserProfileUseCase>(
-        () => GetUserProfileUseCase(Get.find<MateRepository>()));
     Get.lazyPut<SearchMateUseCase>(
             () => SearchMateUseCase(Get.find<MateRepository>()));
     Get.lazyPut<GetFollowingListUseCase>(
@@ -43,7 +41,7 @@ class MateBinding extends Bindings {
 
     /* -- ViewModel -- */
     Get.lazyPut(() => MateViewModel(
-        getUserProfileUseCase: Get.find<GetUserProfileUseCase>(),
+        userViewModel: Get.find<UserViewModel>(),
         searchMateUseCase: Get.find<SearchMateUseCase>(),
         getFollowingListUseCase: Get.find<GetFollowingListUseCase>(),
         getFollowerListUseCase: Get.find<GetFollowerListUseCase>(),
@@ -60,7 +58,6 @@ class MateBinding extends Bindings {
     Get.delete<PostTabViewModel>();
 
     // Use Case 제거
-    Get.delete<GetUserProfileUseCase>();
     Get.delete<SearchMateUseCase>();
     Get.delete<GetFollowingListUseCase>();
     Get.delete<GetFollowerListUseCase>();

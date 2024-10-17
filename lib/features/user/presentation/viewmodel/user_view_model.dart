@@ -25,6 +25,9 @@ class UserViewModel extends GetxController {
   String get introduction => _user.value?.introduction ?? '';
   OnlineStatus get onlineStatus =>
       _user.value?.onlineStatus ?? OnlineStatus.offline;
+  int get followerCount => _user.value?.followerCount ?? 0;
+  int get followingCount => _user.value?.followingCount ?? 0;
+
 
   final RxBool _isLoading = false.obs;
   bool get isLoading => _isLoading.value;
@@ -76,6 +79,8 @@ class UserViewModel extends GetxController {
         profileUrl: profileUrl ?? _user.value!.profileUrl,
         introduction: introduction ?? _user.value!.introduction,
         onlineStatus: _user.value!.onlineStatus,
+        followerCount: _user.value!.followerCount,
+        followingCount: _user.value!.followingCount,
       );
 
       update();
@@ -85,4 +90,5 @@ class UserViewModel extends GetxController {
       return false;
     }
   }
+
 }
