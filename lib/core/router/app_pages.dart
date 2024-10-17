@@ -145,6 +145,7 @@ class AppPages {
         GetPage(
           name: Routes.USERINFO,
           page: () => const UserInfoScreen(),
+          binding: LoginBinding(),
         ),
       ],
     ),

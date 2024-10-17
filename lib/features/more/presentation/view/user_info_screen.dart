@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:swit/core/router/app_pages.dart';
 import 'package:swit/features/more/presentation/view/delete_account_screen.dart';
 import 'package:swit/features/user/presentation/viewmodel/login_view_model.dart';
 import 'package:swit/shared/widgets/custom_back_appbar.dart';
@@ -14,12 +15,14 @@ class UserInfoScreen extends GetView<LoginViewModel> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      appBar: CustomBackAppBar(appbarTitle: '내 정보 관리', isLeading: true, isCenterTitle: true),
+      appBar: const CustomBackAppBar(appbarTitle: '내 정보 관리', isLeading: true, isCenterTitle: true),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
         child: Column(
           children: [
-            TapRow(widget: Icon(CupertinoIcons.person_circle), title: '프로필 편집', onTap: (){}),
+            TapRow(widget: Icon(CupertinoIcons.person_circle), title: '프로필 편집', onTap: (){
+              Get.toNamed(Routes.EDITPROFILE);
+            }),
             const CustomGap(40),
             TapRow(widget: Icon(Icons.logout_rounded), title: '로그아웃', onTap: () async {
               await controller.signOutWithGoogle();

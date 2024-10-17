@@ -104,7 +104,7 @@ class ProfileEditScreen extends GetView<UserViewModel> {
               title: const Text('카메라로 촬영'),
               onTap: () {
                 Get.back();
-                _getImage(ImageSource.camera);
+                controller.updateProfileImage(ImageSource.camera);
               },
             ),
             ListTile(
@@ -112,22 +112,13 @@ class ProfileEditScreen extends GetView<UserViewModel> {
               title: const Text('갤러리에서 선택'),
               onTap: () {
                 Get.back();
-                _getImage(ImageSource.gallery);
+                controller.updateProfileImage(ImageSource.gallery);
               },
             ),
           ],
         ),
       ),
     );
-  }
-
-  Future<void> _getImage(ImageSource source) async {
-    final ImagePicker picker = ImagePicker();
-    final XFile? image = await picker.pickImage(source: source);
-
-    if (image != null) {
-      await controller.updateMyProfile(profileUrl: image.path);
-    }
   }
 
   Future<void> _saveProfile() async {

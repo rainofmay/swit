@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:swit/app/enums/online_status.dart';
 import 'package:swit/features/user/domain/entities/user.dart';
 import 'package:swit/features/user/domain/usecases/get_my_profile_use_case.dart';
@@ -7,6 +8,7 @@ import 'package:swit/features/user/domain/usecases/update_my_profile_use_case.da
 class UserViewModel extends GetxController {
   final UpdateMyProfileUseCase _updateMyProfileUseCase;
   final GetMyProfileUseCase _getMyProfileUseCase;
+  final ImagePicker _imagePicker = ImagePicker();
 
   UserViewModel({
     required GetMyProfileUseCase getMyProfileUseCase,
@@ -91,4 +93,19 @@ class UserViewModel extends GetxController {
     }
   }
 
+  Future<void> updateProfileImage(ImageSource source) async {
+    try {
+      final XFile? image = await _imagePicker.pickImage(source: source);
+      if (image != null) {
+        _isLoading.value = true;
+        await updateMyProfile(profileUrl: image.path);
+        await loadMyProfile();
+      }
+    } catch (e) {
+      print('Error updating profile image: $e');
+      // 에러 처리 로직 추가
+    } finally {
+      _isLoading.value = false;
+    }
+  }
 }

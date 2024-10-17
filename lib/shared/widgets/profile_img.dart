@@ -20,7 +20,7 @@ class ProfileImg extends GetView<UserViewModel> {
       child: Stack(children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(50.0),
-          child: controller.profileUrl == ''
+          child: controller.profileUrl.isEmpty
               ? Image.asset(
             'assets/images/basic_profile.jpg',
             fit: BoxFit.cover,
@@ -40,6 +40,7 @@ class ProfileImg extends GetView<UserViewModel> {
             const CustomCircularIndicator(size: 30.0),
           ),
         ),
+        if (stackIcon != null)
         Positioned(
           right: 3,
           bottom: 3,
