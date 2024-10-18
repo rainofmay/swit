@@ -6,9 +6,7 @@ class GoogleLoginRemoteDataSource {
 
   static final GoogleLoginRemoteDataSource _instance = GoogleLoginRemoteDataSource._internal();
 
-  factory GoogleLoginRemoteDataSource () {
-    return _instance;
-  }
+  factory GoogleLoginRemoteDataSource() => _instance;
 
   final supabase = Supabase.instance.client;
 

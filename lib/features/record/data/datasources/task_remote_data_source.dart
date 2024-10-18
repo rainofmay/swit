@@ -7,9 +7,7 @@ class TaskRemoteDataSource {
 
   static final TaskRemoteDataSource _instance = TaskRemoteDataSource._internal();
 
-  factory TaskRemoteDataSource() {
-    return _instance;
-  }
+  factory TaskRemoteDataSource() => _instance;
 
   final _supabase = Supabase.instance.client;
 

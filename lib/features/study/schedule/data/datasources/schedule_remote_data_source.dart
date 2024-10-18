@@ -7,9 +7,7 @@ class ScheduleRemoteDataSource {
 
   static final ScheduleRemoteDataSource _instance = ScheduleRemoteDataSource._internal();
 
-  factory ScheduleRemoteDataSource() {
-    return _instance;
-  }
+  factory ScheduleRemoteDataSource() => _instance;
 
   final supabase = Supabase.instance.client;
 

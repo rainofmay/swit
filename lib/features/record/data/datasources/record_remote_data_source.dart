@@ -7,9 +7,7 @@ class RecordRemoteDataSource {
   static final RecordRemoteDataSource _instance =
       RecordRemoteDataSource._internal();
 
-  factory RecordRemoteDataSource() {
-    return _instance;
-  }
+  factory RecordRemoteDataSource() => _instance;
 
   final _supabase = Supabase.instance.client;
 

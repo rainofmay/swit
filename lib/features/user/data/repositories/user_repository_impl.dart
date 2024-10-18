@@ -19,7 +19,7 @@ class UserRepositoryImpl implements UserRepository {
   Future<User> fetchMyProfile() async {
     try {
       final userId = await _loginService.getMyId();
-      if (userId == null) throw Exception('User not authenticated');
+      if (userId == null) throw Exception('User Repository: User not authenticated');
 
       final fetchedData = await _remoteDataSource.fetchUserById(userId);
       UserDTO userDTO = UserDTO.fromJson(fetchedData);

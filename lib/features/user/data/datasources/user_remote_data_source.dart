@@ -9,9 +9,7 @@ class UserRemoteDataSource {
   static final UserRemoteDataSource _instance =
       UserRemoteDataSource._internal();
 
-  factory UserRemoteDataSource() {
-    return _instance;
-  }
+  factory UserRemoteDataSource() => _instance;
 
   final supabase = Supabase.instance.client;
 

@@ -8,9 +8,7 @@ class MateRemoteDataSource {
 
   static final MateRemoteDataSource _instance = MateRemoteDataSource._internal();
 
-  factory MateRemoteDataSource() {
-    return _instance;
-  }
+  factory MateRemoteDataSource() => _instance;
 
   final supabase = Supabase.instance.client;
   final LoginService loginService = LoginService();

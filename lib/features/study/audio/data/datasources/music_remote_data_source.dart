@@ -7,9 +7,7 @@ class MusicRemoteDataSource {
 
   static final MusicRemoteDataSource _instance = MusicRemoteDataSource._internal();
 
-  factory MusicRemoteDataSource() {
-    return _instance;
-  }
+  factory MusicRemoteDataSource() => _instance;
 
   final supabase = Supabase.instance.client;
   

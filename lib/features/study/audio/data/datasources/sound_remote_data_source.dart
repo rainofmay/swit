@@ -6,9 +6,7 @@ class SoundRemoteDataSource {
   SoundRemoteDataSource._internal();
   // _instance : SoundRemoteDataSource의 유일한 인스턴스를 저장
   static final SoundRemoteDataSource _instance = SoundRemoteDataSource._internal();
-  factory SoundRemoteDataSource() {
-    return _instance;
-  }
+  factory SoundRemoteDataSource() => _instance;
 
   final supabase = Supabase.instance.client;
 
