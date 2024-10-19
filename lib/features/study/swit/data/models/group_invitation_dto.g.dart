@@ -13,7 +13,7 @@ _$GroupInvitationDTOImpl _$$GroupInvitationDTOImplFromJson(
       groupId: json['groupId'] as String,
       invitedUserId: json['invitedUserId'] as String,
       invitedById: json['invitedById'] as String,
-      status: json['status'] as String,
+      status: $enumDecode(_$InvitationStatusEnumMap, json['status']),
       invitedAt: DateTime.parse(json['invitedAt'] as String),
       respondedAt: json['respondedAt'] == null
           ? null
@@ -27,7 +27,13 @@ Map<String, dynamic> _$$GroupInvitationDTOImplToJson(
       'groupId': instance.groupId,
       'invitedUserId': instance.invitedUserId,
       'invitedById': instance.invitedById,
-      'status': instance.status,
+      'status': _$InvitationStatusEnumMap[instance.status]!,
       'invitedAt': instance.invitedAt.toIso8601String(),
       'respondedAt': instance.respondedAt?.toIso8601String(),
     };
+
+const _$InvitationStatusEnumMap = {
+  InvitationStatus.pending: 'pending',
+  InvitationStatus.accepted: 'accepted',
+  InvitationStatus.rejected: 'rejected',
+};

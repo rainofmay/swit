@@ -1,14 +1,8 @@
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:swit/core/data/base_remote_datasource.dart';
 
-class GoogleLoginRemoteDataSource {
-  GoogleLoginRemoteDataSource._internal();
-
-  static final GoogleLoginRemoteDataSource _instance = GoogleLoginRemoteDataSource._internal();
-
-  factory GoogleLoginRemoteDataSource() => _instance;
-
-  final supabase = Supabase.instance.client;
+class GoogleLoginRemoteDataSource extends BaseRemoteDataSource{
 
   GoogleSignIn googleSignIn = GoogleSignIn(
     scopes: ['email'],

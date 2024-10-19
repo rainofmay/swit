@@ -4,8 +4,6 @@ import 'package:get/get.dart';
 import 'package:swit/core/router/app_pages.dart';
 import 'package:swit/core/utils/user/login_service.dart';
 import 'package:swit/features/more/presentation/view/update_sreen.dart';
-import 'package:swit/features/more/presentation/view/user_info_screen.dart';
-import 'package:swit/features/more/presentation/widgets/profile_row.dart';
 import 'package:swit/features/user/presentation/viewmodel/login_view_model.dart';
 import 'package:swit/shared/constant/color_box.dart';
 import 'package:swit/shared/constant/icon_size.dart';
@@ -26,7 +24,7 @@ class MoreScreen extends GetView<LoginViewModel> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ProfileRow(),
+          Text('Anonymous'),
           Divider(
             height: 1,
             color: ColorBox.grey[400],

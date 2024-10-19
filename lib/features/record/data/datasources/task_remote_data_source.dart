@@ -1,19 +1,14 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:swit/core/data/base_remote_datasource.dart';
 import 'package:swit/features/record/data/models/task_dto.dart';
 
-class TaskRemoteDataSource {
-  TaskRemoteDataSource._internal();
+class TaskRemoteDataSource extends BaseRemoteDataSource{
 
-  static final TaskRemoteDataSource _instance = TaskRemoteDataSource._internal();
-
-  factory TaskRemoteDataSource() => _instance;
-
-  final _supabase = Supabase.instance.client;
 
   Future<List<Map<String, dynamic>>> getTasks() async {
     try {
-      final response = await _supabase
+      final response = await supabase
           .from('task')
           .select()
           .order('created_at', ascending: false);
@@ -26,7 +21,7 @@ class TaskRemoteDataSource {
 
   Future<void> createTask(TaskDTO dto) async {
     try {
-      await _supabase.from('task').insert({
+      await supabase.from('task').insert({
         'title': dto.title,
         'color': dto.color,
       });
@@ -37,7 +32,7 @@ class TaskRemoteDataSource {
 
   Future<void> updateTask(TaskDTO dto) async {
     try {
-      await _supabase
+      await supabase
           .from('task')
           .update({
         'title': dto.title,
@@ -51,7 +46,7 @@ class TaskRemoteDataSource {
 
   Future<void> deleteTask(TaskDTO dto) async {
     try {
-      await _supabase
+      await supabase
           .from('task')
           .delete()
           .eq('id', dto.id);

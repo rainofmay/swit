@@ -1,14 +1,9 @@
 
 
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:swit/core/data/base_remote_datasource.dart';
 
-class SoundRemoteDataSource {
-  SoundRemoteDataSource._internal();
-  // _instance : SoundRemoteDataSource의 유일한 인스턴스를 저장
-  static final SoundRemoteDataSource _instance = SoundRemoteDataSource._internal();
-  factory SoundRemoteDataSource() => _instance;
-
-  final supabase = Supabase.instance.client;
+class SoundRemoteDataSource extends BaseRemoteDataSource{
 
   Future<List<Map<String, dynamic>>> getSounds(String theme) async {
     try {

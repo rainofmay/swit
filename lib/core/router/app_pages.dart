@@ -6,6 +6,7 @@ import 'package:swit/core/di/mate_binding.dart';
 import 'package:swit/core/di/record_binding.dart';
 import 'package:swit/core/di/schedule_binding.dart';
 import 'package:swit/core/di/setting_binding.dart';
+import 'package:swit/core/di/swit_binding.dart';
 import 'package:swit/core/di/swit_setting_binding.dart';
 import 'package:swit/core/di/user_binding.dart';
 import 'package:swit/core/middleware/login_middleware.dart';
@@ -13,6 +14,8 @@ import 'package:swit/features/home/presentations/view/home_screen.dart';
 import 'package:swit/features/mate/presentation/view/create_post_it_screen.dart';
 import 'package:swit/features/mate/presentation/view/mate_add_screen.dart';
 import 'package:swit/features/mate/presentation/view/mate_screen.dart';
+import 'package:swit/features/study/notification/notification_screen.dart';
+import 'package:swit/features/study/swit/presentation/view/create_swit_screen.dart';
 import 'package:swit/features/user/presentation/view/profile_edit_screen.dart';
 import 'package:swit/features/more/presentation/view/more.screen.dart';
 import 'package:swit/features/more/presentation/view/user_info_screen.dart';
@@ -49,6 +52,11 @@ class AppPages {
       middlewares: [LoginMiddleware()],
       children: [
         GetPage(
+          name: Routes.NOTIFICATION,
+          page: () => NotificationScreen(),
+          // binding: AudioBinding(),
+        ),
+        GetPage(
           name: Routes.AUDIO,
           page: () => AudioScreen(),
           binding: AudioBinding(),
@@ -69,8 +77,13 @@ class AppPages {
                 )
               ],
             ),
+            GetPage(
+                name: Routes.CREATESWIT,
+                page: () => CreateSwitScreen(),
+                bindings: [MateBinding(), SwitBinding(),])
           ],
         ),
+
         GetPage(
           name: Routes.SCHEDULE,
           page: () => const ScheduleScreen(),

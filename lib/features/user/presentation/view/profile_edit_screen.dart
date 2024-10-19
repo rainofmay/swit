@@ -29,7 +29,7 @@ class ProfileEditScreen extends GetView<UserViewModel> {
               Get.back();
               await _saveProfile();
             },
-            child: const Text('저장'),
+            child: Text('저장', style: FontBox.activtedActions),
           ),
         ],
       ),

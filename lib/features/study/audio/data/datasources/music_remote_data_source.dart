@@ -1,15 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:swit/core/data/base_remote_datasource.dart';
 
-class MusicRemoteDataSource {
-
-  MusicRemoteDataSource._internal();
-
-  static final MusicRemoteDataSource _instance = MusicRemoteDataSource._internal();
-
-  factory MusicRemoteDataSource() => _instance;
-
-  final supabase = Supabase.instance.client;
+class MusicRemoteDataSource extends BaseRemoteDataSource{
   
   Future<List<Map<String, dynamic>>> getMusics(String theme) async {
     try {

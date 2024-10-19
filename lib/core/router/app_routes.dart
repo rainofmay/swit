@@ -10,8 +10,11 @@ abstract class Routes {
   static const SCHEDULE = '/study/schedule';
   static const CREATESCHEDULE = '/study/schedule/create';
   static const EDITSCHEDULE = '/study/schedule/edit';
+
+  static const NOTIFICATION = '/study/notification';
   static const AUDIO = '/study/audio';
   static const SWIT = '/study/swit';
+  static const CREATESWIT = '/study/swit/create';
   static const SWITSETTING = '/study/swit/setting';
   static const BACKGROUNDSETTING = '/study/setting/background';
 

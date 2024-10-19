@@ -22,6 +22,13 @@ class StudyScreen extends GetView<BgSettingViewModel> {
         appbarTitle: '스터디',
         actions: [
           ActionIconButton(
+              svgAsset: 'assets/icons/notification.svg',
+              onTap: () async {
+                Get.toNamed(Routes.STUDY + Routes.NOTIFICATION);
+
+              }),
+          const CustomGap(16),
+          ActionIconButton(
               svgAsset: 'assets/icons/headset.svg',
               onTap: () async {
                 Get.toNamed(Routes.STUDY + Routes.AUDIO);
@@ -29,8 +36,6 @@ class StudyScreen extends GetView<BgSettingViewModel> {
                 final audioHandler = await initAudioService();
                 Get.put<AudioHandler>(audioHandler, permanent: true);
               }),
-          // const CustomGap(8),
-          // const Icon(Icons.notifications_none_rounded),
           const CustomGap(16),
           ActionIconButton(
               svgAsset: 'assets/icons/setting.svg',

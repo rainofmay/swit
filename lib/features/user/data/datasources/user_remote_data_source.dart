@@ -1,17 +1,10 @@
 import 'dart:io';
 import 'package:path/path.dart' as path;
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:swit/core/data/base_remote_datasource.dart';
 import 'package:uuid/uuid.dart';
 
-class UserRemoteDataSource {
-  UserRemoteDataSource._internal();
-
-  static final UserRemoteDataSource _instance =
-      UserRemoteDataSource._internal();
-
-  factory UserRemoteDataSource() => _instance;
-
-  final supabase = Supabase.instance.client;
+class UserRemoteDataSource extends BaseRemoteDataSource{
 
   /* ------------------------------------------------------ */
   /* Get Fields ------------------------------------------- */

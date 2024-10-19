@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:swit/features/mate/presentation/viewmodel/mate_view_model.dart';
 import 'package:swit/features/mate/presentation/widgets/user_card.dart';
 import 'package:swit/shared/constant/color_box.dart';
+import 'package:swit/shared/constant/font_box.dart';
 import 'package:swit/shared/widgets/custom_back_appbar.dart';
 import 'package:swit/shared/widgets/custom_gap.dart';
 import 'package:swit/shared/widgets/custom_scaffold.dart';
@@ -27,7 +28,7 @@ class MateAddScreen extends GetView<MateViewModel> {
                 onPressed: () async {
                   await controller.searchMate();
                 },
-                child: const Text('검색'))
+                child: Text('검색', style: FontBox.activtedActions))
           ]),
       body: SingleChildScrollView(
         child: Center(

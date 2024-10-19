@@ -30,10 +30,7 @@ class EditTaskScreen extends GetView<RecordViewModel> {
             },
             child: Text(
               '수정',
-              style: FontBox.B1.copyWith(
-                  color: controller.isFormValid
-                      ? ColorBox.white
-                      : ColorBox.grey[300]),
+              style: controller.isFormValid ? FontBox.activtedActions : FontBox.disabledActions,
             ),
           )),
           TextButton(

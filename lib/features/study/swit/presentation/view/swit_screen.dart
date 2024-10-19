@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:swit/core/router/app_pages.dart';
+import 'package:swit/features/study/swit/presentation/view/create_swit_screen.dart';
 import 'package:swit/shared/widgets/profile_img.dart';
 import 'package:swit/features/study/schedule/presentation/widgets/calendar.dart';
 import 'package:swit/shared/constant/color_box.dart';
@@ -32,7 +33,9 @@ class SwitScreen extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton.small(
-        onPressed: () {},
+        onPressed: () {
+          Get.toNamed(Routes.STUDY + Routes.SWIT + Routes.CREATESWIT);
+        },
         child: Icon(Icons.person_add_alt_1, color: ColorBox.black),
         elevation: 1,
         backgroundColor: ColorBox.white,

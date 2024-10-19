@@ -1,15 +1,10 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:swit/core/data/base_remote_datasource.dart';
 import 'package:swit/core/utils/schedule/datetime_converter.dart';
 import 'package:swit/features/study/schedule/data/models/schedule_dto.dart';
 
-class ScheduleRemoteDataSource {
-  ScheduleRemoteDataSource._internal();
+class ScheduleRemoteDataSource extends BaseRemoteDataSource{
 
-  static final ScheduleRemoteDataSource _instance = ScheduleRemoteDataSource._internal();
-
-  factory ScheduleRemoteDataSource() => _instance;
-
-  final supabase = Supabase.instance.client;
 
   Future<List<Map<String, dynamic>>> getSchedules() async {
     try {

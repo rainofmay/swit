@@ -1,16 +1,11 @@
 import 'dart:io';
 
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:swit/core/data/base_remote_datasource.dart';
 import 'package:swit/core/utils/user/login_service.dart';
 
-class MateRemoteDataSource {
-  MateRemoteDataSource._internal();
+class MateRemoteDataSource extends BaseRemoteDataSource {
 
-  static final MateRemoteDataSource _instance = MateRemoteDataSource._internal();
-
-  factory MateRemoteDataSource() => _instance;
-
-  final supabase = Supabase.instance.client;
   final LoginService loginService = LoginService();
 
 

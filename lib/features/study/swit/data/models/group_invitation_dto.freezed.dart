@@ -24,7 +24,7 @@ mixin _$GroupInvitationDTO {
   String get groupId => throw _privateConstructorUsedError;
   String get invitedUserId => throw _privateConstructorUsedError;
   String get invitedById => throw _privateConstructorUsedError;
-  String get status => throw _privateConstructorUsedError;
+  InvitationStatus get status => throw _privateConstructorUsedError;
   DateTime get invitedAt => throw _privateConstructorUsedError;
   DateTime? get respondedAt => throw _privateConstructorUsedError;
 
@@ -49,7 +49,7 @@ abstract class $GroupInvitationDTOCopyWith<$Res> {
       String groupId,
       String invitedUserId,
       String invitedById,
-      String status,
+      InvitationStatus status,
       DateTime invitedAt,
       DateTime? respondedAt});
 }
@@ -97,7 +97,7 @@ class _$GroupInvitationDTOCopyWithImpl<$Res, $Val extends GroupInvitationDTO>
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String,
+              as InvitationStatus,
       invitedAt: null == invitedAt
           ? _value.invitedAt
           : invitedAt // ignore: cast_nullable_to_non_nullable
@@ -123,7 +123,7 @@ abstract class _$$GroupInvitationDTOImplCopyWith<$Res>
       String groupId,
       String invitedUserId,
       String invitedById,
-      String status,
+      InvitationStatus status,
       DateTime invitedAt,
       DateTime? respondedAt});
 }
@@ -169,7 +169,7 @@ class __$$GroupInvitationDTOImplCopyWithImpl<$Res>
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String,
+              as InvitationStatus,
       invitedAt: null == invitedAt
           ? _value.invitedAt
           : invitedAt // ignore: cast_nullable_to_non_nullable
@@ -206,7 +206,7 @@ class _$GroupInvitationDTOImpl implements _GroupInvitationDTO {
   @override
   final String invitedById;
   @override
-  final String status;
+  final InvitationStatus status;
   @override
   final DateTime invitedAt;
   @override
@@ -263,7 +263,7 @@ abstract class _GroupInvitationDTO implements GroupInvitationDTO {
       required final String groupId,
       required final String invitedUserId,
       required final String invitedById,
-      required final String status,
+      required final InvitationStatus status,
       required final DateTime invitedAt,
       final DateTime? respondedAt}) = _$GroupInvitationDTOImpl;
 
@@ -279,7 +279,7 @@ abstract class _GroupInvitationDTO implements GroupInvitationDTO {
   @override
   String get invitedById;
   @override
-  String get status;
+  InvitationStatus get status;
   @override
   DateTime get invitedAt;
   @override

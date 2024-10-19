@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:swit/features/study/swit/domain/entities/group_invitation.dart';
 
 part 'group_invitation_dto.freezed.dart';
 part 'group_invitation_dto.g.dart';
@@ -11,7 +12,7 @@ class GroupInvitationDTO with _$GroupInvitationDTO {
     required String groupId,
     required String invitedUserId,
     required String invitedById,
-    required String status,
+    required InvitationStatus status,
     required DateTime invitedAt,
     DateTime? respondedAt,
   }) = _GroupInvitationDTO;
