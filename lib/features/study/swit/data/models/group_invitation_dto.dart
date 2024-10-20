@@ -9,12 +9,12 @@ class GroupInvitationDTO with _$GroupInvitationDTO {
 
   const factory GroupInvitationDTO({
     required String id,
-    required String groupId,
-    required String invitedUserId,
-    required String invitedById,
+    @JsonKey(name: 'group_id') required String groupId,
+    @JsonKey(name: 'invited_user_id') required String invitedUserId,
+    @JsonKey(name: 'invited_by') required String invitedBy,
     required InvitationStatus status,
-    required DateTime invitedAt,
-    DateTime? respondedAt,
+    @JsonKey(name: 'invited_at') required DateTime invitedAt,
+    @JsonKey(name: 'responded_at') DateTime? respondedAt,
   }) = _GroupInvitationDTO;
 
   factory GroupInvitationDTO.fromJson(Map<String, dynamic> json) =>

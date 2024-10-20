@@ -34,7 +34,6 @@ import 'package:swit/features/study/swit/presentation/view/swit_screen.dart';
 import 'package:swit/features/study/swit/presentation/view/swit_setting_screen.dart';
 import 'package:swit/features/user/presentation/view/login_screen.dart';
 
-// 다른 필요한 import 추가
 part 'app_routes.dart';
 
 class AppPages {
@@ -64,6 +63,7 @@ class AppPages {
         GetPage(
           name: Routes.SWIT,
           page: () => const SwitScreen(),
+          binding: SwitBinding(),
           children: [
             GetPage(
               name: Routes.SWITSETTING,
@@ -80,7 +80,7 @@ class AppPages {
             GetPage(
                 name: Routes.CREATESWIT,
                 page: () => CreateSwitScreen(),
-                bindings: [MateBinding(), SwitBinding(),])
+                bindings: [MateBinding(), SwitBinding()])
           ],
         ),
 

@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:swit/core/utils/schedule/datetime_converter.dart';
+import 'package:swit/core/utils/datetime_converter.dart';
 
 part 'schedule_dto.freezed.dart';
 part 'schedule_dto.g.dart';

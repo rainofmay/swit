@@ -6,12 +6,12 @@ part 'study_group_dto.g.dart';
 @freezed
 class StudyGroupDTO with _$StudyGroupDTO {
   const factory StudyGroupDTO({
-    required String groupId,
+    @JsonKey(name: 'group_id') required String groupId,
     required String name,
     String? description,
-    required DateTime createdAt,
-    required String createdById,
-    required bool isActive,
+    @JsonKey(name: 'created_at') required DateTime createdAt,
+    @JsonKey(name: 'created_by') required String createdBy,
+    @JsonKey(name: 'is_active') required bool isActive,
   }) = _StudyGroupDTO;
 
   factory StudyGroupDTO.fromJson(Map<String, dynamic> json) =>

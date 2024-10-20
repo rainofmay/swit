@@ -20,11 +20,15 @@ StudyGroupDTO _$StudyGroupDTOFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$StudyGroupDTO {
+  @JsonKey(name: 'group_id')
   String get groupId => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
+  @JsonKey(name: 'created_at')
   DateTime get createdAt => throw _privateConstructorUsedError;
-  String get createdById => throw _privateConstructorUsedError;
+  @JsonKey(name: 'created_by')
+  String get createdBy => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_active')
   bool get isActive => throw _privateConstructorUsedError;
 
   /// Serializes this StudyGroupDTO to a JSON map.
@@ -44,12 +48,12 @@ abstract class $StudyGroupDTOCopyWith<$Res> {
       _$StudyGroupDTOCopyWithImpl<$Res, StudyGroupDTO>;
   @useResult
   $Res call(
-      {String groupId,
+      {@JsonKey(name: 'group_id') String groupId,
       String name,
       String? description,
-      DateTime createdAt,
-      String createdById,
-      bool isActive});
+      @JsonKey(name: 'created_at') DateTime createdAt,
+      @JsonKey(name: 'created_by') String createdBy,
+      @JsonKey(name: 'is_active') bool isActive});
 }
 
 /// @nodoc
@@ -71,7 +75,7 @@ class _$StudyGroupDTOCopyWithImpl<$Res, $Val extends StudyGroupDTO>
     Object? name = null,
     Object? description = freezed,
     Object? createdAt = null,
-    Object? createdById = null,
+    Object? createdBy = null,
     Object? isActive = null,
   }) {
     return _then(_value.copyWith(
@@ -91,9 +95,9 @@ class _$StudyGroupDTOCopyWithImpl<$Res, $Val extends StudyGroupDTO>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      createdById: null == createdById
-          ? _value.createdById
-          : createdById // ignore: cast_nullable_to_non_nullable
+      createdBy: null == createdBy
+          ? _value.createdBy
+          : createdBy // ignore: cast_nullable_to_non_nullable
               as String,
       isActive: null == isActive
           ? _value.isActive
@@ -112,12 +116,12 @@ abstract class _$$StudyGroupDTOImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String groupId,
+      {@JsonKey(name: 'group_id') String groupId,
       String name,
       String? description,
-      DateTime createdAt,
-      String createdById,
-      bool isActive});
+      @JsonKey(name: 'created_at') DateTime createdAt,
+      @JsonKey(name: 'created_by') String createdBy,
+      @JsonKey(name: 'is_active') bool isActive});
 }
 
 /// @nodoc
@@ -137,7 +141,7 @@ class __$$StudyGroupDTOImplCopyWithImpl<$Res>
     Object? name = null,
     Object? description = freezed,
     Object? createdAt = null,
-    Object? createdById = null,
+    Object? createdBy = null,
     Object? isActive = null,
   }) {
     return _then(_$StudyGroupDTOImpl(
@@ -157,9 +161,9 @@ class __$$StudyGroupDTOImplCopyWithImpl<$Res>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      createdById: null == createdById
-          ? _value.createdById
-          : createdById // ignore: cast_nullable_to_non_nullable
+      createdBy: null == createdBy
+          ? _value.createdBy
+          : createdBy // ignore: cast_nullable_to_non_nullable
               as String,
       isActive: null == isActive
           ? _value.isActive
@@ -173,32 +177,36 @@ class __$$StudyGroupDTOImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$StudyGroupDTOImpl implements _StudyGroupDTO {
   const _$StudyGroupDTOImpl(
-      {required this.groupId,
+      {@JsonKey(name: 'group_id') required this.groupId,
       required this.name,
       this.description,
-      required this.createdAt,
-      required this.createdById,
-      required this.isActive});
+      @JsonKey(name: 'created_at') required this.createdAt,
+      @JsonKey(name: 'created_by') required this.createdBy,
+      @JsonKey(name: 'is_active') required this.isActive});
 
   factory _$StudyGroupDTOImpl.fromJson(Map<String, dynamic> json) =>
       _$$StudyGroupDTOImplFromJson(json);
 
   @override
+  @JsonKey(name: 'group_id')
   final String groupId;
   @override
   final String name;
   @override
   final String? description;
   @override
+  @JsonKey(name: 'created_at')
   final DateTime createdAt;
   @override
-  final String createdById;
+  @JsonKey(name: 'created_by')
+  final String createdBy;
   @override
+  @JsonKey(name: 'is_active')
   final bool isActive;
 
   @override
   String toString() {
-    return 'StudyGroupDTO(groupId: $groupId, name: $name, description: $description, createdAt: $createdAt, createdById: $createdById, isActive: $isActive)';
+    return 'StudyGroupDTO(groupId: $groupId, name: $name, description: $description, createdAt: $createdAt, createdBy: $createdBy, isActive: $isActive)';
   }
 
   @override
@@ -212,16 +220,16 @@ class _$StudyGroupDTOImpl implements _StudyGroupDTO {
                 other.description == description) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
-            (identical(other.createdById, createdById) ||
-                other.createdById == createdById) &&
+            (identical(other.createdBy, createdBy) ||
+                other.createdBy == createdBy) &&
             (identical(other.isActive, isActive) ||
                 other.isActive == isActive));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, groupId, name, description,
-      createdAt, createdById, isActive);
+  int get hashCode => Object.hash(
+      runtimeType, groupId, name, description, createdAt, createdBy, isActive);
 
   /// Create a copy of StudyGroupDTO
   /// with the given fields replaced by the non-null parameter values.
@@ -241,27 +249,32 @@ class _$StudyGroupDTOImpl implements _StudyGroupDTO {
 
 abstract class _StudyGroupDTO implements StudyGroupDTO {
   const factory _StudyGroupDTO(
-      {required final String groupId,
-      required final String name,
-      final String? description,
-      required final DateTime createdAt,
-      required final String createdById,
-      required final bool isActive}) = _$StudyGroupDTOImpl;
+          {@JsonKey(name: 'group_id') required final String groupId,
+          required final String name,
+          final String? description,
+          @JsonKey(name: 'created_at') required final DateTime createdAt,
+          @JsonKey(name: 'created_by') required final String createdBy,
+          @JsonKey(name: 'is_active') required final bool isActive}) =
+      _$StudyGroupDTOImpl;
 
   factory _StudyGroupDTO.fromJson(Map<String, dynamic> json) =
       _$StudyGroupDTOImpl.fromJson;
 
   @override
+  @JsonKey(name: 'group_id')
   String get groupId;
   @override
   String get name;
   @override
   String? get description;
   @override
+  @JsonKey(name: 'created_at')
   DateTime get createdAt;
   @override
-  String get createdById;
+  @JsonKey(name: 'created_by')
+  String get createdBy;
   @override
+  @JsonKey(name: 'is_active')
   bool get isActive;
 
   /// Create a copy of StudyGroupDTO

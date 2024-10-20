@@ -9,7 +9,7 @@ class GroupInvitationMapper {
       groupId: dto.groupId,
       invitedUserId: dto.invitedUserId,
       invitedAt: dto.invitedAt,
-      invitedById: dto.invitedById,
+      invitedBy: dto.invitedBy,
       respondedAt: dto.respondedAt,
       status: dto.status,
     );

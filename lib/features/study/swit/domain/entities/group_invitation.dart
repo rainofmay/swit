@@ -4,7 +4,7 @@ class GroupInvitation {
   final String id;
   final String groupId;
   final String invitedUserId;
-  final String invitedById;
+  final String invitedBy;
   final InvitationStatus status;
   final DateTime invitedAt;
   final DateTime? respondedAt;
@@ -13,7 +13,7 @@ class GroupInvitation {
     required this.id,
     required this.groupId,
     required this.invitedUserId,
-    required this.invitedById,
+    required this.invitedBy,
     required this.status,
     required this.invitedAt,
     this.respondedAt,

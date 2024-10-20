@@ -7,10 +7,10 @@ part 'group_member_dto.g.dart';
 class GroupMemberDTO with _$GroupMemberDTO {
 
   const factory GroupMemberDTO({
-    required String groupId,
-    required String userId,
+    @JsonKey(name: 'group_id') required String groupId,
+    @JsonKey(name: 'user_id') required String userId,
     required String role,
-    required DateTime joinedAt,
+    @JsonKey(name: 'joined_at') required DateTime joinedAt,
   }) = _GroupMemberDTO;
 
   factory GroupMemberDTO.fromJson(Map<String, dynamic> json) =>

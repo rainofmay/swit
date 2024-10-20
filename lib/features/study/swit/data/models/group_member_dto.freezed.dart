@@ -20,9 +20,12 @@ GroupMemberDTO _$GroupMemberDTOFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$GroupMemberDTO {
+  @JsonKey(name: 'group_id')
   String get groupId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'user_id')
   String get userId => throw _privateConstructorUsedError;
   String get role => throw _privateConstructorUsedError;
+  @JsonKey(name: 'joined_at')
   DateTime get joinedAt => throw _privateConstructorUsedError;
 
   /// Serializes this GroupMemberDTO to a JSON map.
@@ -41,7 +44,11 @@ abstract class $GroupMemberDTOCopyWith<$Res> {
           GroupMemberDTO value, $Res Function(GroupMemberDTO) then) =
       _$GroupMemberDTOCopyWithImpl<$Res, GroupMemberDTO>;
   @useResult
-  $Res call({String groupId, String userId, String role, DateTime joinedAt});
+  $Res call(
+      {@JsonKey(name: 'group_id') String groupId,
+      @JsonKey(name: 'user_id') String userId,
+      String role,
+      @JsonKey(name: 'joined_at') DateTime joinedAt});
 }
 
 /// @nodoc
@@ -93,7 +100,11 @@ abstract class _$$GroupMemberDTOImplCopyWith<$Res>
       __$$GroupMemberDTOImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String groupId, String userId, String role, DateTime joinedAt});
+  $Res call(
+      {@JsonKey(name: 'group_id') String groupId,
+      @JsonKey(name: 'user_id') String userId,
+      String role,
+      @JsonKey(name: 'joined_at') DateTime joinedAt});
 }
 
 /// @nodoc
@@ -139,21 +150,24 @@ class __$$GroupMemberDTOImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$GroupMemberDTOImpl implements _GroupMemberDTO {
   const _$GroupMemberDTOImpl(
-      {required this.groupId,
-      required this.userId,
+      {@JsonKey(name: 'group_id') required this.groupId,
+      @JsonKey(name: 'user_id') required this.userId,
       required this.role,
-      required this.joinedAt});
+      @JsonKey(name: 'joined_at') required this.joinedAt});
 
   factory _$GroupMemberDTOImpl.fromJson(Map<String, dynamic> json) =>
       _$$GroupMemberDTOImplFromJson(json);
 
   @override
+  @JsonKey(name: 'group_id')
   final String groupId;
   @override
+  @JsonKey(name: 'user_id')
   final String userId;
   @override
   final String role;
   @override
+  @JsonKey(name: 'joined_at')
   final DateTime joinedAt;
 
   @override
@@ -196,21 +210,25 @@ class _$GroupMemberDTOImpl implements _GroupMemberDTO {
 
 abstract class _GroupMemberDTO implements GroupMemberDTO {
   const factory _GroupMemberDTO(
-      {required final String groupId,
-      required final String userId,
-      required final String role,
-      required final DateTime joinedAt}) = _$GroupMemberDTOImpl;
+          {@JsonKey(name: 'group_id') required final String groupId,
+          @JsonKey(name: 'user_id') required final String userId,
+          required final String role,
+          @JsonKey(name: 'joined_at') required final DateTime joinedAt}) =
+      _$GroupMemberDTOImpl;
 
   factory _GroupMemberDTO.fromJson(Map<String, dynamic> json) =
       _$GroupMemberDTOImpl.fromJson;
 
   @override
+  @JsonKey(name: 'group_id')
   String get groupId;
   @override
+  @JsonKey(name: 'user_id')
   String get userId;
   @override
   String get role;
   @override
+  @JsonKey(name: 'joined_at')
   DateTime get joinedAt;
 
   /// Create a copy of GroupMemberDTO

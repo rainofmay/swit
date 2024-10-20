@@ -3,7 +3,7 @@ class StudyGroup {
   final String name;
   final String? description;
   final DateTime createdAt;
-  final String createdById;
+  final String createdBy;
   final bool isActive;
 
   StudyGroup({
@@ -11,7 +11,7 @@ class StudyGroup {
     required this.name,
     this.description,
     required this.createdAt,
-    required this.createdById,
+    required this.createdBy,
     required this.isActive,
   });
 

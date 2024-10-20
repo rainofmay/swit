@@ -1,14 +1,35 @@
 import 'package:get/get.dart';
+import 'package:swit/features/study/swit/domain/entities/group_invitation.dart';
+import 'package:swit/features/study/swit/domain/entities/study_group.dart';
+import 'package:swit/features/study/swit/domain/usecases/create_study_group_use_case.dart';
+import 'package:swit/features/study/swit/domain/usecases/invite_to_group_use_case.dart';
 
 
 class SwitViewModel extends GetxController {
+  final CreateStudyGroupUseCase createStudyGroupUseCase;
+  final InviteToGroupUseCase inviteToGroupUseCase;
 
-  late final RxString _groupName = 'Swit'.obs;
+  SwitViewModel({
+    required this.createStudyGroupUseCase,
+    required this.inviteToGroupUseCase,
+  });
+
+  /* ------------------------------------------------------ */
+  /* Variable Fields -------------------------------------- */
+  /* ------------------------------------------------------ */
+
+  // 그룹명, 부제목은 초기 런칭 시 'Swit'으로 통일
+  final RxString _groupName = 'Swit'.obs;
+  final RxString _description = 'Swit'.obs;
+
   late final RxList<String> _selectedUsers = <String>[].obs;
   List<String> get selectedUsers => _selectedUsers;
-
   late final RxBool _isCreatingGroup = false.obs;
 
+
+  /* ------------------------------------------------------ */
+  /* Function Fields -------------------------------------- */
+  /* ------------------------------------------------------ */
   void setGroupName(String name) {
     _groupName.value = name;
   }
@@ -34,15 +55,16 @@ class SwitViewModel extends GetxController {
     _isCreatingGroup.value = true;
 
     try {
-      // TODO: Implement actual group creation logic here
-      // This might involve API calls to your backend
-      await Future.delayed(Duration(seconds: 2)); // Simulating network request
+      // Create the study group
+      StudyGroup createdGroup = await createStudyGroupUseCase.execute(_groupName.value, _description.value);
 
-      // TODO: Send invitations to selected users
-      for (var userId in _selectedUsers) {
-        // Implement invitation sending logic
-        print('Sending invitation to user: $userId');
-      }
+      // Invite selected users
+      List<Future<GroupInvitation>> invitationFutures = _selectedUsers.map(
+              (userId) => inviteToGroupUseCase.execute(createdGroup.groupId, userId)
+      ).toList();
+
+      // 모든 Future가 완료될 때까지 기다린 후, 모든 결과를 리스트로 반환
+      await Future.wait(invitationFutures);
 
       Get.snackbar('성공', '스터디 그룹이 생성되었고 초대가 발송되었습니다.');
       return true;

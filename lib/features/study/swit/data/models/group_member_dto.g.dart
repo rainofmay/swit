@@ -8,17 +8,17 @@ part of 'group_member_dto.dart';
 
 _$GroupMemberDTOImpl _$$GroupMemberDTOImplFromJson(Map<String, dynamic> json) =>
     _$GroupMemberDTOImpl(
-      groupId: json['groupId'] as String,
-      userId: json['userId'] as String,
+      groupId: json['group_id'] as String,
+      userId: json['user_id'] as String,
       role: json['role'] as String,
-      joinedAt: DateTime.parse(json['joinedAt'] as String),
+      joinedAt: DateTime.parse(json['joined_at'] as String),
     );
 
 Map<String, dynamic> _$$GroupMemberDTOImplToJson(
         _$GroupMemberDTOImpl instance) =>
     <String, dynamic>{
-      'groupId': instance.groupId,
-      'userId': instance.userId,
+      'group_id': instance.groupId,
+      'user_id': instance.userId,
       'role': instance.role,
-      'joinedAt': instance.joinedAt.toIso8601String(),
+      'joined_at': instance.joinedAt.toIso8601String(),
     };

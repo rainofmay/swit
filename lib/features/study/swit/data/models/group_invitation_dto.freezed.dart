@@ -21,11 +21,16 @@ GroupInvitationDTO _$GroupInvitationDTOFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$GroupInvitationDTO {
   String get id => throw _privateConstructorUsedError;
+  @JsonKey(name: 'group_id')
   String get groupId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'invited_user_id')
   String get invitedUserId => throw _privateConstructorUsedError;
-  String get invitedById => throw _privateConstructorUsedError;
+  @JsonKey(name: 'invited_by')
+  String get invitedBy => throw _privateConstructorUsedError;
   InvitationStatus get status => throw _privateConstructorUsedError;
+  @JsonKey(name: 'invited_at')
   DateTime get invitedAt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'responded_at')
   DateTime? get respondedAt => throw _privateConstructorUsedError;
 
   /// Serializes this GroupInvitationDTO to a JSON map.
@@ -46,12 +51,12 @@ abstract class $GroupInvitationDTOCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
-      String groupId,
-      String invitedUserId,
-      String invitedById,
+      @JsonKey(name: 'group_id') String groupId,
+      @JsonKey(name: 'invited_user_id') String invitedUserId,
+      @JsonKey(name: 'invited_by') String invitedBy,
       InvitationStatus status,
-      DateTime invitedAt,
-      DateTime? respondedAt});
+      @JsonKey(name: 'invited_at') DateTime invitedAt,
+      @JsonKey(name: 'responded_at') DateTime? respondedAt});
 }
 
 /// @nodoc
@@ -72,7 +77,7 @@ class _$GroupInvitationDTOCopyWithImpl<$Res, $Val extends GroupInvitationDTO>
     Object? id = null,
     Object? groupId = null,
     Object? invitedUserId = null,
-    Object? invitedById = null,
+    Object? invitedBy = null,
     Object? status = null,
     Object? invitedAt = null,
     Object? respondedAt = freezed,
@@ -90,9 +95,9 @@ class _$GroupInvitationDTOCopyWithImpl<$Res, $Val extends GroupInvitationDTO>
           ? _value.invitedUserId
           : invitedUserId // ignore: cast_nullable_to_non_nullable
               as String,
-      invitedById: null == invitedById
-          ? _value.invitedById
-          : invitedById // ignore: cast_nullable_to_non_nullable
+      invitedBy: null == invitedBy
+          ? _value.invitedBy
+          : invitedBy // ignore: cast_nullable_to_non_nullable
               as String,
       status: null == status
           ? _value.status
@@ -120,12 +125,12 @@ abstract class _$$GroupInvitationDTOImplCopyWith<$Res>
   @useResult
   $Res call(
       {String id,
-      String groupId,
-      String invitedUserId,
-      String invitedById,
+      @JsonKey(name: 'group_id') String groupId,
+      @JsonKey(name: 'invited_user_id') String invitedUserId,
+      @JsonKey(name: 'invited_by') String invitedBy,
       InvitationStatus status,
-      DateTime invitedAt,
-      DateTime? respondedAt});
+      @JsonKey(name: 'invited_at') DateTime invitedAt,
+      @JsonKey(name: 'responded_at') DateTime? respondedAt});
 }
 
 /// @nodoc
@@ -144,7 +149,7 @@ class __$$GroupInvitationDTOImplCopyWithImpl<$Res>
     Object? id = null,
     Object? groupId = null,
     Object? invitedUserId = null,
-    Object? invitedById = null,
+    Object? invitedBy = null,
     Object? status = null,
     Object? invitedAt = null,
     Object? respondedAt = freezed,
@@ -162,9 +167,9 @@ class __$$GroupInvitationDTOImplCopyWithImpl<$Res>
           ? _value.invitedUserId
           : invitedUserId // ignore: cast_nullable_to_non_nullable
               as String,
-      invitedById: null == invitedById
-          ? _value.invitedById
-          : invitedById // ignore: cast_nullable_to_non_nullable
+      invitedBy: null == invitedBy
+          ? _value.invitedBy
+          : invitedBy // ignore: cast_nullable_to_non_nullable
               as String,
       status: null == status
           ? _value.status
@@ -187,12 +192,12 @@ class __$$GroupInvitationDTOImplCopyWithImpl<$Res>
 class _$GroupInvitationDTOImpl implements _GroupInvitationDTO {
   const _$GroupInvitationDTOImpl(
       {required this.id,
-      required this.groupId,
-      required this.invitedUserId,
-      required this.invitedById,
+      @JsonKey(name: 'group_id') required this.groupId,
+      @JsonKey(name: 'invited_user_id') required this.invitedUserId,
+      @JsonKey(name: 'invited_by') required this.invitedBy,
       required this.status,
-      required this.invitedAt,
-      this.respondedAt});
+      @JsonKey(name: 'invited_at') required this.invitedAt,
+      @JsonKey(name: 'responded_at') this.respondedAt});
 
   factory _$GroupInvitationDTOImpl.fromJson(Map<String, dynamic> json) =>
       _$$GroupInvitationDTOImplFromJson(json);
@@ -200,21 +205,26 @@ class _$GroupInvitationDTOImpl implements _GroupInvitationDTO {
   @override
   final String id;
   @override
+  @JsonKey(name: 'group_id')
   final String groupId;
   @override
+  @JsonKey(name: 'invited_user_id')
   final String invitedUserId;
   @override
-  final String invitedById;
+  @JsonKey(name: 'invited_by')
+  final String invitedBy;
   @override
   final InvitationStatus status;
   @override
+  @JsonKey(name: 'invited_at')
   final DateTime invitedAt;
   @override
+  @JsonKey(name: 'responded_at')
   final DateTime? respondedAt;
 
   @override
   String toString() {
-    return 'GroupInvitationDTO(id: $id, groupId: $groupId, invitedUserId: $invitedUserId, invitedById: $invitedById, status: $status, invitedAt: $invitedAt, respondedAt: $respondedAt)';
+    return 'GroupInvitationDTO(id: $id, groupId: $groupId, invitedUserId: $invitedUserId, invitedBy: $invitedBy, status: $status, invitedAt: $invitedAt, respondedAt: $respondedAt)';
   }
 
   @override
@@ -226,8 +236,8 @@ class _$GroupInvitationDTOImpl implements _GroupInvitationDTO {
             (identical(other.groupId, groupId) || other.groupId == groupId) &&
             (identical(other.invitedUserId, invitedUserId) ||
                 other.invitedUserId == invitedUserId) &&
-            (identical(other.invitedById, invitedById) ||
-                other.invitedById == invitedById) &&
+            (identical(other.invitedBy, invitedBy) ||
+                other.invitedBy == invitedBy) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.invitedAt, invitedAt) ||
                 other.invitedAt == invitedAt) &&
@@ -238,7 +248,7 @@ class _$GroupInvitationDTOImpl implements _GroupInvitationDTO {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, groupId, invitedUserId,
-      invitedById, status, invitedAt, respondedAt);
+      invitedBy, status, invitedAt, respondedAt);
 
   /// Create a copy of GroupInvitationDTO
   /// with the given fields replaced by the non-null parameter values.
@@ -259,13 +269,14 @@ class _$GroupInvitationDTOImpl implements _GroupInvitationDTO {
 
 abstract class _GroupInvitationDTO implements GroupInvitationDTO {
   const factory _GroupInvitationDTO(
-      {required final String id,
-      required final String groupId,
-      required final String invitedUserId,
-      required final String invitedById,
-      required final InvitationStatus status,
-      required final DateTime invitedAt,
-      final DateTime? respondedAt}) = _$GroupInvitationDTOImpl;
+          {required final String id,
+          @JsonKey(name: 'group_id') required final String groupId,
+          @JsonKey(name: 'invited_user_id') required final String invitedUserId,
+          @JsonKey(name: 'invited_by') required final String invitedBy,
+          required final InvitationStatus status,
+          @JsonKey(name: 'invited_at') required final DateTime invitedAt,
+          @JsonKey(name: 'responded_at') final DateTime? respondedAt}) =
+      _$GroupInvitationDTOImpl;
 
   factory _GroupInvitationDTO.fromJson(Map<String, dynamic> json) =
       _$GroupInvitationDTOImpl.fromJson;
@@ -273,16 +284,21 @@ abstract class _GroupInvitationDTO implements GroupInvitationDTO {
   @override
   String get id;
   @override
+  @JsonKey(name: 'group_id')
   String get groupId;
   @override
+  @JsonKey(name: 'invited_user_id')
   String get invitedUserId;
   @override
-  String get invitedById;
+  @JsonKey(name: 'invited_by')
+  String get invitedBy;
   @override
   InvitationStatus get status;
   @override
+  @JsonKey(name: 'invited_at')
   DateTime get invitedAt;
   @override
+  @JsonKey(name: 'responded_at')
   DateTime? get respondedAt;
 
   /// Create a copy of GroupInvitationDTO

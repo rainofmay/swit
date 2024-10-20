@@ -10,26 +10,26 @@ _$GroupInvitationDTOImpl _$$GroupInvitationDTOImplFromJson(
         Map<String, dynamic> json) =>
     _$GroupInvitationDTOImpl(
       id: json['id'] as String,
-      groupId: json['groupId'] as String,
-      invitedUserId: json['invitedUserId'] as String,
-      invitedById: json['invitedById'] as String,
+      groupId: json['group_id'] as String,
+      invitedUserId: json['invited_user_id'] as String,
+      invitedBy: json['invited_by'] as String,
       status: $enumDecode(_$InvitationStatusEnumMap, json['status']),
-      invitedAt: DateTime.parse(json['invitedAt'] as String),
-      respondedAt: json['respondedAt'] == null
+      invitedAt: DateTime.parse(json['invited_at'] as String),
+      respondedAt: json['responded_at'] == null
           ? null
-          : DateTime.parse(json['respondedAt'] as String),
+          : DateTime.parse(json['responded_at'] as String),
     );
 
 Map<String, dynamic> _$$GroupInvitationDTOImplToJson(
         _$GroupInvitationDTOImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'groupId': instance.groupId,
-      'invitedUserId': instance.invitedUserId,
-      'invitedById': instance.invitedById,
+      'group_id': instance.groupId,
+      'invited_user_id': instance.invitedUserId,
+      'invited_by': instance.invitedBy,
       'status': _$InvitationStatusEnumMap[instance.status]!,
-      'invitedAt': instance.invitedAt.toIso8601String(),
-      'respondedAt': instance.respondedAt?.toIso8601String(),
+      'invited_at': instance.invitedAt.toIso8601String(),
+      'responded_at': instance.respondedAt?.toIso8601String(),
     };
 
 const _$InvitationStatusEnumMap = {
