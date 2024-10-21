@@ -1,3 +1,5 @@
+import 'package:audio_service/audio_service.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:swit/core/di/home_binding.dart';
 import 'package:swit/core/di/audio_binding.dart';
@@ -10,6 +12,7 @@ import 'package:swit/core/di/swit_binding.dart';
 import 'package:swit/core/di/swit_setting_binding.dart';
 import 'package:swit/core/di/user_binding.dart';
 import 'package:swit/core/middleware/login_middleware.dart';
+import 'package:swit/core/utils/audio/my_audio_handler.dart';
 import 'package:swit/features/home/presentations/view/home_screen.dart';
 import 'package:swit/features/mate/presentation/view/create_post_it_screen.dart';
 import 'package:swit/features/mate/presentation/view/mate_add_screen.dart';
@@ -57,7 +60,17 @@ class AppPages {
         ),
         GetPage(
           name: Routes.AUDIO,
-          page: () => AudioScreen(),
+          page: () => FutureBuilder<AudioHandler>(
+            //future : 어떤 비동기 작업을 기다려야 하는 지 알려주는 것.(initAudioService 는 비동기 작업임)
+            future: Get.putAsync<AudioHandler>(() => initAudioService()),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                return AudioScreen();
+              } else {
+                return const Scaffold(body: Center(child: CircularProgressIndicator()));
+              }
+            },
+          ),
           binding: AudioBinding(),
         ),
         GetPage(

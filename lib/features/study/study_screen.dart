@@ -25,18 +25,17 @@ class StudyScreen extends GetView<BgSettingViewModel> {
               svgAsset: 'assets/icons/notification.svg',
               onTap: () async {
                 Get.toNamed(Routes.STUDY + Routes.NOTIFICATION);
-
               }),
           const CustomGap(16),
+
           ActionIconButton(
               svgAsset: 'assets/icons/headset.svg',
               onTap: () async {
                 Get.toNamed(Routes.STUDY + Routes.AUDIO);
 
-                final audioHandler = await initAudioService();
-                Get.put<AudioHandler>(audioHandler, permanent: true);
               }),
           const CustomGap(16),
+
           ActionIconButton(
               svgAsset: 'assets/icons/setting.svg',
               onTap: () {

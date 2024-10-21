@@ -6,8 +6,8 @@ import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:swit/app/config/app_config.dart';
 import 'package:swit/core/data/supabase_service.dart';
-import 'package:swit/core/di/mate_binding.dart';
 import 'package:swit/core/router/app_pages.dart';
+import 'package:swit/core/utils/audio/my_audio_handler.dart';
 import 'package:swit/features/home/presentations/view/home_screen.dart';
 import 'package:swit/features/home/presentations/viewmodel/home_view_model.dart';
 import 'shared/constant/color_box.dart';
@@ -47,6 +47,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialBinding: BindingsBuilder(() async {
         Get.put(HomeViewModel());
+
+        // final audioHandler = await initAudioService();
+        // Get.put<AudioHandler>(audioHandler);
         }),
 
       initialRoute: AppPages.INITIAL,

@@ -43,14 +43,14 @@ class SwitViewModel extends GetxController {
   }
 
   Future<bool> createGroup() async {
-    if (_groupName.isEmpty) {
-      Get.snackbar('오류', '스터디 그룹 이름을 입력해주세요.');
-      return false;
-    }
-    if (_selectedUsers.isEmpty) {
-      Get.snackbar('오류', '초대할 사용자를 선택해주세요.');
-      return false;
-    }
+    // if (_groupName.isEmpty) {
+    //   Get.snackbar('오류', '스터디 그룹 이름을 입력해주세요.');
+    //   return false;
+    // }
+    // if (_selectedUsers.isEmpty) {
+    //   Get.snackbar('오류', '초대할 사용자를 선택해주세요.');
+    //   return false;
+    // }
 
     _isCreatingGroup.value = true;
 
@@ -66,10 +66,9 @@ class SwitViewModel extends GetxController {
       // 모든 Future가 완료될 때까지 기다린 후, 모든 결과를 리스트로 반환
       await Future.wait(invitationFutures);
 
-      Get.snackbar('성공', '스터디 그룹이 생성되었고 초대가 발송되었습니다.');
       return true;
     } catch (e) {
-      Get.snackbar('오류', '그룹 생성 중 문제가 발생했습니다: $e');
+
       return false;
     } finally {
       _isCreatingGroup.value = false;

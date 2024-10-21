@@ -36,7 +36,7 @@ class MusicPlayer extends StatelessWidget {
               height: 210,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
-                image: DecorationImage(
+                image: const DecorationImage(
                   image: AssetImage('assets/images/music/study3.jpg'),
                   fit: BoxFit.cover,
                 ),

@@ -14,10 +14,10 @@ import 'package:swit/features/study/audio/presentation/viewmodel/sound_view_mode
 
 class AudioBinding extends Bindings {
   @override
-  Future<void> dependencies() async {
+  void dependencies() async {
     /* -- DataSource -- */
-    Get.put<MusicRemoteDataSource>(MusicRemoteDataSource(), permanent: true);
-    Get.put<SoundRemoteDataSource>(SoundRemoteDataSource(), permanent: true);
+    Get.put<MusicRemoteDataSource>(MusicRemoteDataSource());
+    Get.put<SoundRemoteDataSource>(SoundRemoteDataSource());
 
     /* -- Repository -- */
     Get.put<MusicRepository>(
@@ -30,12 +30,18 @@ class AudioBinding extends Bindings {
     );
 
     /* -- Use case -- */
-    Get.put<GetMusicUseCase>(GetMusicUseCase(Get.find<MusicRepository>()), permanent: true);
-    Get.put<GetSoundUseCase>(GetSoundUseCase(Get.find<SoundRepository>()), permanent: true);
+    Get.put<GetMusicUseCase>(GetMusicUseCase(Get.find<MusicRepository>()));
+    Get.put<GetSoundUseCase>(GetSoundUseCase(Get.find<SoundRepository>()));
 
-    /* -- View Model 은 2개 주입 불가로 View 페이지에 직접 등록 -- */
-    /* -- Audio Handler는 메인에 등록 -- */
+    /* -- AudioHandler -- */
+    Get.putAsync<AudioHandler>(() async {
+      final audioHandler = await initAudioService();
+      return audioHandler;
+    }, permanent: true);
 
+    /* -- View Model -- */
+    // Get.put(MusicViewModel(useCase: Get.find<GetMusicUseCase>(), audioHandler: Get.find<AudioHandler>()), permanent: true);
+    // Get.put(SoundViewModel(useCase: Get.find<GetSoundUseCase>(), audioHandler: Get.find<AudioHandler>()), permanent: true);
   }
 }
 
