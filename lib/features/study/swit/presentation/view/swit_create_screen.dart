@@ -10,10 +10,10 @@ import 'package:swit/shared/widgets/custom_scaffold.dart';
 import 'package:swit/features/user/domain/entities/user.dart';
 import 'package:swit/shared/widgets/custom_text_form_field.dart';
 
-class CreateSwitScreen extends GetView<SwitViewModel> {
+class SwitCreateScreen extends GetView<SwitViewModel> {
   final MateViewModel _mateVM = Get.find<MateViewModel>();
 
-  CreateSwitScreen({super.key});
+  SwitCreateScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

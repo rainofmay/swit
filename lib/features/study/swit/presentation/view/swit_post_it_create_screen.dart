@@ -2,23 +2,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:swit/features/mate/presentation/viewmodel/post_tab_view_model.dart';
-import 'package:swit/features/mate/presentation/widgets/post_it_note.dart';
-import 'package:swit/shared/constant/color_box.dart';
+import 'package:swit/features/study/swit/presentation/viewmodel/swit_post_it_view_model.dart';
+import 'package:swit/features/study/swit/presentation/widgets/post_it_note.dart';
 import 'package:swit/shared/widgets/custom_back_appbar.dart';
 import 'package:swit/shared/widgets/custom_gap.dart';
 import 'package:swit/shared/widgets/custom_scaffold.dart';
-import 'package:swit/shared/widgets/custom_text_form_field.dart';
 
-class CreatePostItScreen extends GetView<PostTabViewModel> {
-  const CreatePostItScreen({super.key});
+class SwitPostItCreateScreen extends GetView<SwitPostItViewModel> {
+  const SwitPostItCreateScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: CustomScaffold(
         appBar: CustomBackAppBar(
-          appbarTitle: '서로에게 한 마디',
+          appbarTitle: '쪽지 쓰기',
           isLeading: true,
           isCenterTitle: true,
           actions: [
@@ -80,13 +78,13 @@ class CreatePostItScreen extends GetView<PostTabViewModel> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Obx(() => Text(
-                                  DateFormat('yyyy년 MM월 dd일')
-                                      .format(controller.selectedDate),
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.black87,
-                                  ),
-                                )),
+                              DateFormat('yyyy년 MM월 dd일')
+                                  .format(controller.selectedDate),
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: Colors.black87,
+                              ),
+                            )),
                             const Icon(
                               Icons.calendar_today,
                               size: 20,

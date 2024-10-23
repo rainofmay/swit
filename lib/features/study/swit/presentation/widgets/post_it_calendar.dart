@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:swit/features/mate/presentation/viewmodel/mate_view_model.dart';
-import 'package:swit/features/mate/presentation/viewmodel/post_tab_view_model.dart';
+import 'package:swit/features/study/swit/presentation/viewmodel/swit_post_it_view_model.dart';
 import 'package:swit/shared/constant/color_box.dart';
 import 'package:swit/shared/constant/font_box.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class MateCalendar extends GetView<PostTabViewModel> {
-  const MateCalendar({super.key});
+class PostItCalendar extends GetView<SwitPostItViewModel> {
+  const PostItCalendar({super.key});
 
   @override
   Widget build(BuildContext context) {

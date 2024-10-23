@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:swit/core/router/app_pages.dart';
-import 'package:swit/features/study/swit/presentation/view/create_swit_screen.dart';
 import 'package:swit/shared/widgets/profile_img.dart';
-import 'package:swit/features/study/schedule/presentation/widgets/calendar.dart';
 import 'package:swit/shared/constant/color_box.dart';
 import 'package:swit/shared/constant/font_box.dart';
 import 'package:swit/shared/widgets/action_icon_button.dart';
@@ -24,6 +22,12 @@ class SwitScreen extends StatelessWidget {
         isLeading: true,
         isCenterTitle: true,
         actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16.0),
+            child: ActionIconButton(svgAsset: 'assets/icons/post_it_black.svg', onTap: () {
+              Get.toNamed(Routes.STUDY + Routes.SWIT + Routes.SWITPOST);
+            }),
+          ),
           Padding(
             padding: const EdgeInsets.only(right: 16.0),
             child: ActionIconButton(svgAsset: 'assets/icons/setting.svg', onTap: () {

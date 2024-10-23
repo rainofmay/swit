@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:swit/core/router/app_pages.dart';
-import 'package:swit/features/mate/presentation/view/create_post_it_screen.dart';
 import 'package:swit/features/mate/presentation/view/mate_tab.dart';
 import 'package:swit/features/mate/presentation/viewmodel/mate_view_model.dart';
 import 'package:swit/shared/constant/color_box.dart';
@@ -24,9 +23,7 @@ class MateScreen extends GetView<MateViewModel> {
                 },
                 icon: const Icon(Icons.person_add_alt_1))
           ]),
-          floatingActionButton: FloatingActionButton(onPressed: () {
-            Get.to(() => CreatePostItScreen());
-          }),
+
           body: MateTab(),
         ),
       );

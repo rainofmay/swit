@@ -9,16 +9,18 @@ import 'package:swit/core/di/record_binding.dart';
 import 'package:swit/core/di/schedule_binding.dart';
 import 'package:swit/core/di/setting_binding.dart';
 import 'package:swit/core/di/swit_binding.dart';
+import 'package:swit/core/di/swit_post_it_bindiing.dart';
 import 'package:swit/core/di/swit_setting_binding.dart';
 import 'package:swit/core/di/user_binding.dart';
 import 'package:swit/core/middleware/login_middleware.dart';
 import 'package:swit/core/utils/audio/my_audio_handler.dart';
 import 'package:swit/features/home/presentations/view/home_screen.dart';
-import 'package:swit/features/mate/presentation/view/create_post_it_screen.dart';
 import 'package:swit/features/mate/presentation/view/mate_add_screen.dart';
 import 'package:swit/features/mate/presentation/view/mate_screen.dart';
 import 'package:swit/features/study/notification/notification_screen.dart';
-import 'package:swit/features/study/swit/presentation/view/create_swit_screen.dart';
+import 'package:swit/features/study/swit/presentation/view/swit_create_screen.dart';
+import 'package:swit/features/study/swit/presentation/view/swit_post_it_create_screen.dart';
+import 'package:swit/features/study/swit/presentation/view/swit_post_it_screen.dart';
 import 'package:swit/features/user/presentation/view/profile_edit_screen.dart';
 import 'package:swit/features/more/presentation/view/more.screen.dart';
 import 'package:swit/features/more/presentation/view/user_info_screen.dart';
@@ -48,16 +50,25 @@ class AppPages {
       page: () => const HomeScreen(),
       binding: HomeBinding(),
     ),
+
+    /* ------------------------------------------------------ */
+    /* Study Fields ----------------------------------------- */
+    /* ------------------------------------------------------ */
+
     GetPage(
       name: Routes.STUDY,
       page: () => const StudyScreen(),
       middlewares: [LoginMiddleware()],
       children: [
+
+        /* -- Notification -- */
         GetPage(
           name: Routes.NOTIFICATION,
           page: () => NotificationScreen(),
           // binding: AudioBinding(),
         ),
+
+        /* -- Audio -- */
         GetPage(
           name: Routes.AUDIO,
           page: () => FutureBuilder<AudioHandler>(
@@ -73,11 +84,25 @@ class AppPages {
           ),
           binding: AudioBinding(),
         ),
+
+       /* -- Swit -- */
         GetPage(
           name: Routes.SWIT,
           page: () => const SwitScreen(),
           binding: SwitBinding(),
           children: [
+            GetPage(
+              name: Routes.SWITPOST,
+              page: () => const SwitPostItScreen(),
+              binding: SwitPostItBindiing(),
+              children: [
+                GetPage(
+                  name: Routes.SWITCREATEPOST,
+                  page: () => const SwitPostItCreateScreen(),
+                  binding: SwitPostItBindiing(),
+                )
+              ],
+            ),
             GetPage(
               name: Routes.SWITSETTING,
               page: () => const SwitSettingScreen(),
@@ -92,7 +117,7 @@ class AppPages {
             ),
             GetPage(
                 name: Routes.CREATESWIT,
-                page: () => CreateSwitScreen(),
+                page: () => SwitCreateScreen(),
                 bindings: [MateBinding(), SwitBinding()])
           ],
         ),
@@ -114,6 +139,10 @@ class AppPages {
         ),
       ],
     ),
+
+    /* ------------------------------------------------------ */
+    /* Mate Fields ------------------------------------------ */
+    /* ------------------------------------------------------ */
     GetPage(
       name: Routes.MATE,
       page: () => MateScreen(),
@@ -124,19 +153,12 @@ class AppPages {
           page: () => const MateAddScreen(),
           middlewares: [LoginMiddleware()],
         ),
-        GetPage(
-          name: Routes.CREATEPOSTIT,
-          page: () => const CreatePostItScreen(),
-          middlewares: [LoginMiddleware()],
-        ),
       ],
     ),
-    GetPage(
-      name: Routes.EDITPROFILE,
-      page: () => ProfileEditScreen(),
-      binding: UserBinding(),
-      middlewares: [LoginMiddleware()],
-    ),
+
+    /* ------------------------------------------------------ */
+    /* Record Fields ---------------------------------------- */
+    /* ------------------------------------------------------ */
     GetPage(
       name: Routes.RECORD,
       page: () => const RecordScreen(),
@@ -163,6 +185,10 @@ class AppPages {
         )
       ],
     ),
+
+    /* ------------------------------------------------------ */
+    /* More Fields ------------------------------------------ */
+    /* ------------------------------------------------------ */
     GetPage(
       name: Routes.MORE,
       page: () => MoreScreen(),
@@ -175,6 +201,17 @@ class AppPages {
         ),
       ],
     ),
+
+    /* ------------------------------------------------------ */
+    /* User Fields ------------------------------------------ */
+    /* ------------------------------------------------------ */
+    GetPage(
+      name: Routes.EDITPROFILE,
+      page: () => ProfileEditScreen(),
+      binding: UserBinding(),
+      middlewares: [LoginMiddleware()],
+    ),
+
     GetPage(
       name: Routes.LOGIN,
       page: () => const LoginScreen(),

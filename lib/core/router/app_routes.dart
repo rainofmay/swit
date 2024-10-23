@@ -13,8 +13,11 @@ abstract class Routes {
 
   static const NOTIFICATION = '/study/notification';
   static const AUDIO = '/study/audio';
+
   static const SWIT = '/study/swit';
   static const CREATESWIT = '/study/swit/create';
+  static const SWITPOST = '/study/swit/postit';
+  static const SWITCREATEPOST =  '/study/swit/postit/create';
   static const SWITSETTING = '/study/swit/setting';
   static const BACKGROUNDSETTING = '/study/setting/background';
 

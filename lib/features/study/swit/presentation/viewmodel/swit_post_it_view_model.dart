@@ -3,10 +3,9 @@ import 'package:get/get.dart';
 import 'package:swit/features/mate/presentation/viewmodel/mate_view_model.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class PostTabViewModel extends GetxController {
-  final MateViewModel _mateViewModel;
+class SwitPostItViewModel extends GetxController {
 
-  PostTabViewModel({required MateViewModel mateViewModel}) : _mateViewModel = mateViewModel ;
+  SwitPostItViewModel();
 
 
   late final Rx<TextEditingController> _postItController = TextEditingController().obs;
@@ -20,7 +19,7 @@ class PostTabViewModel extends GetxController {
  final Rx<DateTime> _focusedDate = DateTime.now().obs;
   DateTime get focusedDate => _focusedDate.value;
 
-  final Rx<CalendarFormat> _calendarFormat = CalendarFormat.month.obs;
+  final Rx<CalendarFormat> _calendarFormat = CalendarFormat.week.obs;
   CalendarFormat get calendarFormat => _calendarFormat.value;
 
 
