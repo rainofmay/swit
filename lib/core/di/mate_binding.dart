@@ -9,7 +9,6 @@ import 'package:swit/features/mate/domain/usecases/get_following_list_use_case.d
 import 'package:swit/features/mate/domain/usecases/search_mate_use_case.dart';
 import 'package:swit/features/mate/domain/usecases/unfollow_mate_use_case.dart';
 import 'package:swit/features/mate/presentation/viewmodel/mate_view_model.dart';
-import 'package:swit/features/mate/presentation/viewmodel/post_tab_view_model.dart';
 import 'package:swit/features/user/presentation/viewmodel/user_view_model.dart';
 
 class MateBinding extends Bindings {
@@ -49,13 +48,11 @@ class MateBinding extends Bindings {
         unfollowMateUseCase: Get.find<UnfollowMateUseCase>(),
     ));
 
-    Get.lazyPut(() => PostTabViewModel(mateViewModel : Get.find<MateViewModel>()));
   }
 
   void dispose() {
     // ViewModel 제거
     Get.delete<MateViewModel>();
-    Get.delete<PostTabViewModel>();
 
     // Use Case 제거
     Get.delete<SearchMateUseCase>();

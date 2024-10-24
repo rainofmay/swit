@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "167838128706-253ckhhuqev4o2okfdeh9qdp2jcj8tet.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cled.swit",
+            "certificate_hash": "67bf8758378d4a1612adefe6f85cb8c1298db726"
+          }
+        },
+        {
           "client_id": "167838128706-5fq7g0l5cr2qvu0ihig75b8v40l4u0bf.apps.googleusercontent.com",
           "client_type": 3
         }
