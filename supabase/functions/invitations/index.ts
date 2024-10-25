@@ -3,8 +3,8 @@ import { JWT } from 'npm:google-auth-library@9'
 import serviceAccount from '../service-account.json' with { type: 'json' }
 
 interface Invitation {
-  id: string
-  user_id: string
+  sender_id: string
+  receiver_id: string
   body: string
 }
 

@@ -3,12 +3,14 @@ import 'package:swit/core/data/base_remote_datasource.dart';
 import 'package:swit/core/utils/datetime_converter.dart';
 import 'package:swit/core/utils/swit/group_invitation_mapper.dart';
 import 'package:swit/core/utils/swit/study_group_mapper.dart';
+import 'package:swit/core/utils/user/login_service.dart';
 import 'package:swit/features/study/swit/data/models/study_group_dto.dart';
 import 'package:swit/features/study/swit/data/models/group_invitation_dto.dart';
 import 'package:swit/features/study/swit/domain/entities/study_group.dart';
 import 'package:swit/features/study/swit/domain/entities/group_invitation.dart';
 
 class StudyGroupRemoteDataSource extends BaseRemoteDataSource {
+  final LoginService loginService = LoginService();
   final DatetimeConverter _converter = const DatetimeConverter();
 
   /* -- 그룹 생성을 리런 함수로 한 이유 -- */
@@ -44,6 +46,8 @@ class StudyGroupRemoteDataSource extends BaseRemoteDataSource {
         // 'invited_at': _converter.toJson(DateTime.now()),
       }).select().single();
 
+      await invitationNotification(supabase.auth.currentUser!.id, invitedUserId);
+
       return response;
     } catch (e) {
       print('Error inviting to group: $e');
@@ -64,6 +68,21 @@ class StudyGroupRemoteDataSource extends BaseRemoteDataSource {
     } catch (e) {
       print('Remote DataSource Error getting group invitations: $e');
       return [];
+    }
+  }
+
+  /* -- 그룹 스터디 초대 시 Notification -- */
+  Future<void> invitationNotification(String senderId, String receiverId) async {
+    try {
+      String senderName = await loginService.getUsernameById(senderId);
+      await supabase.from('notifications').insert({
+        'sender_id': senderId,
+        'receiver_id': receiverId,
+        'body': '$senderName님이 그룹스터디 참여 요청을 보냈습니다.'
+      });
+
+    } catch (error) {
+      print('Study Group DataSource Error sending invitation notification: $error');
     }
   }
 

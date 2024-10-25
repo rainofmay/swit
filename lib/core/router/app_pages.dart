@@ -5,6 +5,7 @@ import 'package:swit/core/di/home_binding.dart';
 import 'package:swit/core/di/audio_binding.dart';
 import 'package:swit/core/di/login_binding.dart';
 import 'package:swit/core/di/mate_binding.dart';
+import 'package:swit/core/di/notification_binding.dart';
 import 'package:swit/core/di/record_binding.dart';
 import 'package:swit/core/di/schedule_binding.dart';
 import 'package:swit/core/di/setting_binding.dart';
@@ -17,7 +18,7 @@ import 'package:swit/core/utils/audio/my_audio_handler.dart';
 import 'package:swit/features/home/presentations/view/home_screen.dart';
 import 'package:swit/features/mate/presentation/view/mate_add_screen.dart';
 import 'package:swit/features/mate/presentation/view/mate_screen.dart';
-import 'package:swit/features/study/notification/notification_screen.dart';
+import 'package:swit/features/study/notification/presentation/view/notification_screen.dart';
 import 'package:swit/features/study/swit/presentation/view/swit_create_screen.dart';
 import 'package:swit/features/study/swit/presentation/view/swit_post_it_create_screen.dart';
 import 'package:swit/features/study/swit/presentation/view/swit_post_it_screen.dart';
@@ -65,7 +66,7 @@ class AppPages {
         GetPage(
           name: Routes.NOTIFICATION,
           page: () => NotificationScreen(),
-          // binding: AudioBinding(),
+          binding: NotificationBinding(),
         ),
 
         /* -- Audio -- */
