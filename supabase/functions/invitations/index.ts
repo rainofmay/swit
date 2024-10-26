@@ -26,7 +26,7 @@ Deno.serve(async (req) => {
   const { data } = await supabase
     .from('user_fcm')
     .select('fcm_token')
-    .eq('uid', payload.record.user_id)
+    .eq('uid', payload.record.sender_id)
     .single()
 
 

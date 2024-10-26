@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:audio_service/audio_service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -7,10 +9,15 @@ import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:swit/app/config/app_config.dart';
 import 'package:swit/core/data/supabase_service.dart';
+import 'package:swit/core/di/mate_binding.dart';
+import 'package:swit/core/di/user_binding.dart';
 import 'package:swit/core/router/app_pages.dart';
 import 'package:swit/features/home/presentations/view/home_screen.dart';
 import 'package:swit/features/home/presentations/viewmodel/home_view_model.dart';
+import 'package:swit/features/user/domain/usecases/get_my_profile_use_case.dart';
+import 'package:swit/features/user/presentation/viewmodel/user_view_model.dart';
 import 'package:swit/shared/widgets/custom_snackbar.dart';
+import 'core/utils/user/profile_cache_manager.dart';
 import 'shared/constant/color_box.dart';
 import 'shared/constant/themes.dart' as main_themes;
 import 'firebase_options.dart';
@@ -30,9 +37,14 @@ Future<void> initServices() async {
       url: dotenv.get("PROJECT_URL"),
       anonKey: dotenv.get("PROJECT_API_KEY")
   );
+
   await Get.putAsync(() => SupabaseService().init());
 
+
   final supabase = Supabase.instance.client;
+
+  // UserViewModel 초기 프로필 로드
+
   Future<void> setFcmToken(String fcmToken) async {
     try {
       final userId = supabase.auth.currentUser?.id;
@@ -96,9 +108,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialBinding: BindingsBuilder(() async {
         Get.put(HomeViewModel());
-
-        // final audioHandler = await initAudioService();
-        // Get.put<AudioHandler>(audioHandler);
+        Get.put(MateBinding().dependencies());
         }),
 
       initialRoute: AppPages.INITIAL,

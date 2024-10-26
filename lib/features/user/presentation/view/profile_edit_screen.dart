@@ -4,7 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:swit/shared/constant/color_box.dart';
 import 'package:swit/shared/constant/font_box.dart';
 import 'package:swit/shared/widgets/custom_text_form_field.dart';
-import 'package:swit/shared/widgets/profile_img.dart';
+import 'package:swit/shared/widgets/my_profile_img.dart';
 import 'package:swit/features/user/presentation/viewmodel/user_view_model.dart';
 import 'package:swit/shared/widgets/custom_back_appbar.dart';
 import 'package:swit/shared/widgets/custom_gap.dart';
@@ -45,7 +45,7 @@ class ProfileEditScreen extends GetView<UserViewModel> {
             child: Column(
               children: [
                 const CustomGap(16),
-                ProfileImg(
+                MyProfileImg(
                   onTap: _showImageSourceDialog,
                   width: 90,
                   height: 90,

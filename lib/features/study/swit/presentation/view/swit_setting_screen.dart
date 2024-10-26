@@ -19,7 +19,7 @@ class SwitSettingScreen extends GetView<SwitSettingViewModel> {
           appbarTitle: '설 정', isLeading: true, isCenterTitle: true),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.only(left: 16.0, right: 16.0),
+          padding: const EdgeInsets.only(left: 16.0, right: 16.0),
           child: Column(
             children: [
               const CustomGap(40),

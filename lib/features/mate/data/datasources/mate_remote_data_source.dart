@@ -5,9 +5,7 @@ import 'package:swit/core/data/base_remote_datasource.dart';
 import 'package:swit/core/utils/user/login_service.dart';
 
 class MateRemoteDataSource extends BaseRemoteDataSource {
-
   final LoginService loginService = LoginService();
-
 
 /* ------------------------------------------------------ */
 /* Get Fields ------------------------------------------- */
@@ -67,12 +65,14 @@ class MateRemoteDataSource extends BaseRemoteDataSource {
   // 메이트 팔로우 하기
   Future<void> followMate(String followedUid, String message) async {
     try {
+      final String followerUid = supabase.auth.currentUser!.id;
       await supabase.rpc('follow_user', params: {
-        'follower_uid': supabase.auth.currentUser!.id,
+        'follower_uid': followerUid,
         'followed_uid': followedUid,
         'follow_message': message
       });
-      // 성공 처리
+
+      followNotification(followerUid, followedUid);
     } catch (error) {
       print('Mate remote followUser error : $error');
     }
@@ -93,6 +93,25 @@ class MateRemoteDataSource extends BaseRemoteDataSource {
       // 성공 처리
     } catch (error) {
       print('Mate remote unfollowUser error : $error');
+    }
+  }
+
+  /* ------------------------------------------------------ */
+/* Notification Fields ---------------------------------- */
+/* ------------------------------------------------------ */
+
+/* -- 그룹 스터디 초대 시 Notification -- */
+  Future<void> followNotification(String senderId, String receiverId) async {
+    try {
+      String senderName = await loginService.getUsernameById(senderId);
+      await supabase.from('notifications').insert({
+        'sender_id': senderId,
+        'receiver_id': receiverId,
+        'body': '$senderName님이 팔로우합니다.'
+      });
+
+    } catch (error) {
+      print('Mate DataSource Error sending follow notification: $error');
     }
   }
 }

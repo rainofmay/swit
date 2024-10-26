@@ -14,6 +14,7 @@ class MateScreen extends GetView<MateViewModel> {
 
   @override
   Widget build(BuildContext context) {
+
     return SafeArea(
           child: CustomScaffold(
           appBar: CustomAppBar(appbarTitle: '메이트', actions: [

@@ -7,21 +7,26 @@ class UpdateMyProfileUseCase {
 
   UpdateMyProfileUseCase(this._repository);
 
-  Future<void> execute(
-      {required String userId,
-      String? username,
-      String? introduction,
-      File? profileImage,
-      String? profileUrl}) async {
+  Future<void> execute({
+    required String userId,
+    String? username,
+    String? introduction,
+    File? profileImage,
+    String? profileUrl
+  }) async {
+    try {
+      if (profileImage != null) {
+        profileUrl = await _repository.uploadProfileImage(profileImage);
+      }
 
-    if (profileImage != null) {
-      profileUrl = await _repository.uploadProfileImage(profileImage);
+      await _repository.updateMyProfile(
+          userId: userId,
+          username: username,
+          introduction: introduction,
+          profileUrl: profileUrl
+      );
+    } catch (e) {
+      rethrow;
     }
-
-    await _repository.updateMyProfile(
-        userId: userId,
-        username: username,
-        introduction: introduction,
-        profileUrl: profileUrl);
   }
 }

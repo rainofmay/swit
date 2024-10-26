@@ -9,6 +9,8 @@ class NotificationRemoteDataSource extends BaseRemoteDataSource {
           .eq('receiver_id', supabase.auth.currentUser!.id)
           .order('created_at', ascending: false); // 최신순 정렬
 
+      print('notification $response');
+
       return List<Map<String, dynamic>>.from(response);
     } catch (e) {
       throw Exception('Error DataSource getNotifications: $e');
