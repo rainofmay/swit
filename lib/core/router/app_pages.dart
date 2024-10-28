@@ -8,7 +8,7 @@ import 'package:swit/core/di/mate_binding.dart';
 import 'package:swit/core/di/notification_binding.dart';
 import 'package:swit/core/di/record_binding.dart';
 import 'package:swit/core/di/schedule_binding.dart';
-import 'package:swit/core/di/setting_binding.dart';
+import 'package:swit/core/di/bg_setting_binding.dart';
 import 'package:swit/core/di/swit_binding.dart';
 import 'package:swit/core/di/swit_post_it_bindiing.dart';
 import 'package:swit/core/di/swit_setting_binding.dart';
@@ -112,7 +112,7 @@ class AppPages {
                 GetPage(
                   name: Routes.BACKGROUNDSETTING,
                   page: () => const BgSettingScreen(),
-                  binding: SettingBinding(),
+                  binding: BgSettingBinding(),
                 )
               ],
             ),

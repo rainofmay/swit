@@ -1,9 +1,7 @@
 import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:swit/core/utils/user/profile_cache_manager.dart';
 import 'package:swit/features/user/presentation/viewmodel/user_view_model.dart';
 import 'package:swit/shared/constant/color_box.dart';
 import 'package:swit/shared/widgets/optimized_profile_image.dart';

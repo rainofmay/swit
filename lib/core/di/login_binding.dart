@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:swit/core/utils/user/login_service.dart';
 import 'package:swit/features/user/data/datasources/google_login_remote_data_source.dart';
 import 'package:swit/features/user/data/repositories/login_repository_impl.dart';
 import 'package:swit/features/user/domain/repositories/login_repository.dart';
@@ -21,6 +22,9 @@ class LoginBinding extends Bindings {
 
     /* -- View Model -- */
     Get.lazyPut<LoginViewModel>(() => LoginViewModel(
-        googleLoginUseCase: Get.find<GoogleLoginUseCase>()));
+        googleLoginUseCase: Get.find<GoogleLoginUseCase>(),
+        loginService: Get.find<LoginService>(),
+    ));
+
   }
 }

@@ -20,10 +20,11 @@ class OptimizedProfileImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return GestureDetector(
       onTap: onTap,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(width / 2),
+        borderRadius: BorderRadius.circular(50),
         child: CachedNetworkImage(
           cacheManager: ProfileCacheManager(),
           imageUrl: imageUrl,

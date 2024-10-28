@@ -58,6 +58,7 @@ flutter:
     - assets/icons/music/
     - assets/icons/background/
     - assets/icons/record/
+    - assets/icons/bottombar/
     - assets/images/
     - assets/images/music/
     - .env

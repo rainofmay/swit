@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:swit/core/utils/user/login_service.dart';
 import 'package:swit/features/user/domain/entities/user.dart';
 import 'package:swit/features/user/domain/usecases/google_login_use_case.dart';
 import 'package:swit/shared/widgets/custom_snackbar.dart';
@@ -7,14 +8,18 @@ import 'package:swit/shared/widgets/custom_snackbar.dart';
 
 class LoginViewModel extends GetxController {
   final GoogleLoginUseCase _googleLoginUseCase;
+  final LoginService _loginService;
 
   LoginViewModel({
     required GoogleLoginUseCase googleLoginUseCase,
-  })  : _googleLoginUseCase = googleLoginUseCase;
+    required LoginService loginService,
+  })  : _googleLoginUseCase = googleLoginUseCase,
+        _loginService = loginService;
 
   late final Rx<User?> _user = null.obs;
   User? get user => _user.value;
 
+  bool get isLoggedIn => _loginService.isLoggedIn;
 
   Future<void> signInWithGoogle() async {
     try {

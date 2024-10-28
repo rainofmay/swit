@@ -23,6 +23,18 @@ extension HomeTabX on HomeTab {
         return 'assets/icons/more_black.svg';
     }
   }
+  // String get onIcon {
+  //   switch (this) {
+  //     case HomeTab.home:
+  //       return 'assets/icons/bottombar/home_color.svg';
+  //     case HomeTab.mate:
+  //       return 'assets/icons/bottombar/mate_color.svg';
+  //     case HomeTab.record:
+  //       return 'assets/icons/bottombar/log_color.svg';
+  //     case HomeTab.more:
+  //       return 'assets/icons/bottombar/more_color.svg';
+  //   }
+  // }
 
   String get offIcon {
     switch (this) {

@@ -30,8 +30,8 @@ class MateTab extends GetView<MateViewModel> {
               /* -- 내 프로필 이미지 -- */
               MyProfileImg(
                 onTap: () => Get.toNamed(Routes.EDITPROFILE),
-                width: 55,
-                height: 55,
+                width: 48,
+                height: 48,
                 stackIcon: Icon(Icons.edit_rounded,
                       size: 12, color: ColorBox.primaryColor)
               ),
@@ -53,8 +53,7 @@ class MateTab extends GetView<MateViewModel> {
             Text('Mates', style: FontBox.B2.copyWith(color: ColorBox.dark)),
             const CustomGap(16),
             Expanded(
-                child:
-                Container(color: ColorBox.grey.withOpacity(0.3), height: 1))
+                child: Container(color: ColorBox.grey.withOpacity(0.3), height: 1))
           ],
         ),
       ),

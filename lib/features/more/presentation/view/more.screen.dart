@@ -13,14 +13,12 @@ import 'package:swit/shared/widgets/custom_scaffold.dart';
 import 'package:swit/shared/widgets/tap_row.dart';
 
 class MoreScreen extends GetView<LoginViewModel> {
-  MoreScreen({super.key});
-
-  final _loginService = Get.find<LoginService>();
+  const MoreScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      appBar: CustomAppBar(appbarTitle: '더보기'),
+      appBar: const CustomAppBar(appbarTitle: '더보기'),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -59,7 +57,7 @@ class MoreScreen extends GetView<LoginViewModel> {
                     title: 'Swit에 제안하기',
                     onTap: () {}),
                 const CustomGap(32),
-                Obx(() => _loginService.isLoggedIn
+                Obx(() => controller.isLoggedIn
                     ? const SizedBox()
                     : TapRow(
                     widget: Icon(Icons.login_rounded, size: IconSize.md),

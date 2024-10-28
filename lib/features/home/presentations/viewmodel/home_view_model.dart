@@ -1,9 +1,10 @@
 import 'package:get/get.dart';
 import 'package:swit/app/enums/home_tab_type.dart';
 import 'package:swit/core/di/home_binding.dart';
+import 'package:swit/core/di/login_binding.dart';
 import 'package:swit/core/di/mate_binding.dart';
 import 'package:swit/core/di/record_binding.dart';
-import 'package:swit/core/di/setting_binding.dart';
+import 'package:swit/core/di/bg_setting_binding.dart';
 import 'package:swit/core/di/user_binding.dart';
 import 'package:swit/features/record/presentation/viewmodel/record_view_model.dart';
 
@@ -24,7 +25,7 @@ class HomeViewModel extends GetxController {
 
     switch (tab) {
       case HomeTab.home:
-        _currentBindings.add(SettingBinding());
+        _currentBindings.add(BgSettingBinding());
         _currentBindings.add(UserBinding());
         break;
       case HomeTab.mate:
@@ -34,6 +35,7 @@ class HomeViewModel extends GetxController {
         _currentBindings.add(RecordBinding());
         break;
       case HomeTab.more:
+        _currentBindings.add(LoginBinding());
         break;
     }
 
