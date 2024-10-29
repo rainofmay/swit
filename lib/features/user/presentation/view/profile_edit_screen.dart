@@ -25,33 +25,42 @@ class ProfileEditScreen extends GetView<UserViewModel> {
         isCenterTitle: true,
         actions: [
           TextButton(
-            onPressed: () async {
-              Get.back();
-              await _saveProfile();
-            },
+            onPressed: _saveProfile,
             child: Text('저장', style: FontBox.activtedActions),
           ),
         ],
       ),
       body: Obx(() {
-        _usernameController.text = controller.username;
-        _introductionController.text = controller.introduction;
+        final user = controller.user;
 
-        return controller.isLoading
-            ? const Center(child: CircularProgressIndicator())
-            : SingleChildScrollView(
+        if (user == null) {
+          return const Center(
+            child: Text('프로필 정보를 불러올 수 없습니다'),
+          );
+        }
+
+        // 이미지 업데이트 중이 아닐 때만 텍스트 필드 업데이트
+        if (!controller.isImageUpdating) {
+          _usernameController.text = controller.username;
+          _introductionController.text = controller.introduction;
+        }
+
+        return SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(32.0),
             child: Column(
               children: [
                 const CustomGap(16),
                 MyProfileImg(
-                  onTap: _showImageSourceDialog,
+                  onTap: controller.isImageUpdating ? null : _showImageSourceDialog,
                   width: 90,
                   height: 90,
-                  stackIcon: Icon(Icons.camera_enhance_rounded,
-                    size: 18, color: ColorBox.grey,
-                )),
+                  stackIcon: Icon(
+                    Icons.camera_enhance_rounded,
+                    size: 18,
+                    color: ColorBox.grey,
+                  ),
+                ),
                 const CustomGap(32),
                 _buildLabeledTextField('이 름', _usernameController, maxLength: 10),
                 const CustomGap(40),
@@ -102,15 +111,15 @@ class ProfileEditScreen extends GetView<UserViewModel> {
             ListTile(
               leading: const Icon(Icons.camera_alt),
               title: const Text('카메라로 촬영'),
-              onTap: () {
+              onTap: () async {
                 Get.back();
-                controller.updateProfileImage(ImageSource.camera);
+                await controller.updateProfileImage(ImageSource.camera);
               },
             ),
             ListTile(
               leading: const Icon(Icons.photo_library),
               title: const Text('갤러리에서 선택'),
-              onTap: () {
+              onTap: () async {
                 Get.back();
                 controller.updateProfileImage(ImageSource.gallery);
               },
@@ -128,8 +137,8 @@ class ProfileEditScreen extends GetView<UserViewModel> {
         introduction: _introductionController.text,
       );
       if (success) {
-         await controller.loadMyProfile();
-
+         await controller.initializeProfile();
+         Get.back();
       } else {
         Get.snackbar('오류', '프로필 업데이트에 실패했습니다.');
       }

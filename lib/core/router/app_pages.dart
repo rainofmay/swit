@@ -197,7 +197,7 @@ class AppPages {
       children: [
         GetPage(
           name: Routes.USERINFO,
-          page: () => const UserInfoScreen(),
+          page: () => UserInfoScreen(),
           binding: LoginBinding(),
         ),
       ],

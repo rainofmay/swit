@@ -31,6 +31,7 @@ class UserBinding extends Bindings {
     Get.put(UserViewModel(
       getMyProfileUseCase: Get.find<GetMyProfileUseCase>(),
       updateMyProfileUseCase: Get.find<UpdateMyProfileUseCase>(),
+      loginService: Get.find<LoginService>(),
     ));
   }
 }

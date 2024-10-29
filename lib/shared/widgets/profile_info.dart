@@ -11,32 +11,47 @@ class ProfileInfo extends GetView<UserViewModel> {
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => Expanded(
+          () => Expanded(
         child: Padding(
           padding: const EdgeInsets.only(left: 16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (controller.username.trim().isEmpty)
-                Text('이름을 설정해 주세요.',
-                    style: FontBox.B1.copyWith(color: ColorBox.grey))
-              else
-                Text(controller.username.trim(), style: FontBox.B1),
-              const CustomGap(6),
-              if (controller.introduction.trim().isEmpty)
-                const SizedBox()
-              else
-                Text(
-                  controller.introduction.trim(),
-                  style: FontBox.B3.copyWith(color: ColorBox.grey),
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                )
+              _buildUsername(),
+              _buildIntroduction(),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildUsername() {
+    final username = controller.username.trim();
+    return Text(
+      username.isEmpty ? '이름을 설정해 주세요.' : username,
+      style: FontBox.B1.copyWith(
+        color: username.isEmpty ? ColorBox.grey : null,
+      ),
+    );
+  }
+
+  Widget _buildIntroduction() {
+    final introduction = controller.introduction.trim();
+    if (introduction.isEmpty) return const SizedBox();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const CustomGap(6),
+        Text(
+          introduction,
+          style: FontBox.B3.copyWith(color: ColorBox.grey),
+          overflow: TextOverflow.ellipsis,
+          maxLines: 2,
+        ),
+      ],
     );
   }
 }

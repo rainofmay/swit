@@ -1,4 +1,4 @@
-// widgets/optimized_profile_image.dart
+import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:swit/core/utils/user/memory_cache.dart';
@@ -20,11 +20,36 @@ class OptimizedProfileImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // 로컬 파일 경로인 경우
+    if (imageUrl.startsWith('/') || imageUrl.startsWith('file://')) {
+      return GestureDetector(
+        onTap: onTap,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(50),
+          child: Image.file(
+            File(imageUrl),
+            width: width,
+            height: height,
+            fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) {
+              return Container(
+                width: width,
+                height: height,
+                color: Colors.grey[200],
+              );
+            },
+          ),
+        ),
+      );
+    }
 
+    // 네트워크(서버에서 가져오는) 이미지인 경우
     return GestureDetector(
       onTap: onTap,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(50),
+        // CachedNetworkImage가 imageUrl 주소를 가지고 네트워크 이미지를 부름.
+        // 이미지가 로드되고 나면 imageProvider가 imageBuilder의 Image 위젯에 전달됨
         child: CachedNetworkImage(
           cacheManager: ProfileCacheManager(),
           imageUrl: imageUrl,
@@ -35,8 +60,9 @@ class OptimizedProfileImage extends StatelessWidget {
           placeholderFadeInDuration: Duration.zero,
           memCacheWidth: width.toInt(),
           memCacheHeight: height.toInt(),
+
+          // 메모리 캐시가 있다면, 해당 이미지를 불러옴.
           placeholder: (context, url) {
-            // 메모리 캐시 확인
             final cachedData = MemoryCache.get(url);
             if (cachedData != null) {
               return Image.memory(
@@ -44,6 +70,13 @@ class OptimizedProfileImage extends StatelessWidget {
                 width: width,
                 height: height,
                 fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    width: width,
+                    height: height,
+                    color: Colors.grey[200],
+                  );
+                },
               );
             }
             return Container(
@@ -52,20 +85,17 @@ class OptimizedProfileImage extends StatelessWidget {
               color: Colors.grey[200],
             );
           },
+          errorWidget: (context, url, error) {
+            print('Network image error: $error');
+            return Container(
+              width: width,
+              height: height,
+              color: Colors.grey[200],
+            );
+          },
           imageBuilder: (context, imageProvider) {
-            // 이미지 로드 성공시 메모리 캐시 저장
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              imageProvider
-                  .resolve(createLocalImageConfiguration(context))
-                  .addListener(ImageStreamListener((info, _) async {
-                final byteData = await info.image.toByteData();
-                if (byteData != null) {
-                  MemoryCache.store(imageUrl, byteData.buffer.asUint8List());
-                }
-              }));
-            });
             return Image(
-              image: imageProvider,
+              image: imageProvider, // CachedNetworkImage가 제공한 imageProvider를 Image 위젯에 전달
               width: width,
               height: height,
               fit: BoxFit.cover,

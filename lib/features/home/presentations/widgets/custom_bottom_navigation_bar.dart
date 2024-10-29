@@ -5,29 +5,24 @@ import 'package:swit/app/enums/home_tab_type.dart';
 import 'package:swit/features/home/presentations/viewmodel/home_view_model.dart';
 import 'package:swit/shared/constant/color_box.dart';
 
-class CustomBottomNavigationBar extends StatelessWidget {
-  CustomBottomNavigationBar({super.key});
-
-  final HomeViewModel vm = Get.find<HomeViewModel>();
+class CustomBottomNavigationBar extends GetView<HomeViewModel> {
+  const CustomBottomNavigationBar({super.key});
 
   @override
   Widget build(BuildContext context) {
     final List<Widget> widgets = HomeTab.values.map((tab) {
       return Obx(() => _CustomBottomNavigationBarItem(
-          isSelected: vm.currentTab == tab,
+          isSelected: controller.currentTab == tab,
           tab: tab,
-          onTap: () => vm.updateCurrentTab(tab)
-      ));
+          onTap: () => controller.updateCurrentTab(tab)));
     }).toList();
 
     return Container(
-      decoration: BoxDecoration(
-        color: ColorBox.secondColor
-      ),
-      height: 72,
-      child:  Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: widgets),
-    );
+        decoration: BoxDecoration(color: ColorBox.secondColor),
+        height: 72,
+        child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: widgets));
   }
 }
 

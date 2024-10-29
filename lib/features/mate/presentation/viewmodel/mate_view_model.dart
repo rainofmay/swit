@@ -133,7 +133,7 @@ class MateViewModel extends GetxController {
      _followingList.add(_searchedMate.value!);
    }
    // 팔로잉 성공 후 실행할 함수
-   await _userViewModel.loadMyProfile();
+   await _userViewModel.initializeProfile();
 
   }
 
@@ -144,7 +144,7 @@ class MateViewModel extends GetxController {
       _followingList.removeWhere((user) => user.uid == unfollowedId);
 
       // 언팔 성공 후 실행할 함수
-      await _userViewModel.loadMyProfile();
+      await _userViewModel.initializeProfile();
       // await getFollowingList();
 
     } catch (e) {

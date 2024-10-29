@@ -2,9 +2,11 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:swit/app/enums/online_status.dart';
+import 'package:swit/core/utils/user/login_service.dart';
 import 'package:swit/core/utils/user/profile_cache_manager.dart';
 import 'package:swit/features/user/domain/entities/user.dart';
 import 'package:swit/features/user/domain/usecases/get_my_profile_use_case.dart';
@@ -13,41 +15,52 @@ import 'package:swit/features/user/domain/usecases/update_my_profile_use_case.da
 class UserViewModel extends GetxController {
   final UpdateMyProfileUseCase _updateMyProfileUseCase;
   final GetMyProfileUseCase _getMyProfileUseCase;
+  final LoginService _loginService;
   final ImagePicker _imagePicker = ImagePicker();
   final ProfileCacheManager _cacheManager = ProfileCacheManager();
 
   UserViewModel({
     required GetMyProfileUseCase getMyProfileUseCase,
     required UpdateMyProfileUseCase updateMyProfileUseCase,
+    required LoginService loginService,
   })
       : _getMyProfileUseCase = getMyProfileUseCase,
-        _updateMyProfileUseCase = updateMyProfileUseCase;
+        _updateMyProfileUseCase = updateMyProfileUseCase,
+        _loginService = loginService;
+
 
 
   late final Rx<User?> _user = Rx<User?>(null);
-  User? get user => _user.value;
-
-  // 파생된 옵저버블 속성들
   final RxString _localImagePath = ''.obs; // 로컬 이미지 경로
-  String get email => _user.value?.email ?? '';
-  String get uid => _user.value?.uid ?? '';
-  String get username => _user.value?.username ?? '아이디가 없습니다.';
-  String get profileUrl {
-    if (_localImagePath.value.isNotEmpty) {
-      return _localImagePath.value;
-    }
-    return _user.value?.profileUrl ?? '';  // 타임스탬프 제거
-  }
+  final RxBool _isImageUpdating = false.obs;
 
-  String get introduction => _user.value?.introduction ?? '';
-  OnlineStatus get onlineStatus =>
-      _user.value?.onlineStatus ?? OnlineStatus.offline;
-  int get followerCount => _user.value?.followerCount ?? 0;
-  int get followingCount => _user.value?.followingCount ?? 0;
 
-  final RxBool _isLoading = false.obs;
-  bool get isLoading => _isLoading.value;
+  /* ------------------------------------------------------ */
+  /* Getter Variables ------------------------------------- */
+  /* ------------------------------------------------------ */
+  User? get user => _loginService.isLoggedIn ? _user.value : null;
+  bool get isImageUpdating => _isImageUpdating.value;
+  String get profileUrl => _loginService.isLoggedIn
+      ? (_localImagePath.value.isNotEmpty ? _localImagePath.value : _user.value?.profileUrl ?? '')
+      : '';
 
+  String get email => _loginService.isLoggedIn ? (_user.value?.email ?? '') : '';
+  String get uid => _loginService.isLoggedIn ? (_user.value?.uid ?? '') : '';
+  String get username => _loginService.isLoggedIn
+      ? (_user.value?.username ?? '아이디가 없습니다.')
+      : '로그인이 필요합니다';
+  String get introduction => _loginService.isLoggedIn
+      ? (_user.value?.introduction ?? '')
+      : '';
+  OnlineStatus get onlineStatus => _loginService.isLoggedIn
+      ? (_user.value?.onlineStatus ?? OnlineStatus.offline)
+      : OnlineStatus.offline;
+  int get followerCount => _loginService.isLoggedIn
+      ? (_user.value?.followerCount ?? 0)
+      : 0;
+  int get followingCount => _loginService.isLoggedIn
+      ? (_user.value?.followingCount ?? 0)
+      : 0;
 
   /* ------------------------------------------------------ */
   /* Life cycle ------------------------------------------- */
@@ -55,17 +68,22 @@ class UserViewModel extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    loadMyProfile();
-    preloadMyProfileImage();
+    // 로그인 상태 감시
+    if (_loginService.isLoggedIn) {
+      initializeProfile();
+    }
   }
+
+  // 유저 데이터 초기화 메서드
 
 
   /* ------------------------------------------------------ */
   /* Get Functions ---------------------------------------- */
   /* ------------------------------------------------------ */
-  Future<void> loadMyProfile() async {
+  Future<void> initializeProfile() async {
+    if (!_loginService.isLoggedIn) return;
+
     try {
-      _isLoading.value = true;
       final User userProfile = await _getMyProfileUseCase.execute();
       _user.value = userProfile;
 
@@ -78,58 +96,82 @@ class UserViewModel extends GetxController {
       print('Error loading profile: $e');
       // 에러 처리 로직 추가 (예: 스낵바 표시)
     } finally {
-      _isLoading.value = false;
+      _isImageUpdating.value = false;
     }
   }
 
-  Future<void> preloadMyProfileImage() async {
-    if (profileUrl.isNotEmpty) {
-      await _cacheManager.downloadFile(profileUrl);
-    }
-  }
   /* ------------------------------------------------------ */
   /* Update Functions ------------------------------------- */
   /* ------------------------------------------------------ */
 
   Future<void> updateProfileImage(ImageSource source) async {
+    if (!_loginService.isLoggedIn || _isImageUpdating.value) return;
+
     try {
-      final XFile? image = await _imagePicker.pickImage(
+      _isImageUpdating.value = true;
+
+      final XFile? pickedFile = await _imagePicker.pickImage(
         source: source,
         imageQuality: 85,
         maxWidth: 600,
         maxHeight: 600,
+        preferredCameraDevice: CameraDevice.front,
       );
 
-      if (image == null || _user.value == null) return;
+      if (pickedFile == null || _user.value == null) return;
 
-      // 1. 즉시 로컬 이미지로 UI 업데이트
-      _localImagePath.value = image.path;
+      // 이미지 파일 유효성 검사
+      final File imageFile = File(pickedFile.path);
 
-      // 2. 백그라운드에서 이미지 업로드 및 프로필 업데이트
-      await _updateMyProfileUseCase.execute(
-          userId: _user.value!.uid,
-          profileImage: File(image.path)
-      );
-
-      // 3. 캐시 삭제 및 서버 데이터로 동기화
-      final oldUrl = _user.value?.profileUrl;
-      if (oldUrl != null) {
-        await _cacheManager.removeFile(oldUrl);
+      if (!await imageFile.exists()) {
+        throw Exception('Selected image file does not exist');
       }
 
-      // 4. 프로필 새로고침
-      await loadMyProfile();
-      _localImagePath.value = '';  // 서버 이미지로 전환
+      // 파일 확장자 확인
+      final String extension = pickedFile.path.split('.').last.toLowerCase();
+      if (!['jpg', 'jpeg', 'png'].contains(extension)) {
+        Get.snackbar('오류', 'JPG 또는 PNG 형식의 이미지만 사용 가능합니다');
+        return;
+      }
+
+      // 이미지 크기 제한
+      final fileSize = await imageFile.length();
+      if (fileSize > 5 * 1024 * 1024) {
+        Get.snackbar('오류', '이미지 크기가 너무 큽니다 (최대 5MB)');
+        return;
+      }
+
+      // 즉시 UI 업데이트를 위한 로컬 경로 설정
+      _localImagePath.value = imageFile.path;
+
+      try {
+        // 프로필 업데이트 수행
+        await _updateMyProfileUseCase.execute(
+          userId: _user.value!.uid,
+          profileImage: imageFile,
+        );
+
+        // 기존 캐시 삭제
+        if (_user.value?.profileUrl != null && _user.value!.profileUrl.isNotEmpty) {
+          await _cacheManager.removeFile(_user.value!.profileUrl);
+        }
+
+
+      } catch (e) {
+        throw Exception('Failed to update profile image: $e');
+      }
 
     } catch (e) {
-      print('Error updating profile image: $e');
-      Get.snackbar('오류', '이미지 업데이트에 실패했습니다');
-      _localImagePath.value = '';  // 에러 시 로컬 이미지 초기화
+      print('Profile image update error: $e');
+      _localImagePath.value = '';
     }
   }
 
+
   Future<bool> updateMyProfile(
       {String? username, String? introduction, String? profileUrl}) async {
+    if (!_loginService.isLoggedIn || user == null) return false;
+
     try {
       await _updateMyProfileUseCase.execute(
         userId: _user.value!.uid,
@@ -138,16 +180,8 @@ class UserViewModel extends GetxController {
         profileUrl: profileUrl,
       );
 
-      _user.value = User(
-        uid: _user.value!.uid,
-        email: _user.value!.email,
-        username: username ?? _user.value!.username,
-        profileUrl: profileUrl ?? _user.value!.profileUrl,
-        introduction: introduction ?? _user.value!.introduction,
-        onlineStatus: _user.value!.onlineStatus,
-        followerCount: _user.value!.followerCount,
-        followingCount: _user.value!.followingCount,
-      );
+      final updatedProfile = await _getMyProfileUseCase.execute();
+      _user.value = updatedProfile;
 
       update();
       return true;
@@ -157,4 +191,12 @@ class UserViewModel extends GetxController {
     }
   }
 
+  /* ------------------------------------------------------ */
+  /* Delete Functions ------------------------------------- */
+  /* ------------------------------------------------------ */
+  void clearUserData() {
+    _user.value = null;
+    _localImagePath.value = '';
+    _isImageUpdating.value = false;
+  }
 }
