@@ -12,7 +12,7 @@ import 'package:swit/shared/widgets/custom_gap.dart';
 import 'package:swit/shared/widgets/custom_scaffold.dart';
 import 'package:swit/shared/widgets/tap_row.dart';
 
-class MoreScreen extends GetView<LoginViewModel> {
+class MoreScreen extends GetView<LoginService> {
   const MoreScreen({super.key});
 
   @override

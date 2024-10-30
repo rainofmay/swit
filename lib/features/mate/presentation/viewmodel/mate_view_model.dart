@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:swit/app/enums/online_status.dart';
+import 'package:swit/core/utils/user/login_service.dart';
 import 'package:swit/features/mate/domain/usecases/follow_mate_use_case.dart';
 import 'package:swit/features/mate/domain/usecases/get_follower_list_use_case.dart';
 import 'package:swit/features/mate/domain/usecases/get_following_list_use_case.dart';
@@ -17,6 +18,7 @@ class MateViewModel extends GetxController {
   final GetFollowingListUseCase _getFollowingListUseCase;
   final GetFollowerListUseCase _getFollowerListUseCase;
   final UnfollowMateUseCase _unfollowMateUseCase;
+  final LoginService _loginService;
 
   MateViewModel(
       {  required UserViewModel userViewModel,
@@ -25,19 +27,21 @@ class MateViewModel extends GetxController {
         required GetFollowingListUseCase getFollowingListUseCase,
         required GetFollowerListUseCase getFollowerListUseCase,
         required UnfollowMateUseCase unfollowMateUseCase,
+        required LoginService loginService,
       })
       :  _userViewModel = userViewModel,
         _searchMateUseCase = searchMateUseCase,
         _followMateUseCase = followMateUseCase,
         _getFollowingListUseCase = getFollowingListUseCase,
         _getFollowerListUseCase = getFollowerListUseCase,
-        _unfollowMateUseCase = unfollowMateUseCase
-  ;
-
-  /* ------------------------------------------------------ */
-  /* My profile Fields ------------------------------------ */
-  /* ------------------------------------------------------ */
-  User? get user => _userViewModel.user;
+        _unfollowMateUseCase = unfollowMateUseCase,
+        _loginService = loginService {
+        // 생성 시 LoginService에 자신을 등록
+        _loginService.registerViewModels(
+          userViewModel: _userViewModel,
+          mateViewModel: this,
+        );
+      }
 
   /* ------------------------------------------------------ */
   /* Mate Fields ------------------------------------------ */
@@ -49,7 +53,7 @@ class MateViewModel extends GetxController {
   TextEditingController get searchController => _searchController.value;
 
   bool isCurrentUser(User? searchedUser) {
-    return searchedUser != null && searchedUser.uid == user?.uid;
+    return searchedUser != null && searchedUser.uid == _loginService.currentUser?.id;
   }
 
   bool isFollowing(User? selectedUser) {
@@ -64,13 +68,22 @@ class MateViewModel extends GetxController {
   late final RxList<User> _followerList = <User>[].obs;
   List<User> get followerList => _followerList;
 
-
+  /* ------------------------------------------------------ */
+  /* Life Cycles ------------------------------------------ */
+  /* ------------------------------------------------------ */
 
   @override
   void onInit() {
     super.onInit();
-    getFollowingList();
-    getFollowerList();
+    initializeData();
+  }
+
+  // 데이터 초기화 메서드
+  Future<void> initializeData() async {
+    if (!_loginService.isLoggedIn) return;
+
+    await getFollowingList();
+    await getFollowerList();
   }
 
   @override
@@ -132,7 +145,7 @@ class MateViewModel extends GetxController {
    if (!_followingList.contains(_searchedMate.value)) {
      _followingList.add(_searchedMate.value!);
    }
-   // 팔로잉 성공 후 실행할 함수
+   // 팔로잉 성공 후 내 팔로잉 수 최신화
    await _userViewModel.initializeProfile();
 
   }
@@ -143,9 +156,8 @@ class MateViewModel extends GetxController {
       // 팔로잉 목록에서 해당 사용자 제거
       _followingList.removeWhere((user) => user.uid == unfollowedId);
 
-      // 언팔 성공 후 실행할 함수
+      // 언팔 성공 후 내 팔로잉 수 최신화
       await _userViewModel.initializeProfile();
-      // await getFollowingList();
 
     } catch (e) {
       print('Error unfollowing mate: $e');
@@ -159,4 +171,13 @@ class MateViewModel extends GetxController {
     update();
   }
 
+  /* ------------------------------------------------------ */
+  /* Delete Functions ------------------------------------- */
+  /* ------------------------------------------------------ */
+  void clearMateData() {
+    _followingList.clear();
+    _followerList.clear();
+    _searchedMate.value = null;
+    _searchController.value.clear();
+  }
 }

@@ -38,12 +38,9 @@ class ProfileEditScreen extends GetView<UserViewModel> {
             child: Text('프로필 정보를 불러올 수 없습니다'),
           );
         }
-
-        // 이미지 업데이트 중이 아닐 때만 텍스트 필드 업데이트
-        if (!controller.isImageUpdating) {
           _usernameController.text = controller.username;
           _introductionController.text = controller.introduction;
-        }
+
 
         return SingleChildScrollView(
           child: Padding(
@@ -52,7 +49,7 @@ class ProfileEditScreen extends GetView<UserViewModel> {
               children: [
                 const CustomGap(16),
                 MyProfileImg(
-                  onTap: controller.isImageUpdating ? null : _showImageSourceDialog,
+                  onTap: _showImageSourceDialog,
                   width: 90,
                   height: 90,
                   stackIcon: Icon(

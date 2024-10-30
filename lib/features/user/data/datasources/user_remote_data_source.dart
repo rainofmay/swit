@@ -91,7 +91,7 @@ class UserRemoteDataSource extends BaseRemoteDataSource{
       ));
 
       // 공개 URL 가져오기 전에 짧은 대기 시간 추가
-      await Future.delayed(const Duration(milliseconds: 500));
+      await Future.delayed(const Duration(milliseconds: 300));
 
       final imageUrl = supabase.storage
           .from('profile_images')

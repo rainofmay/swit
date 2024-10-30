@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:swit/core/utils/user/login_service.dart';
 import 'package:swit/features/mate/data/datasources/mate_remote_data_source.dart';
@@ -40,12 +41,13 @@ class MateBinding extends Bindings {
 
     /* -- ViewModel -- */
     Get.lazyPut(() => MateViewModel(
-        userViewModel: Get.find<UserViewModel>(),
         searchMateUseCase: Get.find<SearchMateUseCase>(),
         getFollowingListUseCase: Get.find<GetFollowingListUseCase>(),
         getFollowerListUseCase: Get.find<GetFollowerListUseCase>(),
         followMateUseCase: Get.find<FollowMateUseCase>(),
         unfollowMateUseCase: Get.find<UnfollowMateUseCase>(),
+        loginService: Get.find<LoginService>(),
+        userViewModel: Get.find<UserViewModel>(),
     ));
 
   }

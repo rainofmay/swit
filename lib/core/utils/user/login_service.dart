@@ -1,21 +1,90 @@
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:swit/features/mate/presentation/viewmodel/mate_view_model.dart';
+import 'package:swit/features/user/presentation/viewmodel/user_view_model.dart';
 
 class LoginService extends GetxService {
+  /* ------------------------------------------------------ */
+  /* Variable Fields -------------------------------------- */
+  /* ------------------------------------------------------ */
   static final _supabase = Supabase.instance.client;
 
   final RxBool _isLoggedIn = false.obs;
   bool get isLoggedIn => _isLoggedIn.value;
+
   final Rx<User?> _currentUser = Rx<User?>(null);
   User? get currentUser => _currentUser.value;
+
+  /* ------------------------------------------------------ */
+  /* ViewModel Fields ------------------------------------- */
+  /* ------------------------------------------------------ */
+  UserViewModel? _userViewModel;
+  MateViewModel? _mateViewModel;
+
+  // ViewModel 등록
+  void registerViewModels({
+    required UserViewModel userViewModel,
+    required MateViewModel mateViewModel,
+  }) {
+    _userViewModel = userViewModel;
+    _mateViewModel = mateViewModel;
+  }
+
+  // 로그인 상태 변경 시 모든 ViewModel 업데이트
+  Future<void> setLoginState(bool isLoggedIn) async {
+    _isLoggedIn.value = isLoggedIn;
+
+    if (isLoggedIn) {
+      // 로그인 시 각 ViewModel 초기화
+      await _userViewModel?.initializeProfile();
+      await _mateViewModel?.initializeData();
+    } else {
+      // 로그아웃 시 데이터 클리어
+      _userViewModel?.clearUserData();
+      _mateViewModel?.clearMateData();
+    }
+  }
 
   @override
   void onInit() {
     super.onInit();
     _updateLoginState();
+    // Auth 상태 변화 감지
     _supabase.auth.onAuthStateChange.listen((data) {
       _updateLoginState();
+      _handleAuthStateChange(data.event);
     });
+  }
+
+  // 인증 상태 변화 처리
+  Future<void> _handleAuthStateChange(AuthChangeEvent event) async {
+    switch (event) {
+      case AuthChangeEvent.signedIn:
+        await _onSignedIn();
+        break;
+      case AuthChangeEvent.signedOut:
+        await _onSignedOut();
+        break;
+      default:
+        break;
+    }
+  }
+
+  // 로그인 시 처리
+  Future<void> _onSignedIn() async {
+    try {
+      // ViewModel들 초기화
+      await _userViewModel?.initializeProfile();
+      await _mateViewModel?.initializeData();
+    } catch (e) {
+      print('Error initializing ViewModels after sign in: $e');
+    }
+  }
+
+  // 로그아웃 시 처리
+  Future<void> _onSignedOut() async {
+    _userViewModel?.clearUserData();
+    _mateViewModel?.clearMateData();
   }
 
   void _updateLoginState() {
@@ -23,29 +92,31 @@ class LoginService extends GetxService {
     _isLoggedIn.value = _currentUser.value != null;
   }
 
-  String? getCurrentUserId() {
-    return currentUser?.id;
-  }
+  /* ------------------------------------------------------ */
+  /* User Data Functions ---------------------------------- */
+  /* ------------------------------------------------------ */
+  String? getCurrentUserId() => currentUser?.id;
 
-  String? getCurrentUserEmail() {
-    return currentUser?.email;
-  }
+  String? getCurrentUserEmail() => currentUser?.email;
 
   Future<String?> getMyId() async {
     if (!isLoggedIn) {
       print("로그인이 안 되어있습니다.");
       return null;
     }
-    final userEmail = getCurrentUserEmail();
-    if (userEmail != null) {
+
+    try {
+      final userEmail = getCurrentUserEmail();
+      if (userEmail == null) return null;
+
       final response = await _supabase
           .from('users')
           .select('uid')
           .eq('email', userEmail)
           .single();
       return response['uid'];
-    } else {
-      print("Login service getCurrentUserId: error");
+    } catch (e) {
+      print("Login service getMyId error: $e");
       return null;
     }
   }
@@ -66,12 +137,11 @@ class LoginService extends GetxService {
 
   Future<Map<String, dynamic>> getUserById(String userId) async {
     try {
-      final userData = await _supabase
+      return await _supabase
           .from('users')
           .select()
           .eq('uid', userId)
           .single();
-      return userData;
     } catch (e) {
       print('Error Login service getUserById: $e');
       return {};
@@ -106,12 +176,20 @@ class LoginService extends GetxService {
       return response['id'];
     } catch (e) {
       print('Error Login service getUserIdByEmail: $e');
+      return null;
     }
-    return null;
   }
 
+  /* ------------------------------------------------------ */
+  /* Auth Functions -------------------------------------- */
+  /* ------------------------------------------------------ */
   Future<void> signOut() async {
-    await _supabase.auth.signOut();
-    _updateLoginState();
+    try {
+      await _supabase.auth.signOut();
+      _updateLoginState();
+    } catch (e) {
+      print('Error signing out: $e');
+      rethrow;
+    }
   }
 }

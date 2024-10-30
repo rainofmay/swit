@@ -30,14 +30,14 @@ class HomeScreen extends GetView<HomeViewModel> {
             ],
           );
         }),
-        bottomNavigationBar: CustomBottomNavigationBar(),
+        bottomNavigationBar: const CustomBottomNavigationBar(),
       ),
     );
   }
 
   Widget _buildScreen(HomeTab tab, Widget screen) {
     // 해당 탭일 때만 화면 반환
-    return Obx(() => controller.currentTab == tab ? screen : Container());
+    return Obx(() => controller.currentTab == tab ? screen : const SizedBox());
   }
 }
 

@@ -22,6 +22,17 @@ class OptimizedProfileImage extends StatelessWidget {
   Widget build(BuildContext context) {
     // 로컬 파일 경로인 경우
     if (imageUrl.startsWith('/') || imageUrl.startsWith('file://')) {
+
+      final file = File(imageUrl);
+      // 파일 존재 여부 확인
+      if (!file.existsSync()) {
+        return Container(
+          width: width,
+          height: height,
+          color: Colors.grey[200],
+        );
+      }
+
       return GestureDetector(
         onTap: onTap,
         child: ClipRRect(

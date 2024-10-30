@@ -32,14 +32,13 @@ class UserViewModel extends GetxController {
 
   late final Rx<User?> _user = Rx<User?>(null);
   final RxString _localImagePath = ''.obs; // 로컬 이미지 경로
-  final RxBool _isImageUpdating = false.obs;
+
 
 
   /* ------------------------------------------------------ */
   /* Getter Variables ------------------------------------- */
   /* ------------------------------------------------------ */
   User? get user => _loginService.isLoggedIn ? _user.value : null;
-  bool get isImageUpdating => _isImageUpdating.value;
   String get profileUrl => _loginService.isLoggedIn
       ? (_localImagePath.value.isNotEmpty ? _localImagePath.value : _user.value?.profileUrl ?? '')
       : '';
@@ -96,7 +95,6 @@ class UserViewModel extends GetxController {
       print('Error loading profile: $e');
       // 에러 처리 로직 추가 (예: 스낵바 표시)
     } finally {
-      _isImageUpdating.value = false;
     }
   }
 
@@ -105,10 +103,9 @@ class UserViewModel extends GetxController {
   /* ------------------------------------------------------ */
 
   Future<void> updateProfileImage(ImageSource source) async {
-    if (!_loginService.isLoggedIn || _isImageUpdating.value) return;
+    if (!_loginService.isLoggedIn ) return;
 
     try {
-      _isImageUpdating.value = true;
 
       final XFile? pickedFile = await _imagePicker.pickImage(
         source: source,
@@ -164,6 +161,7 @@ class UserViewModel extends GetxController {
     } catch (e) {
       print('Profile image update error: $e');
       _localImagePath.value = '';
+
     }
   }
 
@@ -183,7 +181,6 @@ class UserViewModel extends GetxController {
       final updatedProfile = await _getMyProfileUseCase.execute();
       _user.value = updatedProfile;
 
-      update();
       return true;
     } catch (e) {
       print('Error, Failed to update profile: $e');
@@ -197,6 +194,5 @@ class UserViewModel extends GetxController {
   void clearUserData() {
     _user.value = null;
     _localImagePath.value = '';
-    _isImageUpdating.value = false;
   }
 }

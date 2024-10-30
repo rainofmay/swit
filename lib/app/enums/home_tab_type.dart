@@ -27,13 +27,13 @@ extension HomeTabX on HomeTab {
   String get offIcon {
     switch (this) {
       case HomeTab.home:
-        return 'assets/icons/home_gray.svg';
+        return 'assets/icons/bottombar/home_gray.svg';
       case HomeTab.mate:
-        return 'assets/icons/mate_gray.svg';
+        return 'assets/icons/bottombar/mate_gray.svg';
       case HomeTab.record:
-        return 'assets/icons/log_gray.svg';
+        return 'assets/icons/bottombar/log_gray.svg';
       case HomeTab.more:
-        return 'assets/icons/more_gray.svg';
+        return 'assets/icons/bottombar/more_gray.svg';
     }
   }
 }

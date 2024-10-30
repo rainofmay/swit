@@ -19,7 +19,7 @@ class CustomBottomNavigationBar extends GetView<HomeViewModel> {
 
     return Container(
         decoration: BoxDecoration(color: ColorBox.secondColor),
-        height: 72,
+        height: 60,
         child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: widgets));
