@@ -86,7 +86,7 @@ class RecordScreen extends GetView<RecordViewModel> {
           Get.toNamed(Routes.RECORD + Routes.ADDRECORD);
         },
         child: SvgPicture.asset(
-          'assets/icons/log_black.svg',
+          'assets/icons/post_it_black.svg',
         ),
       );
     }
