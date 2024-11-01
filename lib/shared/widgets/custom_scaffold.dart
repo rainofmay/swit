@@ -7,11 +7,22 @@ class CustomScaffold extends StatelessWidget {
   final Color? backgroundColor;
   final Widget? bottomNavigationBar;
   final Widget? floatingActionButton;
-  const CustomScaffold({super.key, this.appBar, this.body, this.bottomNavigationBar, this.floatingActionButton, this.backgroundColor});
+  final bool extendBodyBehindAppBar;
+
+  const CustomScaffold(
+      {super.key,
+      this.appBar,
+      this.body,
+      this.bottomNavigationBar,
+      this.floatingActionButton,
+      this.backgroundColor,
+      this.extendBodyBehindAppBar = false});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: extendBodyBehindAppBar,
+      // appbar 배경색이 배경이미지에 덮히도록
       backgroundColor: backgroundColor ?? ColorBox.white,
       appBar: appBar,
       body: body,

@@ -314,9 +314,6 @@ class RecordViewModel extends GetxController {
   /* ------------------------------------------------------ */
   /* Record functions ------------------------------------- */
   /* ------------------------------------------------------ */
-
-
-
   void updateRecordingTask(Task? task) {
     _recordingTask.value = task;
     if (task != null) {
@@ -390,7 +387,9 @@ class RecordViewModel extends GetxController {
     }
   }
 
-  // 날짜별로 누적 공부 시간을 가져오도록 필터링
+
+
+// 날짜별로 누적 공부 시간을 가져오도록 필터링
   void _filterRecordsByDate(DateTime date) {
     String formattedDate = DateFormat('yyyy-MM-dd').format(date);
     _selectedDateRecords.value = _records.where((record) => record.date == formattedDate).toList();

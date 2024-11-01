@@ -47,18 +47,18 @@ class StudyScreen extends GetView<BgSettingViewModel> {
           SizedBox.expand(
               child: Obx(() => Image.asset(controller.bgThemeMap[controller.editingTheme]!, fit: BoxFit.cover))),
 
-          Positioned(
-            top: 70,
-            right: 30,
-            child: GestureDetector(
-              onTap: () {
-                Get.toNamed(Routes.STUDY + Routes.SCHEDULE);
-              },
-              child: SizedBox(
-                  width: 120,
-                  height: 120,
-                  child: Image.asset('assets/images/calendar.png'),
-              ))),
+          // Positioned(
+          //   top: 70,
+          //   right: 30,
+          //   child: GestureDetector(
+          //     onTap: () {
+          //       Get.toNamed(Routes.STUDY + Routes.SCHEDULE);
+          //     },
+          //     child: SizedBox(
+          //         width: 120,
+          //         height: 120,
+          //         child: Image.asset('assets/images/calendar.png'),
+          //     ))),
         ],
       ),
     );

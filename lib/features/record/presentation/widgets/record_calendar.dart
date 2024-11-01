@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:swit/core/utils/record/time_formatter.dart';
 import 'package:swit/features/record/presentation/viewmodel/record_view_model.dart';
 import 'package:swit/features/study/schedule/domain/entities/event.dart';
 import 'package:swit/shared/widgets/pick_month_year.dart';
@@ -49,15 +50,37 @@ class RecordCalendar extends GetView<RecordViewModel> {
                   decoration: BoxDecoration(
                       color: color,
                       borderRadius: BorderRadius.circular(6.0)),
-                  child: Center(
+                  child: Stack(
+
+                    children: [Center(
                       child: Text(day.day.toString(),
                           style: FontBox.B3.copyWith(
                             color: studyTime == 0
                                 ? ColorBox.black
                                 : (color.computeLuminance() > 0.5
+                                ? ColorBox.black
+                                : ColorBox.white),
+                          )),
+
+                    ),
+                      if (studyTime > 0)
+                        Positioned(
+                          bottom: 8,
+                          left: 0,
+                          right: 0,
+                          child: Center(
+                            child: Text(
+                              TimeFormatter.formatTime(studyTime),
+                              style: FontBox.B4.copyWith(
+                                color: color.computeLuminance() > 0.5
                                     ? ColorBox.black
-                                    : ColorBox.white),
-                          ))));
+                                    : ColorBox.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                    ]
+                  ));
             },
             // 해당 주, 또는 월에서 벗어나는 날짜
             outsideBuilder: (context, day, focusedDay) {
@@ -81,16 +104,35 @@ class RecordCalendar extends GetView<RecordViewModel> {
                       color: color,
                       borderRadius: BorderRadius.circular(6.0),
                       border: Border.all(color: ColorBox.primaryColor, width: 1)),
-                  child: Center(
-                      child: Text('${date.day}',
-                          style: FontBox.B3.copyWith(
-                            color: studyTime == 0
-                                ? ColorBox.black
-                                : (color.computeLuminance() > 0.5
+                  child: Stack(
+                    children: [Center(
+                        child: Text('${date.day}',
+                            style: FontBox.B3.copyWith(
+                              color: studyTime == 0
+                                  ? ColorBox.black
+                                  : (color.computeLuminance() > 0.5
+                                  ? ColorBox.black
+                                  : ColorBox.white),
+                              fontWeight: FontWeight.bold,
+                            ))),
+                      if (studyTime > 0)
+                        Positioned(
+                          bottom: 8,
+                          left: 0,
+                          right: 0,
+                          child: Center(
+                            child: Text(
+                              TimeFormatter.formatTime(studyTime),
+                              style: FontBox.B4.copyWith(
+                                color: color.computeLuminance() > 0.5
                                     ? ColorBox.black
-                                    : ColorBox.white),
-                            fontWeight: FontWeight.bold,
-                          ))));
+                                    : ColorBox.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                    ],
+                  ));
             },
 
             dowBuilder: (context, day) {

@@ -66,6 +66,13 @@ abstract class FontBox {
     fontFamily: AppConfig.APP_FONT_STYLE,
     color: Colors.black,
   );
+
+  static const TextStyle B4 = TextStyle(
+    fontSize: 8,
+    fontWeight: FontWeight.normal,
+    fontFamily: AppConfig.APP_FONT_STYLE,
+    color: Colors.black,
+  );
   
   /* -------------------------------------------------- */
   /* CUSTOMIZED FONTS --------------------------------- */

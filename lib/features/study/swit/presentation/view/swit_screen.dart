@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:swit/core/router/app_pages.dart';
 import 'package:swit/features/study/swit/presentation/viewmodel/swit_view_model.dart';
+import 'package:swit/features/study/swit/presentation/widgets/wave_back_ground.dart';
 import 'package:swit/shared/widgets/my_profile_img.dart';
 import 'package:swit/shared/constant/color_box.dart';
 import 'package:swit/shared/constant/font_box.dart';
@@ -18,66 +20,115 @@ class SwitScreen extends GetView<SwitViewModel> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
+      extendBodyBehindAppBar: true,
       appBar: CustomBackAppBar(
         appbarTitle: 'Study with me',
         isLeading: true,
         isCenterTitle: true,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 16.0),
-            child: ActionIconButton(svgAsset: 'assets/icons/post_it_black.svg', onTap: () {
-              Get.toNamed(Routes.STUDY + Routes.SWIT + Routes.SWITPOST);
-            }),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 16.0),
-            child: ActionIconButton(svgAsset: 'assets/icons/setting.svg', onTap: () {
-              Get.toNamed(Routes.STUDY + Routes.SWIT + Routes.SWITSETTING);
-            }),
-          ),
-        ],
+        backgroundColor: ColorBox.transparent,
       ),
-      floatingActionButton: FloatingActionButton.small(
-        onPressed: () {
-          Get.toNamed(Routes.STUDY + Routes.SWIT + Routes.CREATESWIT);
-        },
-        child: Icon(Icons.person_add_alt_1, color: ColorBox.black),
-        elevation: 1,
-        backgroundColor: ColorBox.white,
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+
+      body: Stack(
         children: [
-          const CustomGap(40),
-          Text('Here is Swit.', style: FontBox.H4),
-          const CustomGap(16),
-          Text('From ${DateFormat('yyyy.MM.dd').format(DateTime.now())}', style: FontBox.B1),
-          const CustomGap(32),
-          Container(
-              width: 180,
-              height: 180,
-              child: Image.asset('assets/images/logo.png')),
-          const CustomGap(32),
-          Container(
-            width: double.infinity,
-            height: 100,
-            decoration: BoxDecoration(
-              color: ColorBox.secondColor
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+          // 물결 배경
+          WaveBackground(
+            topImagePath:  'assets/images/day_photo.png',
+            // topColor: Colors.blue.shade100, // 상단 배경색
+            bottomColor: Colors.white, // 하단 배경색
+            waveHeight: 30, // 물결 높이
+            frequency: 0.8, // 물결 빈도
+          ),
+
+          // 실제 내용
+          Column(
+            children: [
+              // 상단 영역 (물결 위)
+              Expanded(
+                flex: 6, // 상단 영역의 비율
+                child: SafeArea(
+                  child: Column(
+                    children: [
+                      const CustomGap(32),
+                      SizedBox(
+                          width: 160,
+                          height: 160,
+                          child: Image.asset('assets/images/logo.png')),
+                    ],
+                  ),
+                ),
+              ),
+
+              // 하단 영역 (물결 아래)
+              Expanded(
+                flex: 4, // 하단 영역의 비율
+                child: Column(
                   children: [
-                    MyProfileImg(width: 50, height: 50, onTap: null,),
-                    const CustomGap(8),
-                    Text('User ID', style: FontBox.B3)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Column(
+                          children: [
+                            const Text('테스트'),
+                            Text(
+                                'From ${DateFormat('yyyy.MM.dd').format(DateTime.now())}',
+                                style: FontBox.B1),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            SizedBox(
+                              width:
+                              MediaQuery.of(context).size.width * 0.4,
+                              child: TapRow(
+                                  onTap: () => Get.toNamed(Routes.STUDY + Routes.SWIT + Routes.CREATESWIT),
+                                  widget: Icon(Icons.person_add_alt_1),
+                                  title: '그룹스터디 초대'),
+                            ),
+                            const CustomGap(40),
+                            SizedBox(
+                              width:
+                                  MediaQuery.of(context).size.width * 0.4,
+                              child: TapRow(
+                                onTap: () => Get.toNamed(Routes.STUDY + Routes.SWIT + Routes.SWITPOST),
+                                  widget: SvgPicture.asset(
+                                    'assets/icons/post_it_black.svg',
+                                  ),
+                                  title: '쪽지 쓰기'),
+                            ),
+                            const CustomGap(40),
+                            SizedBox(
+                              width:
+                              MediaQuery.of(context).size.width * 0.4,
+                              child: TapRow(
+                                  onTap: () => Get.toNamed(Routes.STUDY + Routes.SCHEDULE),
+                                  widget: Icon(Icons.calendar_today_outlined),
+                                  title: '일정 관리'),
+                            ),
+                            const CustomGap(40),
+                            SizedBox(
+                              width:
+                              MediaQuery.of(context).size.width * 0.4,
+                              child: TapRow(
+                                  onTap: () => Get.toNamed(Routes.STUDY + Routes.SWIT + Routes.SWITSETTING),
+                                  widget: SvgPicture.asset(
+                                    'assets/icons/setting.svg',
+                                  ),
+                                  title: '설 정'),
+                            ),
+                            // MyProfileImg(
+                            //     width: 50, height: 50, onTap: null),
+                            // const CustomGap(8),
+                            // Text('User ID', style: FontBox.B3)
+                          ],
+                        ),
+                      ],
+                    ),
+                    // 추가 하단 내용
                   ],
                 ),
-              ],
-            ),
-          )
+              ),
+            ],
+          ),
         ],
       ),
     );
