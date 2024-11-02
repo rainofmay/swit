@@ -251,7 +251,15 @@ class MyAudioHandler extends BaseAudioHandler {
   Future<void> skipToNext() => _musicPlayer.seekToNext();
 
   @override
-  Future<void> skipToPrevious() => _musicPlayer.seekToPrevious();
+  Future<void> skipToPrevious() async {
+    if (_musicPlayer.hasPrevious) {
+      await _musicPlayer.seekToPrevious();
+    } else {
+      // 첫 곡일 경우 마지막 곡으로 이동
+      final lastIndex = queue.value.length - 1;
+      await skipToQueueItem(lastIndex);
+    }
+  }
 
   @override
   Future<void> setRepeatMode(AudioServiceRepeatMode repeatMode) async {

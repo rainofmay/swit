@@ -16,12 +16,13 @@ class MusicViewModel extends GetxController {
   final RxList<Audio> _musicList = <Audio>[].obs;
   final RxBool _isLoading = true.obs;
   final RxBool _isMusicPlaying = false.obs;
-  final RxBool isShuffled = false.obs;
+  final RxBool _isShuffled = false.obs;
   final RxBool _isRepeated = false.obs;
   final RxInt _currentIndex = 0.obs;
   final Rx<Duration> _currentMusicDuration = Duration.zero.obs;
   final Rx<Duration> _currentMusicPosition = Duration.zero.obs;
 
+  bool get isShuffled => _isShuffled.value;
   bool get isLoading => _isLoading.value;
   bool get isMusicPlaying => _isMusicPlaying.value;
   bool get isRepeated => _isRepeated.value;
@@ -36,7 +37,9 @@ class MusicViewModel extends GetxController {
     _setupAudioHandlerListeners();
   }
 
-  /* -- Init & Get -- */
+  /* ------------------------------------------------------ */
+  /* Init & Get ------------------------------------------- */
+  /* ------------------------------------------------------ */
   Future<void> _loadMusics() async {
     _isLoading.value = true;
     try {
@@ -56,7 +59,7 @@ class MusicViewModel extends GetxController {
     _audioHandler.playbackState.listen((playbackState) {
       _isMusicPlaying.value = playbackState.playing;
       _currentMusicPosition.value = playbackState.position;
-      isShuffled.value = playbackState.shuffleMode == AudioServiceShuffleMode.all;
+      _isShuffled.value = playbackState.shuffleMode == AudioServiceShuffleMode.all;
       _isRepeated.value = playbackState.repeatMode != AudioServiceRepeatMode.none;
     });
 
@@ -68,7 +71,9 @@ class MusicViewModel extends GetxController {
     });
   }
 
-  /* -- Update -- */
+  /* ------------------------------------------------------ */
+  /* Update ----------------------------------------------- */
+  /* ------------------------------------------------------ */
 
   Future<void> _updateQueue() async {
     final mediaItems = _musicList.map((audio) => MediaItem(
@@ -83,7 +88,9 @@ class MusicViewModel extends GetxController {
   }
 
 
-  /* -- 제어 기능 -- */
+  /* ------------------------------------------------------ */
+  /* Control ---------------------------------------------- */
+  /* ------------------------------------------------------ */
   Future<void> musicPlayPause() async {
     if (_isMusicPlaying.value) {
       await _audioHandler.pause();
@@ -97,12 +104,15 @@ class MusicViewModel extends GetxController {
   Future<void> previousTrack() => _audioHandler.skipToPrevious();
 
   void toggleShuffle() {
-    final newMode = isShuffled.value ? AudioServiceShuffleMode.none : AudioServiceShuffleMode.all;
+    final newMode = _isShuffled.value ? AudioServiceShuffleMode.none : AudioServiceShuffleMode.all;
+    _isShuffled.value = !_isShuffled.value; // 즉시 상태 업데이트
     _audioHandler.setShuffleMode(newMode);
+
   }
 
   void toggleRepeat() {
     final newMode = _isRepeated.value ? AudioServiceRepeatMode.none : AudioServiceRepeatMode.all;
+    _isRepeated.value = !_isRepeated.value; // 즉시 상태 업데이트
     _audioHandler.setRepeatMode(newMode);
   }
 

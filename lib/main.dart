@@ -1,6 +1,4 @@
 import 'dart:async';
-
-import 'package:audio_service/audio_service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

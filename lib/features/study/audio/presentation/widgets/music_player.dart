@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -28,9 +29,7 @@ class MusicPlayer extends StatelessWidget {
         const CustomGap(16),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Stack(
-              alignment: Alignment.center,
-              children: [
+          child: Stack(alignment: Alignment.center, children: [
             Container(
               width: mediaWidth * 0.7,
               height: 210,
@@ -62,71 +61,71 @@ class MusicPlayer extends StatelessWidget {
               bottom: 18,
               child: Row(
                 children: [
-                  Icon(CupertinoIcons.music_note_2, size: IconSize.sm, color: ColorBox.white),
+                  Icon(CupertinoIcons.music_note_2,
+                      size: IconSize.sm, color: ColorBox.white),
                   const CustomGap(8),
                   Text(viewModel.currentMusic.name,
-                      style: FontBox.B1.copyWith(color: ColorBox.white
-                  )),
+                      style: FontBox.B1.copyWith(color: ColorBox.white)),
                 ],
               ),
             ),
           ]),
         ),
         const CustomGap(16),
-        Container(
-          width: mediaWidth * 0.7,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Circle(
-                backgroundColor: Colors.white,
-                child: ActionIconButton(
-                    width: 14,
-                    height: 14,
-                    onTap: viewModel.toggleShuffle,
-                    svgAsset: 'assets/icons/music/shuffle.svg',
-              )),
-              Circle(
-                backgroundColor: Colors.white,
-                child: ActionIconButton(
-                    width: 14,
-                    height: 14,
-                    onTap: viewModel.previousTrack,
-                    svgAsset: 'assets/icons/music/reverse.svg',
-                )),
-              Circle(
-                backgroundColor: Colors.white,
-                child: ActionIconButton(
-                    width: 14,
-                    height: 14,
-                    onTap: viewModel.musicPlayPause,
-                    svgAsset: viewModel.isMusicPlaying
-                            ? 'assets/icons/music/stop.svg'
-                            : 'assets/icons/music/play.svg'
-                )),
-              Circle(
-                backgroundColor: Colors.white,
-                child: IconButton(
-                    onPressed: viewModel.nextTrack,
-                    icon: Icon(Icons.skip_next_rounded,
-                        color: ColorBox.black, size: IconSize.md)),
+        Obx(() => Container(
+              width: mediaWidth * 0.7,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Circle(
+                      backgroundColor: ColorBox.white,
+                      child: ActionIconButton(
+                        width: 14,
+                        height: 14,
+                        onTap: viewModel.toggleShuffle,
+                        svgAsset: 'assets/icons/music/shuffle.svg',
+                        colorFilter: ColorFilter.mode(
+                            viewModel.isShuffled ? ColorBox.primaryColor : ColorBox.black,
+                            BlendMode.srcIn
+                        ),
+                      )),
+                  Circle(
+                      backgroundColor: ColorBox.white,
+                      child: ActionIconButton(
+                        width: 14,
+                        height: 14,
+                        onTap: viewModel.previousTrack,
+                        svgAsset: 'assets/icons/music/reverse.svg',
+                      )),
+                  Circle(
+                      backgroundColor: ColorBox.white,
+                      child: ActionIconButton(
+                          width: 14,
+                          height: 14,
+                          onTap: viewModel.musicPlayPause,
+                          svgAsset: viewModel.isMusicPlaying
+                              ? 'assets/icons/music/pause.svg'
+                              : 'assets/icons/music/play.svg')),
+                  Circle(
+                      backgroundColor: ColorBox.white,
+                      child: ActionIconButton(
+                        width: 14,
+                        height: 14,
+                        onTap: viewModel.nextTrack,
+                        svgAsset: 'assets/icons/music/forward.svg',
+                      )),
+                  Circle(
+                      backgroundColor: ColorBox.white,
+                      child: ActionIconButton(
+                          width: 14,
+                          height: 14,
+                          onTap: viewModel.toggleRepeat,
+                          svgAsset: viewModel.isRepeated
+                              ? 'assets/icons/music/repeat_one.svg'
+                              : 'assets/icons/music/repeat.svg')),
+                ],
               ),
-              Circle(
-                backgroundColor: Colors.white,
-                child: IconButton(
-                    onPressed: viewModel.toggleRepeat,
-                    icon: Icon(
-                        viewModel.isRepeated
-                            ? CupertinoIcons.repeat_1
-                            : CupertinoIcons.repeat,
-                        color: viewModel.isRepeated
-                            ? ColorBox.primaryColor
-                            : ColorBox.black,
-                        size: IconSize.md)),
-              ),
-            ],
-          ),
-        ),
+            )),
       ]);
     });
   }
