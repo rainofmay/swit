@@ -16,7 +16,7 @@ class WaveBackground extends StatelessWidget {
     this.bottomColor = Colors.transparent,
     this.waveHeight = 20.0,
     this.frequency = 0.5,
-    this.dividerPosition = 0.5,
+    this.dividerPosition = 0.6,
   });
 
   @override

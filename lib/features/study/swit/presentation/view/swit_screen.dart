@@ -27,15 +27,14 @@ class SwitScreen extends GetView<SwitViewModel> {
         isCenterTitle: true,
         backgroundColor: ColorBox.transparent,
       ),
-
       body: Stack(
         children: [
           // 물결 배경
           WaveBackground(
-            topImagePath:  'assets/images/day_photo.png',
+            topImagePath: 'assets/images/day_photo.png',
             // topColor: Colors.blue.shade100, // 상단 배경색
             bottomColor: Colors.white, // 하단 배경색
-            waveHeight: 30, // 물결 높이
+            waveHeight: 28, // 물결 높이
             frequency: 0.8, // 물결 빈도
           ),
 
@@ -44,7 +43,7 @@ class SwitScreen extends GetView<SwitViewModel> {
             children: [
               // 상단 영역 (물결 위)
               Expanded(
-                flex: 6, // 상단 영역의 비율
+                flex: 2, // 상단 영역의 비율
                 child: SafeArea(
                   child: Column(
                     children: [
@@ -60,7 +59,7 @@ class SwitScreen extends GetView<SwitViewModel> {
 
               // 하단 영역 (물결 아래)
               Expanded(
-                flex: 4, // 하단 영역의 비율
+                flex: 1, // 하단 영역의 비율
                 child: Column(
                   children: [
                     Row(
@@ -77,41 +76,45 @@ class SwitScreen extends GetView<SwitViewModel> {
                         Column(
                           children: [
                             SizedBox(
-                              width:
-                              MediaQuery.of(context).size.width * 0.4,
+                              width: MediaQuery.of(context).size.width * 0.4,
                               child: TapRow(
-                                  onTap: () => Get.toNamed(Routes.STUDY + Routes.SWIT + Routes.CREATESWIT),
-                                  widget: Icon(Icons.person_add_alt_1),
+                                  onTap: () => Get.toNamed(Routes.STUDY +
+                                      Routes.SWIT +
+                                      Routes.CREATESWIT),
+                                  widget: SvgPicture.asset(
+                                      'assets/icons/swit/invite_color.svg'),
                                   title: '그룹스터디 초대'),
                             ),
                             const CustomGap(40),
                             SizedBox(
-                              width:
-                                  MediaQuery.of(context).size.width * 0.4,
+                              width: MediaQuery.of(context).size.width * 0.4,
                               child: TapRow(
-                                onTap: () => Get.toNamed(Routes.STUDY + Routes.SWIT + Routes.SWITPOST),
+                                  onTap: () => Get.toNamed(Routes.STUDY +
+                                      Routes.SWIT +
+                                      Routes.SWITPOST),
                                   widget: SvgPicture.asset(
-                                    'assets/icons/post_it_black.svg',
-                                  ),
+                                      'assets/icons/swit/message_color.svg'),
                                   title: '쪽지 쓰기'),
                             ),
                             const CustomGap(40),
                             SizedBox(
-                              width:
-                              MediaQuery.of(context).size.width * 0.4,
+                              width: MediaQuery.of(context).size.width * 0.4,
                               child: TapRow(
-                                  onTap: () => Get.toNamed(Routes.STUDY + Routes.SCHEDULE),
-                                  widget: Icon(Icons.calendar_today_outlined),
+                                  onTap: () => Get.toNamed(
+                                      Routes.STUDY + Routes.SCHEDULE),
+                                  widget: SvgPicture.asset(
+                                      'assets/icons/swit/calendar_color.svg'),
                                   title: '일정 관리'),
                             ),
                             const CustomGap(40),
                             SizedBox(
-                              width:
-                              MediaQuery.of(context).size.width * 0.4,
+                              width: MediaQuery.of(context).size.width * 0.4,
                               child: TapRow(
-                                  onTap: () => Get.toNamed(Routes.STUDY + Routes.SWIT + Routes.SWITSETTING),
+                                  onTap: () => Get.toNamed(Routes.STUDY +
+                                      Routes.SWIT +
+                                      Routes.SWITSETTING),
                                   widget: SvgPicture.asset(
-                                    'assets/icons/setting.svg',
+                                    'assets/icons/swit/setting_color.svg'
                                   ),
                                   title: '설 정'),
                             ),
