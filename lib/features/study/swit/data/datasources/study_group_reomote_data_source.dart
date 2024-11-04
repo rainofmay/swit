@@ -117,4 +117,23 @@ class StudyGroupRemoteDataSource extends BaseRemoteDataSource {
       return null;
     }
   }
+
+  /* -- 그룹이 이미 존재하는 지 체크 -- */
+  Future<bool> hasExistingGroup() async {
+    final String userId = supabase.auth.currentUser!.id;
+
+    try {
+      final response = await supabase
+          .from('study_group')
+          .select('group_id')
+          .eq('created_by', userId)
+          .eq('is_active', true)
+          .maybeSingle();
+
+      return response != null;
+    } catch (e) {
+      print('Error checking existing group: $e');
+      return false;
+    }
+  }
 }

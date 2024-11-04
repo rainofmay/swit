@@ -35,4 +35,9 @@ class StudyGroupRepositoryImpl implements StudyGroupRepository {
       rethrow;
     }
   }
+
+  @override
+  Future<bool> hasExistingGroup() async {
+    return await remoteDataSource.hasExistingGroup();
+  }
 }

@@ -3,6 +3,7 @@ import 'package:swit/features/study/swit/domain/entities/group_invitation.dart';
 import 'package:swit/features/study/swit/domain/entities/study_group.dart';
 import 'package:swit/features/study/swit/domain/usecases/create_study_group_use_case.dart';
 import 'package:swit/features/study/swit/domain/usecases/invite_to_group_use_case.dart';
+import 'package:swit/shared/widgets/custom_snackbar.dart';
 
 
 class SwitViewModel extends GetxController {
@@ -25,20 +26,29 @@ class SwitViewModel extends GetxController {
   late final RxList<String> _selectedUsers = <String>[].obs;
   List<String> get selectedUsers => _selectedUsers;
   late final RxBool _isCreatingGroup = false.obs;
+  final RxBool _hasGroup = false.obs;  // 사용자가 그룹을 가지고 있는지 여부
+  bool get hasGroup => _hasGroup.value;
+
+  late final Rx<StudyGroup> _myCurrentGroup;
 
 
   /* ------------------------------------------------------ */
   /* Function Fields -------------------------------------- */
   /* ------------------------------------------------------ */
-  void setGroupName(String name) {
-    _groupName.value = name;
-  }
 
   void toggleUserSelection(String userId) {
     if (_selectedUsers.contains(userId)) {
       _selectedUsers.remove(userId);
     } else {
       _selectedUsers.add(userId);
+    }
+  }
+
+  Future<void> checkExistingGroup() async {
+    try {
+        _hasGroup.value = await createStudyGroupUseCase.repository.hasExistingGroup();
+    } catch (e) {
+      print('ViewModel Error checking existing group: $e');
     }
   }
 
@@ -51,6 +61,10 @@ class SwitViewModel extends GetxController {
     //   Get.snackbar('오류', '초대할 사용자를 선택해주세요.');
     //   return false;
     // }
+    if (_hasGroup.value) {
+      CustomSnackbar.show(title: '알림', message: '이미 생성 또는 참여한 그룹스터디가 있습니다.');
+      return false;
+    }
 
     _isCreatingGroup.value = true;
 

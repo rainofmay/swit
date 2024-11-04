@@ -21,23 +21,21 @@ class StudyScreen extends GetView<BgSettingViewModel> {
         backgroundColor: ColorBox.transparent,
         actions: [
           ActionIconButton(
-              svgAsset: 'assets/icons/notification.svg',
-              onTap: () async {
-                Get.toNamed(Routes.STUDY + Routes.NOTIFICATION);
+              svgAsset: 'assets/icons/setting.svg',
+              onTap: () {
+                Get.toNamed(Routes.STUDY + Routes.SWIT);
               }),
           const CustomGap(18),
-
           ActionIconButton(
               svgAsset: 'assets/icons/headset.svg',
               onTap: () async {
                 Get.toNamed(Routes.STUDY + Routes.AUDIO);
               }),
           const CustomGap(18),
-
           ActionIconButton(
-              svgAsset: 'assets/icons/setting.svg',
-              onTap: () {
-                Get.toNamed(Routes.STUDY + Routes.SWIT);
+              svgAsset: 'assets/icons/notification.svg',
+              onTap: () async {
+                Get.toNamed(Routes.STUDY + Routes.NOTIFICATION);
               }),
           const CustomGap(18),
         ],

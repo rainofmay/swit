@@ -1,21 +1,20 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:swit/app/enums/home_tab_type.dart';
-import 'package:swit/features/home/presentations/viewmodel/home_view_model.dart';
-import 'package:swit/features/mate/presentation/view/mate_screen.dart';
-import 'package:swit/features/more/presentation/view/more.screen.dart';
-import 'package:swit/features/record/presentation/view/record_screen.dart';
-import 'package:swit/features/study/study_screen.dart';
-import 'package:swit/features/home/presentations/widgets/custom_bottom_navigation_bar.dart';
-import 'package:swit/shared/widgets/custom_scaffold.dart';
+  import 'package:flutter/material.dart';
+  import 'package:get/get.dart';
+  import 'package:swit/app/enums/home_tab_type.dart';
+  import 'package:swit/features/home/presentations/viewmodel/home_view_model.dart';
+  import 'package:swit/features/mate/presentation/view/mate_screen.dart';
+  import 'package:swit/features/more/presentation/view/more.screen.dart';
+  import 'package:swit/features/record/presentation/view/record_screen.dart';
+  import 'package:swit/features/study/study_screen.dart';
+  import 'package:swit/features/home/presentations/widgets/custom_bottom_navigation_bar.dart';
+  import 'package:swit/shared/widgets/custom_scaffold.dart';
 
-class HomeScreen extends GetView<HomeViewModel> {
-  const HomeScreen({super.key});
+  class HomeScreen extends GetView<HomeViewModel> {
+    const HomeScreen({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: CustomScaffold(
+    @override
+    Widget build(BuildContext context) {
+      return CustomScaffold(
         body: Obx(() {
           final currentTab = controller.currentTab;
           return IndexedStack(
@@ -31,40 +30,39 @@ class HomeScreen extends GetView<HomeViewModel> {
           );
         }),
         bottomNavigationBar: const CustomBottomNavigationBar(),
-      ),
-    );
+      );
+    }
+
+    Widget _buildScreen(HomeTab tab, Widget screen) {
+      // 해당 탭일 때만 화면 반환
+      return Obx(() => controller.currentTab == tab ? screen : const SizedBox());
+    }
   }
 
-  Widget _buildScreen(HomeTab tab, Widget screen) {
-    // 해당 탭일 때만 화면 반환
-    return Obx(() => controller.currentTab == tab ? screen : const SizedBox());
-  }
-}
-
-// class HomeScreen extends GetView<HomeViewModel> {
-//   const HomeScreen({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return SafeArea(
-//       child: CustomScaffold(
-//         body: Obx(() => _buildTabScreen(controller.currentTab)),
-//         bottomNavigationBar: CustomBottomNavigationBar(),
-//       ),
-//     );
-//   }
-// }
-//
-// Widget _buildTabScreen(HomeTab tab) {
-//   // switch 패턴 매칭
-//   switch (tab) {
-//     case HomeTab.home:
-//       return StudyScreen();
-//     case HomeTab.mate:
-//       return MateScreen();
-//     case HomeTab.record:
-//       return RecordScreen();
-//     case HomeTab.more:
-//       return MoreScreen();
-//   }
-// }
+  // class HomeScreen extends GetView<HomeViewModel> {
+  //   const HomeScreen({super.key});
+  //
+  //   @override
+  //   Widget build(BuildContext context) {
+  //     return SafeArea(
+  //       child: CustomScaffold(
+  //         body: Obx(() => _buildTabScreen(controller.currentTab)),
+  //         bottomNavigationBar: CustomBottomNavigationBar(),
+  //       ),
+  //     );
+  //   }
+  // }
+  //
+  // Widget _buildTabScreen(HomeTab tab) {
+  //   // switch 패턴 매칭
+  //   switch (tab) {
+  //     case HomeTab.home:
+  //       return StudyScreen();
+  //     case HomeTab.mate:
+  //       return MateScreen();
+  //     case HomeTab.record:
+  //       return RecordScreen();
+  //     case HomeTab.more:
+  //       return MoreScreen();
+  //   }
+  // }

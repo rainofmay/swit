@@ -6,6 +6,11 @@ class CreateStudyGroupUseCase {
   CreateStudyGroupUseCase(this.repository);
 
   Future<StudyGroup> execute(String name, String description) async {
+    final hasGroup = await repository.hasExistingGroup();
+    if (hasGroup) {
+      throw Exception('User already has an active group');
+    }
+
     return await repository.createStudyGroup(name, description);
   }
 }

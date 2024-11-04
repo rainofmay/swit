@@ -6,9 +6,11 @@ import 'package:swit/shared/constant/color_box.dart';
 import 'package:swit/shared/constant/font_box.dart';
 import 'package:swit/shared/widgets/custom_back_appbar.dart';
 import 'package:swit/shared/widgets/custom_check_box.dart';
+import 'package:swit/shared/widgets/custom_dialog.dart';
 import 'package:swit/shared/widgets/custom_scaffold.dart';
 import 'package:swit/features/user/domain/entities/user.dart';
-import 'package:swit/shared/widgets/custom_text_form_field.dart';
+import 'package:swit/shared/widgets/ok_cancel._buttons.dart';
+
 
 class SwitCreateScreen extends GetView<SwitViewModel> {
   final MateViewModel _mateVM = Get.find<MateViewModel>();
@@ -24,9 +26,9 @@ class SwitCreateScreen extends GetView<SwitViewModel> {
           isCenterTitle: true,
           actions: [
             Obx(() {
-              final isEnabled = controller.selectedUsers.isNotEmpty;
+              final isEnabled = controller.selectedUsers.isNotEmpty && !controller.hasGroup;
               return TextButton(
-                  onPressed: isEnabled ? _createGroup : null,
+                  onPressed: isEnabled ? () => _confirmDialog(context) : null,
                   child: Text('초대',
                       style: isEnabled
                           ? FontBox.activtedActions
@@ -47,13 +49,10 @@ class SwitCreateScreen extends GetView<SwitViewModel> {
                         leading: ClipRRect(
                             borderRadius: BorderRadius.circular(50.0),
                             child: user.profileUrl.isEmpty
-                                ? Image.asset(
-                                    'assets/images/basic_profile.jpg',
-                                    fit: BoxFit.cover,
-                                    width: 32,
-                                    height: 32,
-                                  )
-                                : Image.network(user.profileUrl)),
+                                ? Image.asset('assets/images/basic_profile.jpg',
+                                    fit: BoxFit.cover, width: 36, height: 36)
+                                : Image.network(user.profileUrl,
+                                    width: 36, height: 36)),
                         title: Text(user.username ?? '', style: FontBox.B2),
                         trailing: Obx(() => CustomCheckBox(
                               value:
@@ -73,6 +72,19 @@ class SwitCreateScreen extends GetView<SwitViewModel> {
         ),
       ),
     );
+  }
+
+  _confirmDialog(BuildContext context) {
+    customDialog(
+        context,
+        40,
+        '',
+        const Text('스터디그룹을 생성하고, 선택하신 메이트를 초대하시겠어요?', style: FontBox.B1),
+        OkCancelButtons(
+            okText: '확인',
+            onPressed: () => _createGroup,
+            cancelText: '취소',
+            onCancelPressed: () => Get.back()));
   }
 
   void _createGroup() async {

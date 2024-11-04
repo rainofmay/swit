@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:swit/core/router/app_pages.dart';
 import 'package:swit/features/study/swit/presentation/viewmodel/swit_view_model.dart';
+import 'package:swit/features/study/swit/presentation/widgets/swit_group_container.dart';
 import 'package:swit/features/study/swit/presentation/widgets/wave_back_ground.dart';
 import 'package:swit/shared/widgets/my_profile_img.dart';
 import 'package:swit/shared/constant/color_box.dart';
@@ -47,11 +48,8 @@ class SwitScreen extends GetView<SwitViewModel> {
                 child: SafeArea(
                   child: Column(
                     children: [
-                      const CustomGap(32),
-                      SizedBox(
-                          width: 160,
-                          height: 160,
-                          child: Image.asset('assets/images/logo.png')),
+                      const CustomGap(64),
+                     controller.hasGroup ? SwitGroupContainer() : const Text('참여 중인 그룹스터디가 없습니다.')
                     ],
                   ),
                 ),
@@ -83,7 +81,7 @@ class SwitScreen extends GetView<SwitViewModel> {
                                       Routes.CREATESWIT),
                                   widget: SvgPicture.asset(
                                       'assets/icons/swit/invite_color.svg'),
-                                  title: '그룹스터디 초대'),
+                                  title: '그룹스터디 생성'),
                             ),
                             const CustomGap(40),
                             SizedBox(
