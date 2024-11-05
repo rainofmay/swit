@@ -26,11 +26,25 @@ class SwitViewModel extends GetxController {
   late final RxList<String> _selectedUsers = <String>[].obs;
   List<String> get selectedUsers => _selectedUsers;
   late final RxBool _isCreatingGroup = false.obs;
-  final RxBool _hasGroup = false.obs;  // 사용자가 그룹을 가지고 있는지 여부
+
+  late final RxBool _hasGroup = false.obs;  // 사용자가 그룹을 가지고 있는지 여부
   bool get hasGroup => _hasGroup.value;
+
+  final RxBool _isLoading = true.obs;
+  bool get isLoading => _isLoading.value;
+
 
   late final Rx<StudyGroup> _myCurrentGroup;
 
+
+  /* ------------------------------------------------------ */
+  /* Life Cycle ------------------------------------------- */
+  /* ------------------------------------------------------ */
+  @override
+  void onInit() {
+    super.onInit();
+    checkExistingGroup();
+  }
 
   /* ------------------------------------------------------ */
   /* Function Fields -------------------------------------- */
@@ -46,9 +60,13 @@ class SwitViewModel extends GetxController {
 
   Future<void> checkExistingGroup() async {
     try {
-        _hasGroup.value = await createStudyGroupUseCase.repository.hasExistingGroup();
+      _isLoading.value = true;
+      _hasGroup.value = await createStudyGroupUseCase.repository.hasExistingGroup();
+
     } catch (e) {
       print('ViewModel Error checking existing group: $e');
+    } finally {
+      _isLoading.value = false;
     }
   }
 
@@ -82,7 +100,7 @@ class SwitViewModel extends GetxController {
 
       return true;
     } catch (e) {
-
+      print('Swit view model invitation $e');
       return false;
     } finally {
       _isCreatingGroup.value = false;

@@ -107,7 +107,6 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialBinding: BindingsBuilder(() async {
         Get.put(HomeViewModel());
-        Get.put(MateBinding().dependencies());
         }),
 
       initialRoute: AppPages.INITIAL,

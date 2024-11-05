@@ -97,7 +97,6 @@ class OptimizedProfileImage extends StatelessWidget {
             );
           },
           errorWidget: (context, url, error) {
-            print('Network image error: $error');
             return Container(
               width: width,
               height: height,

@@ -44,14 +44,24 @@ class SwitScreen extends GetView<SwitViewModel> {
             children: [
               // 상단 영역 (물결 위)
               Expanded(
-                flex: 2, // 상단 영역의 비율
+                flex: 2,
                 child: SafeArea(
-                  child: Column(
-                    children: [
-                      const CustomGap(64),
-                     controller.hasGroup ? SwitGroupContainer() : const Text('참여 중인 그룹스터디가 없습니다.')
-                    ],
-                  ),
+                  child: Obx(() {
+                    // 로딩 중일 때
+                    if (controller.isLoading) {
+                      return const SizedBox.shrink();
+                    }
+
+                    return Column(
+                      children: [
+                        const CustomGap(64),
+                        controller.hasGroup
+                            ? SwitGroupContainer()
+                            : const Text('참여 중인 그룹스터디가 없습니다.',
+                                style: FontBox.B1)
+                      ],
+                    );
+                  }),
                 ),
               ),
 
@@ -112,8 +122,7 @@ class SwitScreen extends GetView<SwitViewModel> {
                                       Routes.SWIT +
                                       Routes.SWITSETTING),
                                   widget: SvgPicture.asset(
-                                    'assets/icons/swit/setting_color.svg'
-                                  ),
+                                      'assets/icons/swit/setting_color.svg'),
                                   title: '설 정'),
                             ),
                             // MyProfileImg(

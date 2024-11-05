@@ -82,12 +82,15 @@ class SwitCreateScreen extends GetView<SwitViewModel> {
         const Text('스터디그룹을 생성하고, 선택하신 메이트를 초대하시겠어요?', style: FontBox.B1),
         OkCancelButtons(
             okText: '확인',
-            onPressed: () => _createGroup,
+            onPressed: () async {
+              await _createGroup();
+              Get.back();
+            },
             cancelText: '취소',
             onCancelPressed: () => Get.back()));
   }
 
-  void _createGroup() async {
+  Future<void> _createGroup() async {
     bool success = await controller.createGroup();
     if (success) {
       controller.resetGroupCreation();

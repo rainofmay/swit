@@ -15,9 +15,8 @@ class StudyGroupRepositoryImpl implements StudyGroupRepository {
   @override
   Future<StudyGroup> createStudyGroup(String name, String description) async {
     try {
-      final rawData = await remoteDataSource.createStudyGroup(name, description);
-      final dto = StudyGroupDTO.fromJson(rawData);
-      return StudyGroupMapper.toEntity(dto);
+      final Map<String, dynamic> rawData = await remoteDataSource.createStudyGroup(name, description);
+      return StudyGroupMapper.toEntity(StudyGroupDTO.fromJson(rawData));
     } catch (e) {
       print('StudyGroupRepositoryImpl createStudyGroup Error: $e');
       throw Exception('Failed to create study group: $e');

@@ -18,14 +18,17 @@ class StudyGroupRemoteDataSource extends BaseRemoteDataSource {
   // 2. 그룹을 생성한 후 반환된 그룹 정보(특히 그룹 ID)를 바로 초대 알림 발송에 사용할 수 있음.
   Future<Map<String, dynamic>> createStudyGroup(String name, String description) async {
     try {
-      final response = await supabase
-          .from('study_group')
-          .insert({
-        'name': name,
-        'description': description,
-        'created_by': supabase.auth.currentUser!.id,
-        'is_active': true,
-      }).select().single();
+      // 트랜잭션 시작
+      final response = await supabase.rpc('create_study_group_with_user_update', params: {
+        'p_name': name,
+        'p_description': description,
+        'p_created_by': supabase.auth.currentUser!.id,
+      });
+
+      if (response == null) {
+        throw Exception('Failed to create study group: No response from server');
+      }
+
 
       return response;
     } catch (e) {

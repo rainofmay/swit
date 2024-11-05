@@ -35,7 +35,7 @@
 
     Widget _buildScreen(HomeTab tab, Widget screen) {
       // 해당 탭일 때만 화면 반환
-      return Obx(() => controller.currentTab == tab ? screen : const SizedBox());
+      return Obx(() => controller.currentTab == tab ? screen : const SizedBox.shrink());
     }
   }
 
@@ -66,3 +66,4 @@
   //       return MoreScreen();
   //   }
   // }
+
