@@ -23,7 +23,7 @@ class SwitGroupContainer extends GetView<SwitViewModel> {
           children: [],
         ),
         const CustomGap(16),
-        Text('From ${DateFormat('yyyy-MM-dd').format(DateTime.now())}', style: FontBox.B1.copyWith(fontStyle: FontStyle.italic)),
+        Text('From ${DateFormat('yyyy-MM-dd').format(DateTime.now())}', style: FontBox.B1 .copyWith(fontStyle: FontStyle.italic)),
       ],
     );
   }
